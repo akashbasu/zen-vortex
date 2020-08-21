@@ -8,7 +8,7 @@ namespace RollyVortex
         {
             if(TryLoadLevelData())
             {
-                GameEventManager.Broadcast(GameEvents.LevelEvents.StartLevel, 5f);
+                GameEventManager.Broadcast(GameEvents.LevelEvents.StartLevel, 1f);
                 //onComplete?.Invoke(this);
             }
         }

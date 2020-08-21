@@ -309,8 +309,8 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 1000
-  field of view: 26.991467
+  far clip plane: 50
+  field of view: 25
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -335,7 +335,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -349,7 +349,7 @@ LookAtConstraint:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Weight: 1
   m_RotationAtRest: {x: 0, y: 0, z: 0}
   m_RotationOffset: {x: 0, y: 0, z: 0}
@@ -360,7 +360,9 @@ LookAtConstraint:
   m_IsLocked: 0
   m_Sources:
   - sourceTransform: {fileID: 1437549329}
-    weight: 1
+    weight: 0.75
+  - sourceTransform: {fileID: 1514051780}
+    weight: 0.25
 --- !u!1 &1437549328 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 546783299423606113, guid: 7168e5cb52a75b04385f3ad40e4940c2,
@@ -442,22 +444,22 @@ PrefabInstance:
     - target: {fileID: 546783299423606112, guid: 7168e5cb52a75b04385f3ad40e4940c2,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 546783299423606112, guid: 7168e5cb52a75b04385f3ad40e4940c2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 546783299423606112, guid: 7168e5cb52a75b04385f3ad40e4940c2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 546783299423606112, guid: 7168e5cb52a75b04385f3ad40e4940c2,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 546783299423606112, guid: 7168e5cb52a75b04385f3ad40e4940c2,
         type: 3}
@@ -477,12 +479,17 @@ PrefabInstance:
     - target: {fileID: 546783299423606112, guid: 7168e5cb52a75b04385f3ad40e4940c2,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 546783299423606113, guid: 7168e5cb52a75b04385f3ad40e4940c2,
         type: 3}
       propertyPath: m_Name
       value: Ball
+      objectReference: {fileID: 0}
+    - target: {fileID: 4740781339093063848, guid: 7168e5cb52a75b04385f3ad40e4940c2,
+        type: 3}
+      propertyPath: m_Material
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7168e5cb52a75b04385f3ad40e4940c2, type: 3}

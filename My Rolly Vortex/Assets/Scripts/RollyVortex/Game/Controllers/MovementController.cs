@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -7,13 +8,16 @@ namespace RollyVortex
     public class MovementController : MonoBehaviour, IInitializable
     {
         private TubeMovement _tubeMovement;
+        private BallMovement _ballMovement;
         
         private bool _canMove;
         
-        private Vector3 _cachedBallPosition;
+        // private Vector3 _cachedBallPosition;
         private GameObject _tube;
         private GameObject _ball;
-        private Rigidbody _ballRB;
+        // private Rigidbody _ballRB;
+
+        private Dictionary<GameObject, ILevelMovement> _objectMovementMap;
         
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
@@ -35,120 +39,61 @@ namespace RollyVortex
         private bool GetReferences()
         {
             if (!DirectoryManager.TryGetEntry(RollyVortexTags.Board, out _tube)) return false;
-
-            var material = _tube.GetComponent<Renderer>().material;
-
-            if (material == null)
-            {
-                Debug.LogError($"[{nameof(MovementController)}] cannot find tube material!");
-                return false;
-            }
-
-            _tubeMovement = new TubeMovement(material);
+            
+            _tubeMovement = new TubeMovement(_tube);
             
             if (!DirectoryManager.TryGetEntry(RollyVortexTags.Ball, out _ball)) return false;
+            
+            _ballMovement = new BallMovement(_ball);
 
-            _ballRB = _ball.GetComponent<Rigidbody>();
-            _cachedBallPosition = _ball.transform.position;
-            
-            
-            return _ballRB != null && _cachedBallPosition != null;
+            _objectMovementMap = new Dictionary<GameObject, ILevelMovement>
+            {
+                {_tube, _tubeMovement}, 
+                {_ball, _ballMovement}
+            };
+
+            return !_objectMovementMap.Any(x => x.Key == null || x.Value == null);
         }
         
         private void ResetLevelValues()
         {
-            _ballRB.useGravity = false;
-            _ball.transform.position = _cachedBallPosition;
-
-            _tubeMovement.Reset();
+            foreach (var goMovement in _objectMovementMap) goMovement.Value.Reset();
         }
         
         private void OnLevelStart(object[] args)
         {
-            _ballRB.useGravity = true;
-
-            if (args?.Length > 0)
+            if (args?.Length >= 1)
             {
                 var speed = (float) args[0];
-                _tubeMovement.SetSpeed(speed);
+                foreach (var goMovement in _objectMovementMap) goMovement.Value.SetLevelData(speed);
             }
+            
+            foreach (var goMovement in _objectMovementMap) goMovement.Value.OnLevelStart();
+
+            _canMove = true;
         }
         
-        private void OnCollision(object[] obj)
+        private void OnCollision(object[] args)
         {
-            if (obj?.Length >= 2)
-            {
-                var source = obj[0] as GameObject;
-                var collidedWith = obj[1] as GameObject;
-
-                if (source == _ball && collidedWith == _tube)
-                {
-                    _canMove = true;
-                }
-            }
+            if (!(args?.Length >= 2)) return;
+            
+            var source = args[0] as GameObject;
+            var collidedWith = args[1] as GameObject;
+                
+            if(_objectMovementMap.ContainsKey(source)) _objectMovementMap[source].OnCollisionEnter(collidedWith);
+            if(_objectMovementMap.ContainsKey(collidedWith)) _objectMovementMap[collidedWith].OnCollisionEnter(source);
         }
         
         private void OnLevelStop(object[] args)
         {
-            ResetLevelValues();
+            foreach (var goMovement in _objectMovementMap) goMovement.Value.OnLevelEnd();
         }
 
         private void Update()
         {
             if(!_canMove) return;
 
-            _tubeMovement.Update(Time.deltaTime);
+            foreach (var goMovement in _objectMovementMap) goMovement.Value.Update(Time.deltaTime);
         }
     }
-
-    public sealed class TubeMovement
-    {
-        private bool _canMove;
-        private float _currentOffset;
-        private float _lastTime;
-        
-        private readonly float _materialXOffset;
-        private readonly Material _material;
-        private readonly int _textureId;
-        private readonly float _tiling;
-        private float _speedMultiplier;
-        
-        public TubeMovement(Material material, float speed = 1f)
-        {
-            _material = material;
-            _textureId = material.GetTexturePropertyNameIDs()[0];
-            _materialXOffset = material.GetTextureOffset(_textureId).x;
-            _tiling = material.GetTextureScale(_textureId).y;
-            SetSpeed(speed);
-        }
-        
-        public void SetSpeed(float speed)
-        {
-            _speedMultiplier = _tiling / speed;
-        }
-        
-        public void Reset()
-        {
-            _lastTime = 0;
-            _currentOffset = 0f;
-            SetPosition();
-        }
-        
-        public float Update(float deltaTime)
-        {
-            _lastTime += deltaTime;
-            _lastTime %= _speedMultiplier;
-            _currentOffset = Mathf.Lerp(0, _tiling, _lastTime / _speedMultiplier);
-            _currentOffset %= _tiling;
-            SetPosition();
-
-            return _currentOffset;
-        }
-        
-        private void SetPosition()
-        {
-            _material.SetTextureOffset(_textureId, new Vector2(_materialXOffset, -_currentOffset));
-        }
-    }
-    
 }
