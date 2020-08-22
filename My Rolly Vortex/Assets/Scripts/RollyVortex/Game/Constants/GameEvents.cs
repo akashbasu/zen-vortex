@@ -17,6 +17,7 @@ namespace RollyVortex
         public static class Gameplay
         {
             public const string CollisionStart = nameof(CollisionStart);
+            public const string CollisionStay = nameof(CollisionStay);
             public const string CollisionEnd = nameof(CollisionEnd);
         }
     }

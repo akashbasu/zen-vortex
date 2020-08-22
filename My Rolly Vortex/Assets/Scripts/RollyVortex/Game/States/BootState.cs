@@ -1,56 +1,19 @@
-using System;
 using System.Collections.Generic;
 
 namespace RollyVortex
 {
-    public sealed class BootState : IInitializable
+    public sealed class BootState : BaseGameState
     {
-        private Action<IInitializable> _callback;
-        private Queue<IInitializable> _bootSteps;
-
-        public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
+        protected override List<IInitializable> GetSteps(object[] args)
         {
-            _callback = onComplete;
-
-            SetupQueue(args);
-            StartQueue();
-        }
-
-        private void SetupQueue(object[] args)
-        {
-            _bootSteps = new Queue<IInitializable>();
-
-            _bootSteps.Enqueue(new GameEventManager());
-            foreach (var monoBehaviorBootables in args) _bootSteps.Enqueue(monoBehaviorBootables as IInitializable);
-            _bootSteps.Enqueue(new UiController());
-        }
-
-        private void StartQueue()
-        {
-            if (!TryCompleteQueue()) InitializeStep();
-        }
-
-        private void InitializeStep()
-        {
-            var step = _bootSteps.Peek();
-            step.Initialize(OnStepComplete);
-        }
-
-        private void OnStepComplete(IInitializable completedStep)
-        {
-            if (_bootSteps.Peek() != completedStep) return;
-
-            _bootSteps.Dequeue();
-            if (!TryCompleteQueue()) InitializeStep();
-        }
-
-        private bool TryCompleteQueue()
-        {
-            if (_bootSteps.Count != 0) return false;
-
-            _callback?.Invoke(this);
-            _callback = null;
-            return true;
+            var states = new List<IInitializable>();
+            
+            states.Add(new GameEventManager());
+            foreach (var monoBehaviorBootables in args) states.Add(monoBehaviorBootables as IInitializable);
+            states.Add(new InputController());
+            states.Add(new UiController());
+            
+            return states;
         }
     }
 }

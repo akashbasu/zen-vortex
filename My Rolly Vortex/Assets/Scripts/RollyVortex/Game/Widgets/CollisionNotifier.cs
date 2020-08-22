@@ -5,21 +5,35 @@ namespace RollyVortex
 {
     public class CollisionNotifier : MonoBehaviour
     {
-        [SerializeField] private string OnTriggerEnterEvent;
-        [SerializeField] private string OnTriggerExitEvent;
+        [SerializeField] private string _onTriggerEnterEvent;
+        [SerializeField] private string _onTriggerStayEvent;
+        [SerializeField] private string _onTriggerExitEvent;
 
         private void OnTriggerEnter(Collider other)
         {
-            if(string.IsNullOrEmpty(OnTriggerEnterEvent)) return;
-            
-            GameEventManager.Broadcast(OnTriggerEnterEvent, gameObject, other.gameObject);
+            if(string.IsNullOrEmpty(_onTriggerEnterEvent)) return;
+
+            FireCommand(_onTriggerEnterEvent, gameObject, other.gameObject);
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if(string.IsNullOrEmpty(OnTriggerExitEvent)) return;
+            if(string.IsNullOrEmpty(_onTriggerExitEvent)) return;
             
-            GameEventManager.Broadcast(OnTriggerExitEvent, gameObject, other.gameObject);
+            FireCommand(_onTriggerExitEvent, gameObject, other.gameObject);
+        }
+
+        private void OnTriggerStay(Collider other)
+        {
+            if(string.IsNullOrEmpty(_onTriggerStayEvent)) return;
+            
+            FireCommand(_onTriggerStayEvent, gameObject, other.gameObject);
+        }
+
+        private static void FireCommand(string eventName, params object[] args)
+        {
+            var c = new Command(eventName, args);
+            c.Execute();
         }
     }
 }

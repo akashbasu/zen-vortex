@@ -7,9 +7,10 @@ namespace RollyVortex
         bool IsEnabled { get; set; }
         void Reset();
         void Update(float deltaTime);
-        void SetLevelData(float speed);
+        void SetLevelData(LevelData data);
 
         void OnCollisionEnter(GameObject other);
+        void OnCollisionStay(GameObject other);
         void OnCollisionExit(GameObject other);
 
         void OnLevelStart();

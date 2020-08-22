@@ -26,7 +26,8 @@ namespace RollyVortex
                 ResetLevelValues();
                 
                 GameEventManager.Subscribe(GameEvents.LevelEvents.StartLevel, OnLevelStart);
-                GameEventManager.Subscribe(GameEvents.Gameplay.CollisionStart, OnCollision);
+                GameEventManager.Subscribe(GameEvents.Gameplay.CollisionStart, CollisionNotifierOnStart);
+                GameEventManager.Subscribe(GameEvents.Gameplay.CollisionStay, CollisionNotifierOnStay);
                 GameEventManager.Subscribe(GameEvents.LevelEvents.StopLevel, OnLevelStop);
                 
                 onComplete?.Invoke(this);
@@ -62,18 +63,14 @@ namespace RollyVortex
         
         private void OnLevelStart(object[] args)
         {
-            if (args?.Length >= 1)
-            {
-                var speed = (float) args[0];
-                foreach (var goMovement in _objectMovementMap) goMovement.Value.SetLevelData(speed);
-            }
+            foreach (var goMovement in _objectMovementMap) goMovement.Value.SetLevelData(LevelManager.LevelData);
             
             foreach (var goMovement in _objectMovementMap) goMovement.Value.OnLevelStart();
 
             _canMove = true;
         }
         
-        private void OnCollision(object[] args)
+        private void CollisionNotifierOnStart(object[] args)
         {
             if (!(args?.Length >= 2)) return;
             
@@ -84,16 +81,27 @@ namespace RollyVortex
             if(_objectMovementMap.ContainsKey(collidedWith)) _objectMovementMap[collidedWith].OnCollisionEnter(source);
         }
         
+        private void CollisionNotifierOnStay(object[] args)
+        {
+            if (!(args?.Length >= 2)) return;
+            
+            var source = args[0] as GameObject;
+            var collidedWith = args[1] as GameObject;
+                
+            if(_objectMovementMap.ContainsKey(source)) _objectMovementMap[source].OnCollisionStay(collidedWith);
+            if(_objectMovementMap.ContainsKey(collidedWith)) _objectMovementMap[collidedWith].OnCollisionStay(source);
+        }
+        
         private void OnLevelStop(object[] args)
         {
             foreach (var goMovement in _objectMovementMap) goMovement.Value.OnLevelEnd();
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if(!_canMove) return;
 
-            foreach (var goMovement in _objectMovementMap) goMovement.Value.Update(Time.deltaTime);
+            foreach (var goMovement in _objectMovementMap) goMovement.Value.Update(Time.fixedDeltaTime);
         }
     }
 }

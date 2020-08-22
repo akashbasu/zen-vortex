@@ -45,29 +45,26 @@ namespace RollyVortex
             if (!IsEnabled) return;
             
             MovementUtils.UpdateTexturePositionY(ref _lastTime, ref _currentOffset, _tiling, deltaTime, _speedMultiplier, _material, _textureId);
-            // _lastTime += deltaTime;
-            // _lastTime %= _speedMultiplier;
-            // _currentOffset = Mathf.Lerp(0, _tiling, _lastTime / _speedMultiplier);
-            // _currentOffset %= _tiling;
-            // MovementUtils.SetTexturePosition(_material, _textureId, _materialXOffset, -_currentOffset);
         }
         
-        public void SetLevelData(float speed)
+        public void SetLevelData(LevelData data)
         {
-            _speedMultiplier = _tiling / speed;
+            _speedMultiplier = _tiling / data.Speed;
         }
         
-        public void OnCollisionEnter(GameObject other)
+        public void OnCollisionStay(GameObject other)
         {
             if(other.tag.Equals(RollyVortexTags.Ball)) IsEnabled = true;
         }
-        
+
         public void OnLevelEnd()
         {
             Reset();
         }
         
         public void OnLevelStart() { }
+        
+        public void OnCollisionEnter(GameObject other) { }
 
         public void OnCollisionExit(GameObject other) { }
     }

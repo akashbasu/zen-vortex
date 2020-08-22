@@ -12,12 +12,12 @@ namespace RollyVortex
         {
             _callback = onComplete;
             
-            SetupQueue(GetSteps());
+            SetupQueue(GetSteps(args));
 
             StartQueue();
         }
 
-        protected abstract List<IInitializable> GetSteps();
+        protected abstract List<IInitializable> GetSteps(object[] args);
 
         protected void SetupQueue(List<IInitializable> initializables)
         {

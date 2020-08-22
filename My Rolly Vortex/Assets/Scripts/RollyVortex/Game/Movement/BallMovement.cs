@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace RollyVortex
@@ -17,6 +18,8 @@ namespace RollyVortex
 
         private float _currentOffset;
         private float _lastTime;
+
+        private GameInputAdapter _input;
         
         public BallMovement(GameObject ball)
         {
@@ -38,6 +41,8 @@ namespace RollyVortex
             _textureId = material.GetTexturePropertyNameIDs()[0];
             _materialXOffset = material.GetTextureOffset(_textureId).x;
             _tiling = material.GetTextureScale(_textureId).y;
+            
+            _input = new GameInputAdapter();
         }
 
         public bool IsEnabled { get; set; } = false;
@@ -57,19 +62,34 @@ namespace RollyVortex
         public void Update(float deltaTime)
         {
             if(!IsEnabled) return;
-            
+
             MovementUtils.UpdateTexturePositionY(ref _lastTime, ref _currentOffset, _tiling, deltaTime, _speedMultiplier, _material, _textureId);
+            
+            if (_input.TryGetInput(out float normalizedInput))
+            {
+                normalizedInput /= 2f;
+                Debug.Log($"{nameof(BallMovement)} is trying to move ball by {normalizedInput}");
+                // _rigidBody.AddForce(normalizedInput, 0f, 0f, ForceMode.VelocityChange);
+            }
         }
 
-        public void SetLevelData(float speed)
+        public void SetLevelData(LevelData data)
         {
-            _speedMultiplier = _tiling / speed;
+            _speedMultiplier = _tiling / data.Speed;
+        }
+
+        public void OnCollisionStay(GameObject other)
+        {
+            if (!IsEnabled && other.tag.Equals(RollyVortexTags.Board))
+            {
+                IsEnabled = true;
+                _input.SetGameInputEnabled(true);
+                _rigidBody.position = new Vector3(0f, _rigidBody.position.y, _rigidBody.position.z);
+            }
         }
 
         public void OnCollisionEnter(GameObject other)
-        {
-            if(other.tag.Equals(RollyVortexTags.Board)) IsEnabled = true;
-        }
+        {}
 
         public void OnLevelEnd()
         {

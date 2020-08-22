@@ -137,5 +137,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnTriggerEnterEvent: CollisionStart
-  OnTriggerExitEvent: 
+  _onTriggerEnterEvent: CollisionStart
+  _onTriggerStayEvent: CollisionStay
+  _onTriggerExitEvent: 

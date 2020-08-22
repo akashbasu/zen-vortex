@@ -8,28 +8,47 @@ namespace RollyVortex
     {
         Invalid = -1,
         Boot = 0,
-        Game = 1
+        Player,
+        MetaStart,
+        Game,
+        MetaEnd,
+        End,
+        
+        BootComplete = MetaStart,
+        GameComplete = End
     }
 
     public sealed class GameStateController : MonoBehaviour
     {
         private GameStates _gameState = GameStates.Invalid;
         private readonly Dictionary<GameStates, IInitializable> _gameStates = new Dictionary<GameStates, IInitializable>();
+
+        [SerializeField] private IInitializable[] _initializableMonobehaviorSystemObjects;
         
-        private void Start()
+        private void Awake()
         {
             DontDestroyOnLoad(gameObject);
             AddGameStates();
-            ProcessState(_gameState + 1);
+            NextState();
         }
 
         private void AddGameStates()
         {
-            _gameStates.Add(GameStates.Invalid, null);
             _gameStates.Add(GameStates.Boot, new BootState());
+            _gameStates.Add(GameStates.Player, new PlayerState());
+            _gameStates.Add(GameStates.MetaStart, new MetaStartState());
             _gameStates.Add(GameStates.Game, new GameState());
+            _gameStates.Add(GameStates.MetaEnd, new MetaEndState());
+            _gameStates.Add(GameStates.End, new ResetState());
         }
 
+        private void NextState()
+        {
+            var nextState = _gameState + 1;
+            nextState = nextState > GameStates.GameComplete ? GameStates.BootComplete : nextState;
+            ProcessState(nextState);
+        }
+        
         private void ProcessState(GameStates state)
         {
             if(state == _gameState) return;
@@ -43,7 +62,7 @@ namespace RollyVortex
             switch (_gameState)
             {
                 case GameStates.Boot:
-                    args = gameObject.GetComponents<IInitializable>();
+                    args = _initializableMonobehaviorSystemObjects;
                     break;
             }
             
@@ -51,11 +70,18 @@ namespace RollyVortex
             initializable.Initialize(OnStepComplete, args);
         }
 
+        
+
         private void OnStepComplete(IInitializable initializable)
         {
             GameEventManager.Broadcast(GameEvents.GameStateEvents.End, _gameState);
             
-            ProcessState(_gameState + 1);
+            NextState();
+        }
+
+        private void OnValidate()
+        {
+            _initializableMonobehaviorSystemObjects = gameObject.GetComponents<IInitializable>();
         }
     }
 }

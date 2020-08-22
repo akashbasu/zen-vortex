@@ -9,13 +9,13 @@ namespace RollyVortex
             material.SetTextureOffset(textureId, new Vector2(x, y));
         }
 
-        public static void UpdateTexturePositionY(ref float lastTime, ref float currentOffset, float tiling, float deltaTime, float speed, Material material, int textureId)
+        public static void UpdateTexturePositionY(ref float lastTime, ref float currentYOffset, float tiling, float deltaTime, float speed, Material material, int textureId)
         {
             lastTime += deltaTime;
             lastTime %= speed;
-            currentOffset = Mathf.Lerp(0, tiling, lastTime / speed);
-            currentOffset %= tiling;
-            SetTexturePosition(material, textureId, material.GetTextureOffset(textureId).x, -currentOffset);
+            currentYOffset = Mathf.Lerp(0, tiling, lastTime / speed);
+            currentYOffset %= tiling;
+            SetTexturePosition(material, textureId, material.GetTextureOffset(textureId).x, -currentYOffset);
         }
     }
 }
