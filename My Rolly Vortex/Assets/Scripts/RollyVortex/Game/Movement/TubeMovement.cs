@@ -52,17 +52,17 @@ namespace RollyVortex
             _speedMultiplier = _tiling / data.Speed;
         }
         
-        public void OnCollisionStay(GameObject other)
-        {
-            if(other.tag.Equals(RollyVortexTags.Ball)) IsEnabled = true;
-        }
+        public void OnCollisionStay(GameObject other) { }
 
         public void OnLevelEnd()
         {
             Reset();
         }
-        
-        public void OnLevelStart() { }
+
+        public void OnLevelStart()
+        {
+            IsEnabled = true;
+        }
         
         public void OnCollisionEnter(GameObject other) { }
 

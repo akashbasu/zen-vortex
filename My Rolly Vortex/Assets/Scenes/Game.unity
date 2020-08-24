@@ -169,7 +169,7 @@ MonoBehaviour:
   - _tag: Board
     _reference: {fileID: 1514051779}
   - _tag: Ball
-    _reference: {fileID: 1437549328}
+    _reference: {fileID: 1397959274}
 --- !u!4 &248740215
 Transform:
   m_ObjectHideFlags: 0
@@ -224,12 +224,12 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Touch
-  m_DefaultActionMap: 
+  m_DefaultActionMap: Game
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!1 &1437549328 stripped
+--- !u!1 &1397959274 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 5843745628193123384, guid: c8fa1d2631f91d046ae09557fd3155c5,
+  m_CorrespondingSourceObject: {fileID: 6237405408556024444, guid: c8fa1d2631f91d046ae09557fd3155c5,
     type: 3}
   m_PrefabInstance: {fileID: 5843745626807742248}
   m_PrefabAsset: {fileID: 0}
@@ -305,11 +305,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5843745628193123386, guid: c8fa1d2631f91d046ae09557fd3155c5,
-        type: 3}
-      propertyPath: m_Mass
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8fa1d2631f91d046ae09557fd3155c5, type: 3}
