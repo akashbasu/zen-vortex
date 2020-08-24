@@ -69,6 +69,7 @@ namespace RollyVortex
             
             normalizedInput = _gameInput.Move.ReadValue<Vector2>().x;
             normalizedInput = (normalizedInput - _screenMid) / _screenMid;
+            normalizedInput = Mathf.Clamp(normalizedInput, -1f, 1f);
             return true;
         }
     }

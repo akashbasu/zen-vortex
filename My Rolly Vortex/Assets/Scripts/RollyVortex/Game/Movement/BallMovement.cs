@@ -17,7 +17,8 @@ namespace RollyVortex
         private float _currentOffset;
         
         private float _yClock;
-        private float _xClock;
+        private float _xInputClock;
+        private float _xGravityClock;
 
         private readonly GameInputAdapter _input;
         
@@ -51,7 +52,8 @@ namespace RollyVortex
             IsEnabled = false;
             
             _yClock = 0;
-            _xClock = 0;
+            _xInputClock = 0;
+            _xGravityClock = 0f;
             
             _currentOffset = 0f;
             _currentRotation = 0;
@@ -65,18 +67,23 @@ namespace RollyVortex
 
             MovementUtils.UpdateTexturePositionY(ref _yClock, ref _currentOffset, _tiling, deltaTime, _speedMultiplier, _material, _textureId);
 
-
-            var targetRotation = 0f;
             if (_input.TryGetInput(out var normalizedInput))
             {
-                targetRotation = Mathf.Clamp(normalizedInput * 90f, -90f, 90f);
+                _xGravityClock = 0f;
+                var targetRotation = Mathf.Clamp(normalizedInput * 90f, -90f, 90f);
                 if (Mathf.Approximately(targetRotation, _anchor.rotation.z))
                 {
+                    _xInputClock = 0f;
                     return;
                 }
+                
+                MovementUtils.UpdateBallPosition(ref _xInputClock, _anchor, deltaTime, targetRotation, 1f);
             }
-
-            MovementUtils.UpdateBallPosition(ref _xClock, _anchor, deltaTime, targetRotation, 1f);
+            else
+            {
+                _xInputClock = 0f;
+                MovementUtils.UpdateBallPosition(ref _xGravityClock, _anchor, deltaTime, 0f, 1f);
+            }
         }
 
         public void SetLevelData(LevelData data)

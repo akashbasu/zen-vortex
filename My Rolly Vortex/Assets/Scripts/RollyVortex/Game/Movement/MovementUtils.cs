@@ -26,8 +26,9 @@ namespace RollyVortex
         public static void UpdateBallPosition(ref float lastTime, Transform anchor, float deltaTime, float targetRotation, float sensitivity)
         {
             lastTime += deltaTime;
-            var z = Vector3.Slerp(anchor.rotation.eulerAngles, new Vector3(0, 0, targetRotation), lastTime / sensitivity);
-            anchor.rotation = Quaternion.Euler(z);
+            var currentRotation = anchor.rotation;
+            Quaternion wantedRotation = Quaternion.Euler(0,0,targetRotation);
+            anchor.rotation = Quaternion.Lerp(currentRotation, wantedRotation, lastTime / sensitivity);
         }
     }
 }
