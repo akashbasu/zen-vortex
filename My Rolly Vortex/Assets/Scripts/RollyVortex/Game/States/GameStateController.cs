@@ -1,10 +1,9 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace RollyVortex
 {
-    enum GameStates
+    internal enum GameStates
     {
         Invalid = -1,
         Boot = 0,
@@ -13,18 +12,20 @@ namespace RollyVortex
         Game,
         MetaEnd,
         End,
-        
+
         BootComplete = MetaStart,
         GameComplete = End
     }
 
     public sealed class GameStateController : MonoBehaviour
     {
+        private readonly Dictionary<GameStates, IInitializable> _gameStates =
+            new Dictionary<GameStates, IInitializable>();
+
         private GameStates _gameState = GameStates.Invalid;
-        private readonly Dictionary<GameStates, IInitializable> _gameStates = new Dictionary<GameStates, IInitializable>();
 
         [SerializeField] private IInitializable[] _initializableMonobehaviorSystemObjects;
-        
+
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
@@ -48,34 +49,33 @@ namespace RollyVortex
             nextState = nextState > GameStates.GameComplete ? GameStates.BootComplete : nextState;
             ProcessState(nextState);
         }
-        
+
         private void ProcessState(GameStates state)
         {
-            if(state == _gameState) return;
+            if (state == _gameState) return;
 
             Debug.Log($"[{nameof(GameStateController)}] Old {_gameState} New {state}");
-            
+
             _gameState = state;
             var initializable = _gameStates[_gameState];
             object[] args = null;
-            
+
             switch (_gameState)
             {
                 case GameStates.Boot:
                     args = _initializableMonobehaviorSystemObjects;
                     break;
             }
-            
+
             GameEventManager.Broadcast(GameEvents.GameStateEvents.Start, _gameState);
             initializable.Initialize(OnStepComplete, args);
         }
 
-        
 
         private void OnStepComplete(IInitializable initializable)
         {
             GameEventManager.Broadcast(GameEvents.GameStateEvents.End, _gameState);
-            
+
             NextState();
         }
 

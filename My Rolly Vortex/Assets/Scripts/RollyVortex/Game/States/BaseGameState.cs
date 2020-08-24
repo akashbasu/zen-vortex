@@ -7,11 +7,11 @@ namespace RollyVortex
     {
         private Action<IInitializable> _callback;
         private Queue<IInitializable> _steps;
-        
+
         public virtual void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
             _callback = onComplete;
-            
+
             SetupQueue(GetSteps(args));
 
             StartQueue();
@@ -25,7 +25,7 @@ namespace RollyVortex
 
             foreach (var initializable in initializables) _steps.Enqueue(initializable);
         }
-        
+
         private void StartQueue()
         {
             if (!TryCompleteQueue()) InitializeStep();

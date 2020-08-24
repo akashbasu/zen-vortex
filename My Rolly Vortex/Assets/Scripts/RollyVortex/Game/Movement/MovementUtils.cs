@@ -9,7 +9,8 @@ namespace RollyVortex
             material.SetTextureOffset(textureId, new Vector2(x, y));
         }
 
-        public static void UpdateTexturePositionY(ref float lastTime, ref float currentYOffset, float tiling, float deltaTime, float speed, Material material, int textureId)
+        public static void UpdateTexturePositionY(ref float lastTime, ref float currentYOffset, float tiling,
+            float deltaTime, float speed, Material material, int textureId)
         {
             lastTime += deltaTime;
             lastTime %= speed;
@@ -23,11 +24,12 @@ namespace RollyVortex
             anchor.rotation = Quaternion.Euler(0, 0, z);
         }
 
-        public static void UpdateBallPosition(ref float lastTime, Transform anchor, float deltaTime, float targetRotation, float sensitivity)
+        public static void UpdateBallPosition(ref float lastTime, Transform anchor, float deltaTime,
+            float targetRotation, float sensitivity)
         {
             lastTime += deltaTime;
             var currentRotation = anchor.rotation;
-            Quaternion wantedRotation = Quaternion.Euler(0,0,targetRotation);
+            var wantedRotation = Quaternion.Euler(0, 0, targetRotation);
             anchor.rotation = Quaternion.Lerp(currentRotation, wantedRotation, lastTime / sensitivity);
         }
     }

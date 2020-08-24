@@ -7,7 +7,7 @@ namespace RollyVortex
         [SerializeField] private float _speed;
 
         public float Speed => _speed;
-        
+
         public void SetDefault()
         {
             _speed = 5f;

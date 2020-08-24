@@ -166,10 +166,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cachedEntries:
-  - _tag: Board
-    _reference: {fileID: 1514051779}
-  - _tag: Ball
-    _reference: {fileID: 1397959274}
+  - _reference: {fileID: 1514051779}
+    _tag: Board
+  - _reference: {fileID: 1397959274}
+    _tag: Ball
+  - _reference: {fileID: 1912728547}
+    _tag: Anchor
 --- !u!4 &248740215
 Transform:
   m_ObjectHideFlags: 0
@@ -236,6 +238,12 @@ GameObject:
 --- !u!1 &1514051779 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5843745628250748907, guid: c8fa1d2631f91d046ae09557fd3155c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 5843745626807742248}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1912728547 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1912728547, guid: c8fa1d2631f91d046ae09557fd3155c5,
     type: 3}
   m_PrefabInstance: {fileID: 5843745626807742248}
   m_PrefabAsset: {fileID: 0}
@@ -306,5 +314,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7269580747192310411, guid: c8fa1d2631f91d046ae09557fd3155c5, type: 3}
+    - {fileID: 7269580747192310404, guid: c8fa1d2631f91d046ae09557fd3155c5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c8fa1d2631f91d046ae09557fd3155c5, type: 3}

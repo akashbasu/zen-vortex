@@ -7,7 +7,6 @@ namespace RollyVortex
     {
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
-            
         }
     }
 }

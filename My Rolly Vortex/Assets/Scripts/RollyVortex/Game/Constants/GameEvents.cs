@@ -7,11 +7,11 @@ namespace RollyVortex
             public const string Start = nameof(Start);
             public const string End = nameof(End);
         }
-        
+
         public static class LevelEvents
         {
             public const string StartLevel = nameof(StartLevel);
-            public const string StopLevel = nameof(StopLevel);    
+            public const string StopLevel = nameof(StopLevel);
         }
 
         public static class Gameplay
