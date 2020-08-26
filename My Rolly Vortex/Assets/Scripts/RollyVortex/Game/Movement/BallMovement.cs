@@ -5,7 +5,6 @@ namespace RollyVortex
     public sealed class BallMovement : ILevelMovement
     {
         private readonly Transform _anchor;
-        private readonly GameObject _ball;
 
         private readonly GameInputAdapter _input;
 
@@ -16,7 +15,7 @@ namespace RollyVortex
         private float _currentOffset;
 
         private float _currentRotation;
-        private float _speedMultiplier;
+        private float _timeToLoop;
         private float _xGravityClock;
         private float _xInputClock;
 
@@ -24,9 +23,7 @@ namespace RollyVortex
 
         public BallMovement(GameObject ball)
         {
-            _ball = ball;
-
-            _anchor = _ball.transform.parent;
+            _anchor = ball.transform.parent;
 
             var material = ball.GetComponent<Renderer>().material;
 
@@ -65,7 +62,7 @@ namespace RollyVortex
         {
             if (!IsEnabled) return;
 
-            MovementUtils.UpdateTexturePositionY(ref _yClock, ref _currentOffset, _tiling, deltaTime, _speedMultiplier,
+            MovementUtils.UpdateTexturePositionY(ref _yClock, ref _currentOffset, _tiling, deltaTime, _timeToLoop,
                 _material, _textureId);
 
             if (_input.TryGetInput(out var normalizedInput))
@@ -89,7 +86,7 @@ namespace RollyVortex
 
         public void SetLevelData(LevelData data)
         {
-            _speedMultiplier = _tiling / data.Speed;
+            _timeToLoop = _tiling / data.BallSpeed;
         }
 
         public void OnCollisionStay(GameObject other)

@@ -68,10 +68,11 @@ namespace RollyVortex
             {
                 go = GameObject.FindWithTag(tag);
                 if (go != null) return true;
-                throw new UnassignedReferenceException($"No object with tag {tag}");
+                throw new UnassignedReferenceException();
             }
             catch
             {
+                Debug.LogError($"[{nameof(DirectoryManager)}] Failed to find Game object with tag {tag}");
                 go = null;
                 return false;
             }
@@ -80,7 +81,6 @@ namespace RollyVortex
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            var changed = 0;
             for (var i = _cachedEntries.Count - 1; i >= 0; i--)
             {
                 var entry = _cachedEntries[i];
@@ -88,7 +88,6 @@ namespace RollyVortex
                 if (SafeGetGoWithTag(entry.Tag, out var foundObjectWithTag))
                 {
                     entry.Reference = foundObjectWithTag;
-                    changed++;
                 }
             }
         }

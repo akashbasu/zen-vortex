@@ -6,15 +6,17 @@ namespace RollyVortex
     {
         protected override List<IInitializable> GetSteps(object[] args)
         {
-            var states = new List<IInitializable>();
+            var states = new List<IInitializable>
+            {
+                new LevelManager(),
+                new ObstacleManager(),
+                new PowerupManager(),
+                new ScoreManager(),
+                new LevelStartCommand(),
+                new WaitForGameLoopEnd(),
+                new LevelEndCommand()
+            };
 
-            states.Add(new LevelManager());
-            states.Add(new ObstacleManager());
-            states.Add(new PowerupManager());
-            states.Add(new ScoreManager());
-            states.Add(new LevelStartCommand());
-            states.Add(new WaitForGameLoopEnd());
-            states.Add(new LevelEndCommand());
 
             return states;
         }

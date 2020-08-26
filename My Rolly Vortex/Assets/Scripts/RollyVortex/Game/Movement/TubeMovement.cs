@@ -10,7 +10,7 @@ namespace RollyVortex
         private readonly float _tiling;
         private float _currentOffset;
         private float _lastTime;
-        private float _speedMultiplier;
+        private float _loopInSeconds;
 
         public TubeMovement(GameObject tube)
         {
@@ -44,12 +44,12 @@ namespace RollyVortex
             if (!IsEnabled) return;
 
             MovementUtils.UpdateTexturePositionY(ref _lastTime, ref _currentOffset, _tiling, deltaTime,
-                _speedMultiplier, _material, _textureId);
+                _loopInSeconds, _material, _textureId);
         }
 
         public void SetLevelData(LevelData data)
         {
-            _speedMultiplier = _tiling / data.Speed;
+            _loopInSeconds = _tiling / data.TubeSpeed;
         }
 
         public void OnCollisionStay(GameObject other)

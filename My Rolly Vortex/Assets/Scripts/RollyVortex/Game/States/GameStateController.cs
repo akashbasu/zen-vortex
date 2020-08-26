@@ -54,7 +54,7 @@ namespace RollyVortex
         {
             if (state == _gameState) return;
 
-            Debug.Log($"[{nameof(GameStateController)}] Old {_gameState} New {state}");
+            Debug.Log($"[{nameof(GameStateController)}] {nameof(ProcessState)} Old {_gameState} New {state}");
 
             _gameState = state;
             var initializable = _gameStates[_gameState];
@@ -63,6 +63,7 @@ namespace RollyVortex
             switch (_gameState)
             {
                 case GameStates.Boot:
+                    
                     args = _initializableMonobehaviorSystemObjects;
                     break;
             }
@@ -74,14 +75,26 @@ namespace RollyVortex
 
         private void OnStepComplete(IInitializable initializable)
         {
+            Debug.Log($"[{nameof(GameStateController)}] {nameof(OnStepComplete)} Completed {initializable.GetType()}");
+            
             GameEventManager.Broadcast(GameEvents.GameStateEvents.End, _gameState);
 
             NextState();
         }
 
+#if UNITY_EDITOR
         private void OnValidate()
         {
             _initializableMonobehaviorSystemObjects = gameObject.GetComponents<IInitializable>();
+            
+            foreach (var initializable in _initializableMonobehaviorSystemObjects)
+            {
+                if (initializable == null)
+                {
+                    Debug.LogError($"[{nameof(GameStateController)}] {nameof(OnValidate)}  Invalid reference to Monobehavior initializable");
+                }
+            }
         }
+#endif
     }
 }

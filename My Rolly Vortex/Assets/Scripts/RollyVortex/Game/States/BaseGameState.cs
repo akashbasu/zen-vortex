@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace RollyVortex
 {
@@ -13,13 +14,15 @@ namespace RollyVortex
             _callback = onComplete;
 
             SetupQueue(GetSteps(args));
+            
+            Debug.Log($"[{GetType()}] {nameof(Initialize)} Step count : {_steps.Count}");
 
             StartQueue();
         }
 
         protected abstract List<IInitializable> GetSteps(object[] args);
 
-        protected void SetupQueue(List<IInitializable> initializables)
+        private void SetupQueue(List<IInitializable> initializables)
         {
             _steps = new Queue<IInitializable>();
 
@@ -34,6 +37,7 @@ namespace RollyVortex
         private void InitializeStep()
         {
             var step = _steps.Peek();
+            Debug.Log($"[{GetType()}] {nameof(InitializeStep)} {step.GetType()}");
             step.Initialize(OnStepComplete);
         }
 
@@ -41,6 +45,8 @@ namespace RollyVortex
         {
             if (_steps.Peek() != completedStep) return;
 
+            Debug.Log($"[{GetType()}] {nameof(OnStepComplete)} {completedStep.GetType()}");
+            
             _steps.Dequeue();
             if (!TryCompleteQueue()) InitializeStep();
         }
@@ -49,6 +55,8 @@ namespace RollyVortex
         {
             if (_steps.Count != 0) return false;
 
+            Debug.Log($"[{GetType()}] {nameof(OnStepComplete)} Queue complete");
+            
             _callback?.Invoke(this);
             _callback = null;
             return true;

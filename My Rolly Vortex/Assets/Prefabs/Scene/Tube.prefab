@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 3889872594185532832}
   - component: {fileID: 3889872594185532834}
   - component: {fileID: 3889872594185532833}
-  - component: {fileID: 1514051783}
-  - component: {fileID: 1514051784}
   m_Layer: 0
   m_Name: Tube
   m_TagString: Board
@@ -81,33 +79,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!54 &1514051783
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3889872594185532839}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
---- !u!64 &1514051784
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3889872594185532839}
-  m_Material: {fileID: 13400000, guid: 98c9d06b8c91abf4f8bbb60fcf654d62, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 0a44f3dff12c6fb48ad0d8adf191cf9a, type: 2}

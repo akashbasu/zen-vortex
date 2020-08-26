@@ -10,11 +10,11 @@ namespace RollyVortex
         }
 
         public static void UpdateTexturePositionY(ref float lastTime, ref float currentYOffset, float tiling,
-            float deltaTime, float speed, Material material, int textureId)
+            float deltaTime, float totalTime, Material material, int textureId)
         {
             lastTime += deltaTime;
-            lastTime %= speed;
-            currentYOffset = Mathf.Lerp(0, tiling, lastTime / speed);
+            lastTime %= totalTime;
+            currentYOffset = Mathf.Lerp(0, tiling, lastTime / totalTime);
             currentYOffset %= tiling;
             SetTexturePosition(material, textureId, material.GetTextureOffset(textureId).x, -currentYOffset);
         }
@@ -25,12 +25,32 @@ namespace RollyVortex
         }
 
         public static void UpdateBallPosition(ref float lastTime, Transform anchor, float deltaTime,
-            float targetRotation, float sensitivity)
+            float targetRotation, float totalTime)
         {
             lastTime += deltaTime;
             var currentRotation = anchor.rotation;
             var wantedRotation = Quaternion.Euler(0, 0, targetRotation);
-            anchor.rotation = Quaternion.Lerp(currentRotation, wantedRotation, lastTime / sensitivity);
+            anchor.rotation = Quaternion.Lerp(currentRotation, wantedRotation, lastTime / totalTime);
+        }
+
+        public static void UpdateObstaclePosition(Transform obstacle, ref float lastTime, float deltaTime, float destination, float totalTime)
+        {
+            lastTime += deltaTime;
+            var currentPos = obstacle.position;
+            currentPos.z = Mathf.LerpUnclamped(currentPos.z, destination, lastTime / totalTime);
+            obstacle.position = currentPos;
+        }
+
+        public static bool HasPassedDestination(Transform obstacle, Vector3 destination)
+        {
+            return destination.z >= obstacle.position.z;
+        }
+        
+        public static void SetPositionForObstacle(Transform obstacle, float z)
+        {
+            var currentPos = obstacle.localPosition;
+            currentPos.z = z;
+            obstacle.localPosition = currentPos;
         }
     }
 }
