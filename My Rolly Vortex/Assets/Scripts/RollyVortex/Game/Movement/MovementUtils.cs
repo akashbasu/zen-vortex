@@ -41,9 +41,10 @@ namespace RollyVortex
             obstacle.position = currentPos;
         }
 
-        public static bool HasPassedDestination(Transform obstacle, Vector3 destination)
+        public static bool HasReachedDestination(Transform obstacle, Vector3 destination)
         {
-            return destination.z >= obstacle.position.z;
+            var pos = obstacle.position.z;
+            return destination.z > pos || Mathf.Approximately(destination.z, pos);
         }
         
         public static void SetPositionForObstacle(Transform obstacle, float z)

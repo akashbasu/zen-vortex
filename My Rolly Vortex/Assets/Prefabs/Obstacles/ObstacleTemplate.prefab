@@ -12,11 +12,9 @@ GameObject:
   - component: {fileID: 396345271128783755}
   - component: {fileID: 5392711160825483454}
   - component: {fileID: 1672702086218238768}
-  - component: {fileID: 1863946015082522025}
-  - component: {fileID: 2943337967198156706}
   m_Layer: 0
   m_Name: 12
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 24196407107153395}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.4, y: -0.4, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.25, z: 0.2}
+  m_LocalScale: {x: 0.15, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 12
@@ -93,39 +91,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1863946015082522025
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 24196407107153395}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &2943337967198156706
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 24196407107153395}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &460847727501821614
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,11 +105,9 @@ GameObject:
   - component: {fileID: 8107075516423391538}
   - component: {fileID: 2279521206554798357}
   - component: {fileID: 6789320699955263128}
-  - component: {fileID: 7457622752685683158}
-  - component: {fileID: 4728604775237107819}
   m_Layer: 0
   m_Name: 7
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -156,7 +121,7 @@ Transform:
   m_GameObject: {fileID: 460847727501821614}
   m_LocalRotation: {x: -0, y: -0, z: 0.6087614, w: 0.79335344}
   m_LocalPosition: {x: 0.78637034, y: -0.103527665, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.25, z: 0.2}
+  m_LocalScale: {x: 0.15, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 7
@@ -219,39 +184,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7457622752685683158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 460847727501821614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &4728604775237107819
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 460847727501821614}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &560612773428711476
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,11 +198,9 @@ GameObject:
   - component: {fileID: 1906071797205277497}
   - component: {fileID: 6375558364292357825}
   - component: {fileID: 2003835054496766798}
-  - component: {fileID: 755064093216510919}
-  - component: {fileID: 8296997882944771577}
   m_Layer: 0
   m_Name: 8
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -282,7 +214,7 @@ Transform:
   m_GameObject: {fileID: 560612773428711476}
   m_LocalRotation: {x: -0, y: -0, z: 0.5, w: 0.8660254}
   m_LocalPosition: {x: 0.74641013, y: -0.2, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.25, z: 0.2}
+  m_LocalScale: {x: 0.15, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 8
@@ -345,39 +277,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &755064093216510919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 560612773428711476}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &8296997882944771577
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 560612773428711476}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &1149426549186334450
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,11 +291,9 @@ GameObject:
   - component: {fileID: 4483883181733460692}
   - component: {fileID: 8065050754898949774}
   - component: {fileID: 3200037184882613022}
-  - component: {fileID: 4890434451027965012}
-  - component: {fileID: 4734772973274292395}
   m_Layer: 0
   m_Name: 9
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -408,7 +307,7 @@ Transform:
   m_GameObject: {fileID: 1149426549186334450}
   m_LocalRotation: {x: -0, y: -0, z: 0.3826834, w: 0.9238796}
   m_LocalPosition: {x: 0.6828427, y: -0.28284276, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.25, z: 0.2}
+  m_LocalScale: {x: 0.15, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 9
@@ -471,39 +370,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4890434451027965012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1149426549186334450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &4734772973274292395
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1149426549186334450}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &1313915287311233233
 GameObject:
   m_ObjectHideFlags: 0
@@ -516,11 +384,9 @@ GameObject:
   - component: {fileID: 1121394750443256796}
   - component: {fileID: 5586376874760437284}
   - component: {fileID: 1023242884576885675}
-  - component: {fileID: 685632398037529506}
-  - component: {fileID: 7181070839531621059}
   m_Layer: 0
   m_Name: 16
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -534,7 +400,7 @@ Transform:
   m_GameObject: {fileID: 1313915287311233233}
   m_LocalRotation: {x: -0, y: -0, z: 0.86602545, w: 0.49999997}
   m_LocalPosition: {x: 0.05358985, y: -0.20000005, z: 0}
-  m_LocalScale: {x: 0.14999999, y: 0.25000003, z: 0.2}
+  m_LocalScale: {x: 0.14999999, y: 0.25000003, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 16
@@ -597,39 +463,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &685632398037529506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1313915287311233233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &7181070839531621059
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1313915287311233233}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &1412166795353990731
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,11 +477,9 @@ GameObject:
   - component: {fileID: 7313382472271079895}
   - component: {fileID: 747097068476877296}
   - component: {fileID: 5459708079885899389}
-  - component: {fileID: 1167245557709692644}
-  - component: {fileID: 3839353576534329232}
   m_Layer: 0
   m_Name: 14
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -660,7 +493,7 @@ Transform:
   m_GameObject: {fileID: 1412166795353990731}
   m_LocalRotation: {x: -0, y: -0, z: 0.9659259, w: 0.25881904}
   m_LocalPosition: {x: 0.2, y: -0.34641016, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.25, z: 0.2}
+  m_LocalScale: {x: 0.15, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 14
@@ -723,39 +556,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1167245557709692644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1412166795353990731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &3839353576534329232
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1412166795353990731}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &1434412628608859414
 GameObject:
   m_ObjectHideFlags: 0
@@ -768,11 +570,9 @@ GameObject:
   - component: {fileID: 5409885054605965746}
   - component: {fileID: 3278780595123278920}
   - component: {fileID: 661184196560843064}
-  - component: {fileID: 5073851907226941889}
-  - component: {fileID: 3514262343774003818}
   m_Layer: 0
   m_Name: 2
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -786,7 +586,7 @@ Transform:
   m_GameObject: {fileID: 1434412628608859414}
   m_LocalRotation: {x: -0, y: -0, z: 0.9659259, w: 0.25881904}
   m_LocalPosition: {x: 0.6, y: 0.34641016, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.25, z: 0.2}
+  m_LocalScale: {x: 0.15, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 2
@@ -849,39 +649,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5073851907226941889
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1434412628608859414}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &3514262343774003818
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1434412628608859414}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &1466184054410521549
 GameObject:
   m_ObjectHideFlags: 0
@@ -894,11 +663,9 @@ GameObject:
   - component: {fileID: 7330401882954578837}
   - component: {fileID: 254360092620884719}
   - component: {fileID: 2751855798890203396}
-  - component: {fileID: 497940760466867798}
-  - component: {fileID: 6153558551761768722}
   m_Layer: 0
   m_Name: 4
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -912,7 +679,7 @@ Transform:
   m_GameObject: {fileID: 1466184054410521549}
   m_LocalRotation: {x: -0, y: -0, z: 0.86602545, w: 0.49999997}
   m_LocalPosition: {x: 0.74641013, y: 0.20000005, z: 0}
-  m_LocalScale: {x: 0.14999999, y: 0.25000003, z: 0.2}
+  m_LocalScale: {x: 0.14999999, y: 0.25000003, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 4
@@ -975,39 +742,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &497940760466867798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1466184054410521549}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &6153558551761768722
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1466184054410521549}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &1553182877780154063
 GameObject:
   m_ObjectHideFlags: 0
@@ -1020,11 +756,9 @@ GameObject:
   - component: {fileID: 4532873658108318191}
   - component: {fileID: 5417090229717049305}
   - component: {fileID: 1446911684560635654}
-  - component: {fileID: 157854386596250080}
-  - component: {fileID: 5184251822441553396}
   m_Layer: 0
   m_Name: 0
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1038,7 +772,7 @@ Transform:
   m_GameObject: {fileID: 1553182877780154063}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.4, y: 0.4, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.25, z: 0.2}
+  m_LocalScale: {x: 0.15, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 0
@@ -1101,39 +835,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &157854386596250080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1553182877780154063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &5184251822441553396
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1553182877780154063}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &1560974630319131926
 GameObject:
   m_ObjectHideFlags: 0
@@ -1146,11 +849,9 @@ GameObject:
   - component: {fileID: 1187926976207166318}
   - component: {fileID: 6857441389088501851}
   - component: {fileID: 201224962570202069}
-  - component: {fileID: 1618976756701680678}
-  - component: {fileID: 8880507543091569595}
   m_Layer: 0
   m_Name: 6
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1164,7 +865,7 @@ Transform:
   m_GameObject: {fileID: 1560974630319131926}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0.8, y: 0, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.25, z: 0.2}
+  m_LocalScale: {x: 0.15, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 6
@@ -1227,39 +928,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1618976756701680678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1560974630319131926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &8880507543091569595
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1560974630319131926}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &1877950457050066455
 GameObject:
   m_ObjectHideFlags: 0
@@ -1272,11 +942,9 @@ GameObject:
   - component: {fileID: 3154128709749168689}
   - component: {fileID: 8795693112180119147}
   - component: {fileID: 4149104415218859003}
-  - component: {fileID: 2878384028759080953}
-  - component: {fileID: 3022192440027336492}
   m_Layer: 0
   m_Name: 18
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1290,7 +958,7 @@ Transform:
   m_GameObject: {fileID: 1877950457050066455}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.25, z: 0.2}
+  m_LocalScale: {x: 0.15, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 18
@@ -1353,39 +1021,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2878384028759080953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1877950457050066455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &3022192440027336492
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1877950457050066455}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &2501131665445518501
 GameObject:
   m_ObjectHideFlags: 0
@@ -1398,11 +1035,9 @@ GameObject:
   - component: {fileID: 6698823110565501137}
   - component: {fileID: 5761823772877378862}
   - component: {fileID: 3296303046214287439}
-  - component: {fileID: 4867618656209637173}
-  - component: {fileID: 2097565605513026273}
   m_Layer: 0
   m_Name: 23
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1416,7 +1051,7 @@ Transform:
   m_GameObject: {fileID: 2501131665445518501}
   m_LocalRotation: {x: -0, y: -0, z: 0.13052621, w: 0.9914449}
   m_LocalPosition: {x: 0.29647237, y: 0.38637033, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.25, z: 0.2}
+  m_LocalScale: {x: 0.15, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 23
@@ -1479,39 +1114,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4867618656209637173
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2501131665445518501}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &2097565605513026273
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2501131665445518501}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &2790346651328392181
 GameObject:
   m_ObjectHideFlags: 0
@@ -1524,11 +1128,9 @@ GameObject:
   - component: {fileID: 3916013386792899280}
   - component: {fileID: 2907799208188285597}
   - component: {fileID: 4025963697043238175}
-  - component: {fileID: 5204417545913921647}
-  - component: {fileID: 4883196141865184610}
   m_Layer: 0
   m_Name: 3
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1542,7 +1144,7 @@ Transform:
   m_GameObject: {fileID: 2790346651328392181}
   m_LocalRotation: {x: -0, y: -0, z: 0.9238795, w: 0.38268346}
   m_LocalPosition: {x: 0.68284273, y: 0.28284267, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.25000003, z: 0.2}
+  m_LocalScale: {x: 0.15, y: 0.25000003, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 3
@@ -1605,39 +1207,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5204417545913921647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2790346651328392181}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &4883196141865184610
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2790346651328392181}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &2970793491123835163
 GameObject:
   m_ObjectHideFlags: 0
@@ -1650,11 +1221,9 @@ GameObject:
   - component: {fileID: 8812616853049110227}
   - component: {fileID: 3919408373457016054}
   - component: {fileID: 3135860103558182765}
-  - component: {fileID: 7702040216038476037}
-  - component: {fileID: 4514737577030126463}
   m_Layer: 0
   m_Name: 21
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1668,7 +1237,7 @@ Transform:
   m_GameObject: {fileID: 2970793491123835163}
   m_LocalRotation: {x: -0, y: -0, z: 0.3826834, w: 0.9238796}
   m_LocalPosition: {x: 0.11715734, y: 0.28284276, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.25, z: 0.2}
+  m_LocalScale: {x: 0.15, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 21
@@ -1731,39 +1300,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7702040216038476037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2970793491123835163}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &4514737577030126463
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2970793491123835163}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &3186859810197665680
 GameObject:
   m_ObjectHideFlags: 0
@@ -1773,6 +1311,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2589083126915974236}
+  - component: {fileID: 86750752552590500}
   m_Layer: 0
   m_Name: ObstacleTemplate
   m_TagString: Obstacle
@@ -1818,6 +1357,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &86750752552590500
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3186859810197665680}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 1
+  m_Constraints: 6
+  m_CollisionDetection: 3
 --- !u!1 &5587011759280771305
 GameObject:
   m_ObjectHideFlags: 0
@@ -1830,11 +1385,9 @@ GameObject:
   - component: {fileID: 5214292013161334417}
   - component: {fileID: 507280733017189796}
   - component: {fileID: 6551148347468412458}
-  - component: {fileID: 6838907014069717936}
-  - component: {fileID: 993887624606048258}
   m_Layer: 0
   m_Name: 13
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1848,7 +1401,7 @@ Transform:
   m_GameObject: {fileID: 5587011759280771305}
   m_LocalRotation: {x: -0, y: -0, z: -0.13052624, w: 0.9914449}
   m_LocalPosition: {x: 0.29647234, y: -0.38637033, z: 0}
-  m_LocalScale: {x: 0.15000002, y: 0.25, z: 0.2}
+  m_LocalScale: {x: 0.15000002, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 13
@@ -1911,39 +1464,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6838907014069717936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5587011759280771305}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &993887624606048258
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5587011759280771305}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &6328449062876631821
 GameObject:
   m_ObjectHideFlags: 0
@@ -1956,11 +1478,9 @@ GameObject:
   - component: {fileID: 7356995306763839275}
   - component: {fileID: 4020710964129344369}
   - component: {fileID: 8379069576049444577}
-  - component: {fileID: 5185881501927161065}
-  - component: {fileID: 5379492975174114777}
   m_Layer: 0
   m_Name: 19
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1974,7 +1494,7 @@ Transform:
   m_GameObject: {fileID: 6328449062876631821}
   m_LocalRotation: {x: -0, y: -0, z: 0.6087614, w: 0.79335344}
   m_LocalPosition: {x: 0.013629675, y: 0.103527665, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.25, z: 0.2}
+  m_LocalScale: {x: 0.15, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 19
@@ -2037,39 +1557,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5185881501927161065
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6328449062876631821}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &5379492975174114777
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6328449062876631821}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &6562624787922135686
 GameObject:
   m_ObjectHideFlags: 0
@@ -2082,11 +1571,9 @@ GameObject:
   - component: {fileID: 8336495650789370826}
   - component: {fileID: 6268375272994729843}
   - component: {fileID: 256576311187725451}
-  - component: {fileID: 4908396469687656817}
-  - component: {fileID: 4123167940596256925}
   m_Layer: 0
   m_Name: 5
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2100,7 +1587,7 @@ Transform:
   m_GameObject: {fileID: 6562624787922135686}
   m_LocalRotation: {x: -0, y: -0, z: 0.79335344, w: 0.6087614}
   m_LocalPosition: {x: 0.78637034, y: 0.10352761, z: 0}
-  m_LocalScale: {x: 0.14999999, y: 0.25, z: 0.2}
+  m_LocalScale: {x: 0.14999999, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 5
@@ -2163,39 +1650,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4908396469687656817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6562624787922135686}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &4123167940596256925
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6562624787922135686}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &6793113990743923537
 GameObject:
   m_ObjectHideFlags: 0
@@ -2208,11 +1664,9 @@ GameObject:
   - component: {fileID: 2928080301553030349}
   - component: {fileID: 5152896197541164266}
   - component: {fileID: 439167533233728359}
-  - component: {fileID: 1976779442913748664}
-  - component: {fileID: 3033377613032194415}
   m_Layer: 0
   m_Name: 15
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2226,7 +1680,7 @@ Transform:
   m_GameObject: {fileID: 6793113990743923537}
   m_LocalRotation: {x: -0, y: -0, z: 0.9238795, w: 0.38268346}
   m_LocalPosition: {x: 0.11715725, y: -0.28284267, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.25000003, z: 0.2}
+  m_LocalScale: {x: 0.15, y: 0.25000003, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 15
@@ -2289,39 +1743,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1976779442913748664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6793113990743923537}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &3033377613032194415
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6793113990743923537}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &6910507439088340427
 GameObject:
   m_ObjectHideFlags: 0
@@ -2334,11 +1757,9 @@ GameObject:
   - component: {fileID: 4779169730579809990}
   - component: {fileID: 25393437807690558}
   - component: {fileID: 4895328005444634289}
-  - component: {fileID: 7455464138857174418}
-  - component: {fileID: 6774340122414832549}
   m_Layer: 0
   m_Name: 17
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2352,7 +1773,7 @@ Transform:
   m_GameObject: {fileID: 6910507439088340427}
   m_LocalRotation: {x: -0, y: -0, z: 0.79335344, w: 0.6087614}
   m_LocalPosition: {x: 0.013629675, y: -0.10352761, z: 0}
-  m_LocalScale: {x: 0.14999999, y: 0.25, z: 0.2}
+  m_LocalScale: {x: 0.14999999, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 17
@@ -2415,39 +1836,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7455464138857174418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6910507439088340427}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &6774340122414832549
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6910507439088340427}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &7270670076600167425
 GameObject:
   m_ObjectHideFlags: 0
@@ -2460,11 +1850,9 @@ GameObject:
   - component: {fileID: 4003787270027400137}
   - component: {fileID: 8915001078835243500}
   - component: {fileID: 7374691940883597943}
-  - component: {fileID: 3962734432610331817}
-  - component: {fileID: 6793881389345692138}
   m_Layer: 0
   m_Name: 20
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2478,7 +1866,7 @@ Transform:
   m_GameObject: {fileID: 7270670076600167425}
   m_LocalRotation: {x: -0, y: -0, z: 0.5, w: 0.8660254}
   m_LocalPosition: {x: 0.05358985, y: 0.2, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.25, z: 0.2}
+  m_LocalScale: {x: 0.15, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 20
@@ -2541,39 +1929,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3962734432610331817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7270670076600167425}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &6793881389345692138
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7270670076600167425}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &8028008174633501119
 GameObject:
   m_ObjectHideFlags: 0
@@ -2586,11 +1943,9 @@ GameObject:
   - component: {fileID: 1237358747152885195}
   - component: {fileID: 156191298790615092}
   - component: {fileID: 6945158925449575765}
-  - component: {fileID: 3975538411371726519}
-  - component: {fileID: 7428496784105053814}
   m_Layer: 0
   m_Name: 22
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2604,7 +1959,7 @@ Transform:
   m_GameObject: {fileID: 8028008174633501119}
   m_LocalRotation: {x: -0, y: -0, z: 0.2588191, w: 0.9659258}
   m_LocalPosition: {x: 0.19999996, y: 0.34641016, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.25, z: 0.2}
+  m_LocalScale: {x: 0.15, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 22
@@ -2667,39 +2022,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3975538411371726519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028008174633501119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &7428496784105053814
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028008174633501119}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &8150072007538986212
 GameObject:
   m_ObjectHideFlags: 0
@@ -2712,11 +2036,9 @@ GameObject:
   - component: {fileID: 2480370593616180012}
   - component: {fileID: 7945535676329822473}
   - component: {fileID: 8332907916510784146}
-  - component: {fileID: 2614393543011259126}
-  - component: {fileID: 4147734449027974356}
   m_Layer: 0
   m_Name: 10
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2730,7 +2052,7 @@ Transform:
   m_GameObject: {fileID: 8150072007538986212}
   m_LocalRotation: {x: -0, y: -0, z: 0.2588191, w: 0.9659258}
   m_LocalPosition: {x: 0.6, y: -0.34641016, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.25, z: 0.2}
+  m_LocalScale: {x: 0.15, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 10
@@ -2793,39 +2115,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2614393543011259126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8150072007538986212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &4147734449027974356
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8150072007538986212}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &8278522214295378245
 GameObject:
   m_ObjectHideFlags: 0
@@ -2838,11 +2129,9 @@ GameObject:
   - component: {fileID: 7865040286568225576}
   - component: {fileID: 7252928051418371979}
   - component: {fileID: 5357943008350879487}
-  - component: {fileID: 54812489705106316}
-  - component: {fileID: 7024301841171947783}
   m_Layer: 0
   m_Name: 1
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2856,7 +2145,7 @@ Transform:
   m_GameObject: {fileID: 8278522214295378245}
   m_LocalRotation: {x: -0, y: -0, z: -0.13052624, w: 0.9914449}
   m_LocalPosition: {x: 0.50352764, y: 0.38637033, z: 0}
-  m_LocalScale: {x: 0.15000002, y: 0.25, z: 0.2}
+  m_LocalScale: {x: 0.15000002, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 1
@@ -2919,39 +2208,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &54812489705106316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8278522214295378245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &7024301841171947783
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8278522214295378245}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
 --- !u!1 &8833091865022669146
 GameObject:
   m_ObjectHideFlags: 0
@@ -2964,11 +2222,9 @@ GameObject:
   - component: {fileID: 348958187545871662}
   - component: {fileID: 1717740139453352145}
   - component: {fileID: 8475332048526630320}
-  - component: {fileID: 5993183992398706483}
-  - component: {fileID: 1440961795910491890}
   m_Layer: 0
   m_Name: 11
-  m_TagString: Obstacle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2982,7 +2238,7 @@ Transform:
   m_GameObject: {fileID: 8833091865022669146}
   m_LocalRotation: {x: -0, y: -0, z: 0.13052621, w: 0.9914449}
   m_LocalPosition: {x: 0.50352764, y: -0.38637033, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.25, z: 0.2}
+  m_LocalScale: {x: 0.15, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 2589083126915974236}
   m_RootOrder: 11
@@ -3045,36 +2301,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5993183992398706483
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8833091865022669146}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3ca41fbd26491087d378144f6ecd5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onTriggerEnterEvent: CollisionStart
-  _onTriggerExitEvent: CollisionEnd
-  _onTriggerStayEvent: 
---- !u!54 &1440961795910491890
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8833091865022669146}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 6
-  m_CollisionDetection: 0
