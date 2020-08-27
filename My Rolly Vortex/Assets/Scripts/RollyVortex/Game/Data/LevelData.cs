@@ -1,25 +1,42 @@
+using System;
 using UnityEngine;
 
 namespace RollyVortex
 {
     public class LevelData : ScriptableObject
     {
+        [Header("Difficulty")]
+        [SerializeField] private float _speed = 1f;
+        [SerializeField] private int _visibility = 3;
+        
+        [Header("Speed")]
         [SerializeField] private float _tubeSpeed;
-        [SerializeField] private float _delayBeforeStart;
-        [SerializeField] private float _obstacleGroupingDelay;
-
+        [SerializeField] private float _obstacleSpeed;
+        [SerializeField] private float _ballSpeed;
+        
+        [Header("Delay")]
+        [SerializeField] private float _delayBeforeStart = 3f;
+        
+        //Difficulty
+        public int Visibility => _visibility;
+        
+        //Speed
         public float TubeSpeed => _tubeSpeed;
+        public float ObstacleSpeed => _obstacleSpeed;
+        public float BallSpeed => _ballSpeed;
+        
+        //Delay
         public float DelayBeforeStart => _delayBeforeStart;
-        public float ObstacleSpeed => _tubeSpeed * GameConstants.TubeToTilingRatio;
-        public float BallSpeed => _tubeSpeed * GameConstants.TubeToBallTilingRatio;
+        
 
-        public float ObstacleGroupingDelay => _obstacleGroupingDelay;
-
-        public void SetDefault()
+#if UNITY_EDITOR
+        private void OnValidate()
         {
-            _tubeSpeed = 4f;
-            _delayBeforeStart = 4f;
-            _obstacleGroupingDelay = 1f;
+            _tubeSpeed = _speed * GameConstants.EnvironmentConstants.MasterToTubeSpeedRatio;
+            _obstacleSpeed = _speed * GameConstants.EnvironmentConstants.MasterToObstacleSpeedRatio;
+            _ballSpeed = _speed * GameConstants.EnvironmentConstants.MasterToBallTilingRatio;
+            UnityEditor.EditorUtility.SetDirty(this);
         }
+#endif
     }
 }

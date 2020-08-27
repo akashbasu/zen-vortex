@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace RollyVortex
 {
-    internal class ObstacleCacheManager
+    internal class ObstacleCacheController
     {
         private class ObstacleMovementWrapper
         {
@@ -12,11 +13,13 @@ namespace RollyVortex
             public float Timer { get; set; }
 
             private readonly GameObject _go;
+            private readonly Collider[] _colliders;
 
             public ObstacleMovementWrapper(Transform entry)
             {
                 Entry = entry;
-                _go = Entry.gameObject;
+                _go = entry.gameObject;
+                _colliders = entry.GetComponentsInChildren<Collider>();
             }
 
             public void Reset()
@@ -39,6 +42,7 @@ namespace RollyVortex
             private void Enable(bool isEnabled)
             {
                 _go.SetActive(isEnabled);
+                foreach (var collider in _colliders) collider.enabled = isEnabled;
             }
         }
         
@@ -51,7 +55,7 @@ namespace RollyVortex
 
          public float DistanceToTravel => _distanceToTravel;
 
-        public ObstacleCacheManager(Transform cache, Vector3 reCacheMarker)
+        public ObstacleCacheController(Transform cache, Vector3 reCacheMarker)
         {
             _cache = cache;
             
@@ -74,10 +78,15 @@ namespace RollyVortex
 
         public bool TryRecacheObstacle()
         {
-            if (!CanRecache()) return false;
+            var itemsToReCache = RecacheCount();
+            if (itemsToReCache == 0) return false;
             
-            // Debug.Log($"[{nameof(ObstacleMovement)}] {_movingObstacles.Peek().Entry.gameObject.name} passed camera. Returning to cache");
-            Cache(_movingObstacles.Dequeue());
+            while (itemsToReCache > 0) 
+            {
+                Cache(_movingObstacles.Dequeue());
+                itemsToReCache--;
+            }
+            
             return true;
         }
         
@@ -86,7 +95,7 @@ namespace RollyVortex
             foreach (var obstacle in _movingObstacles)
             {
                 var newTime = obstacle.Timer;
-                MovementUtils.UpdateObstaclePosition(obstacle.Entry, ref newTime, deltaTime, _reCacheMarker.z, totalTime);
+                MovementUtils.UpdateObstaclePosition(obstacle.Entry, ref newTime, deltaTime, _distanceToTravel, totalTime);
                 obstacle.Timer = newTime;
             }
         }
@@ -102,10 +111,11 @@ namespace RollyVortex
             while (_movingObstacles.Count > 0) Cache(_movingObstacles.Dequeue());
         }
 
-        private bool CanRecache()
+        private int RecacheCount()
         {
-            return _movingObstacles.Count > 0 &&
-                   MovementUtils.HasPassedDestination(_movingObstacles.Peek().Entry, _reCacheMarker);
+            return _movingObstacles.Count > 0
+                ? _movingObstacles.Count(x => MovementUtils.HasReachedDestination(x.Entry, _reCacheMarker))
+                : 0;
         }
         
         private void HandleUnderflow()

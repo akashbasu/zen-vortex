@@ -1,33 +1,47 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RollyVortex
 {
     public class CollisionNotifier : MonoBehaviour
     {
-        [SerializeField] private string _onTriggerEnterEvent;
-        [SerializeField] private string _onTriggerExitEvent;
-        [SerializeField] private string _onTriggerStayEvent;
-
+        private const string Untagged = nameof(Untagged);
+        
+        private static Dictionary<string, GameObject> _lastFiredGameObject = new Dictionary<string, GameObject>
+        {
+            {GameEvents.Collisions.Start, null},
+            {GameEvents.Collisions.Stay, null},
+            {GameEvents.Collisions.End, null},
+        };
+        
         private void OnTriggerEnter(Collider other)
         {
-            FireCommand(_onTriggerEnterEvent, gameObject, other.gameObject);
+            // Debug.Log($"[{nameof(CollisionNotifier)}] {nameof(OnTriggerEnter)} {gameObject.name} {other.gameObject.name}");
+            
+            FireCommand(GameEvents.Collisions.Start, gameObject, other.gameObject);
         }
 
         private void OnTriggerExit(Collider other)
         {
-            FireCommand(_onTriggerExitEvent, gameObject, other.gameObject);
-        }
-
-        private void OnTriggerStay(Collider other)
-        {
-            FireCommand(_onTriggerStayEvent, gameObject, other.gameObject);
+            // Debug.Log($"[{nameof(CollisionNotifier)}] {nameof(OnTriggerExit)} {gameObject.name} {other.gameObject.name}");
+            
+            FireCommand(GameEvents.Collisions.End, gameObject, other.gameObject);
         }
 
         private static void FireCommand(string eventName, GameObject go, GameObject other)
         {
             if(string.IsNullOrEmpty(eventName)) return;
+
+            while ((string.IsNullOrEmpty(other.tag) || string.Equals(other.tag, Untagged)) && other.transform.parent != null)
+            {
+                other = other.transform.parent.gameObject;
+            }
             
             if(string.Equals(go.tag, other.tag)) return;
+            
+            if(_lastFiredGameObject[eventName] == other) return;
+
+            _lastFiredGameObject[eventName] = other;
             
             var c = new Command(eventName, go, other);
             c.Execute();

@@ -4,7 +4,7 @@ namespace RollyVortex
 {
     internal class ObstacleMovement : ILevelMovement
     {
-        private readonly ObstacleCacheManager _obstacleCache;
+        private readonly ObstacleCacheController _cacheController;
         
         private float _loopInSeconds;
         private float _releaseObstacleInSeconds;
@@ -16,13 +16,13 @@ namespace RollyVortex
         
         public ObstacleMovement(GameObject obstacleCache)
         {
-            _obstacleCache = new ObstacleCacheManager(obstacleCache.transform, Camera.main.transform.position);
+            _cacheController = new ObstacleCacheController(obstacleCache.transform, Camera.main.transform.position);
         }
         
         public void Reset()
         {
             _clock = 0f;
-            _obstacleCache.Reset();
+            _cacheController.Reset();
         }
 
         public void Update(float deltaTime)
@@ -41,40 +41,27 @@ namespace RollyVortex
 
             _clock += deltaTime;
             
-
-            _obstacleCache.Update(deltaTime, _loopInSeconds);
-            _obstacleCache.TryRecacheObstacle();
+            _cacheController.Update(deltaTime, _loopInSeconds);
+            _cacheController.TryRecacheObstacle();
 
             if (_clock < _releaseObstacleInSeconds) return;
-
-            _obstacleCache.SpawnNext();
+            
+            _cacheController.SpawnNext();
             _clock = 0f;
         }
 
         public void SetLevelData(LevelData data)
         {
             _delayTime = data.DelayBeforeStart;
-            _loopInSeconds = _obstacleCache.DistanceToTravel / data.ObstacleSpeed;
-            _releaseObstacleInSeconds = data.ObstacleGroupingDelay;
+            _loopInSeconds = _cacheController.DistanceToTravel / data.ObstacleSpeed;
+            _releaseObstacleInSeconds = _loopInSeconds / data.Visibility; //data.ObstacleGroupingDelay;
         }
 
-        public void OnCollisionEnter(GameObject other)
-        {
-            if (other.tag.Equals(RollyVortexTags.Ball))
-            {
-                Debug.Log($"[{nameof(ObstacleMovement)}] Ball crashed into obstacle! End level");
-            }
-        }
+        public void OnCollisionEnter(GameObject other) { }
 
         public void OnCollisionStay(GameObject other) { }
 
-        public void OnCollisionExit(GameObject other)
-        {
-            if (other.tag.Equals(RollyVortexTags.Ball))
-            {
-                Debug.Log($"[{nameof(ObstacleMovement)}] Ball passed obstacle. Can spawn next.");
-            }
-        }
+        public void OnCollisionExit(GameObject other) { }
 
         public void OnLevelStart() { }
 

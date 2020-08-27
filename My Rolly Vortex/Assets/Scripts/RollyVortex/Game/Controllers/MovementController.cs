@@ -25,11 +25,11 @@ namespace RollyVortex
             {
                 ResetLevelValues();
 
-                GameEventManager.Subscribe(GameEvents.LevelEvents.StartLevel, OnLevelStart);
-                GameEventManager.Subscribe(GameEvents.Gameplay.CollisionStart, CollisionNotifierOnStart);
-                GameEventManager.Subscribe(GameEvents.Gameplay.CollisionStay, CollisionNotifierOnStay);
-                GameEventManager.Subscribe(GameEvents.Gameplay.CollisionEnd, CollisionNotifierOnEnd);
-                GameEventManager.Subscribe(GameEvents.LevelEvents.StopLevel, OnLevelStop);
+                GameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
+                GameEventManager.Subscribe(GameEvents.Collisions.Start, CollisionNotifierOnStart);
+                GameEventManager.Subscribe(GameEvents.Collisions.Stay, CollisionNotifierOnStay);
+                GameEventManager.Subscribe(GameEvents.Collisions.End, CollisionNotifierOnEnd);
+                GameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
 
                 onComplete?.Invoke(this);
                 return;
@@ -69,7 +69,7 @@ namespace RollyVortex
 
         private void OnLevelStart(object[] args)
         {
-            foreach (var goMovement in _objectMovementMap) goMovement.Value.SetLevelData(LevelManager.LevelData);
+            foreach (var goMovement in _objectMovementMap) goMovement.Value.SetLevelData(LevelDataProvider.LevelData);
 
             foreach (var goMovement in _objectMovementMap) goMovement.Value.OnLevelStart();
 

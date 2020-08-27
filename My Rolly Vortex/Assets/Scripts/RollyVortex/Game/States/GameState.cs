@@ -8,7 +8,7 @@ namespace RollyVortex
         {
             var states = new List<IInitializable>
             {
-                new LevelManager(),
+                new LevelDataProvider(),
                 new ObstacleManager(),
                 new PowerupManager(),
                 new ScoreManager(),

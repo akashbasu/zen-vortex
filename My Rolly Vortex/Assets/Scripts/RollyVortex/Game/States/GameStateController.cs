@@ -68,7 +68,7 @@ namespace RollyVortex
                     break;
             }
 
-            GameEventManager.Broadcast(GameEvents.GameStateEvents.Start, _gameState);
+            new Command(GameEvents.GameStateEvents.Start, _gameState).Execute();
             initializable.Initialize(OnStepComplete, args);
         }
 
@@ -77,7 +77,7 @@ namespace RollyVortex
         {
             Debug.Log($"[{nameof(GameStateController)}] {nameof(OnStepComplete)} Completed {initializable.GetType()}");
             
-            GameEventManager.Broadcast(GameEvents.GameStateEvents.End, _gameState);
+            new Command(GameEvents.GameStateEvents.End, _gameState).Execute();
 
             NextState();
         }

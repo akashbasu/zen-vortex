@@ -4,21 +4,26 @@ namespace RollyVortex
     {
         public static class GameStateEvents
         {
-            public const string Start = nameof(Start);
-            public const string End = nameof(End);
+            public static readonly string Start = $"{nameof(GameStateEvents)}.{nameof(Start)}";
+            public static readonly string End = $"{nameof(GameStateEvents)}.{nameof(End)}";
         }
 
         public static class LevelEvents
         {
-            public const string StartLevel = nameof(StartLevel);
-            public const string StopLevel = nameof(StopLevel);
+            public static readonly string Start = $"{nameof(LevelEvents)}.{nameof(Start)}";
+            public static readonly string Stop = $"{nameof(LevelEvents)}.{nameof(Stop)}";
         }
 
         public static class Gameplay
         {
-            public const string CollisionStart = nameof(CollisionStart);
-            public const string CollisionStay = nameof(CollisionStay);
-            public const string CollisionEnd = nameof(CollisionEnd);
+            
+        }
+        
+        public static class Collisions
+        {
+            public static readonly string Start = $"{nameof(Collisions)}.{nameof(Start)}";
+            public static readonly string Stay = $"{nameof(Collisions)}.{nameof(Stay)}";
+            public static readonly string End = $"{nameof(Collisions)}.{nameof(End)}";    
         }
     }
 }
