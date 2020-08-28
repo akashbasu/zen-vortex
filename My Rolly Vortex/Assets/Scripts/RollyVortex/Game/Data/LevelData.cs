@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -5,23 +6,22 @@ namespace RollyVortex
 {
     public class LevelData : ScriptableObject
     {
+        [Header("Difficulty")] 
+        [SerializeField] private float _speed = 1f;
+        [SerializeField] private int _visibility = 3;
+        [SerializeField] private IntRangedValue _grouping;
+        
+        [Header("Speed")]
+        [SerializeField] private float _tubeSpeed;
         [SerializeField] private float _ballSpeed;
-
-        [Header("Delay")] [SerializeField] private float _delayBeforeStart = 3f;
-
-        [SerializeField] private RangedValue _grouping;
         [SerializeField] private float _obstacleSpeed;
 
-        [Header("Difficulty")] [SerializeField]
-        private float _speed = 1f;
-
-        [Header("Speed")] [SerializeField] private float _tubeSpeed;
-
-        [SerializeField] private int _visibility = 3;
+        [Header("Delay")] 
+        [SerializeField] private float _delayBeforeStart = 3f;
 
         //Difficulty
         public int Visibility => _visibility;
-        public RangedValue Grouping => _grouping;
+        public IntRangedValue Grouping => _grouping;
 
         //Speed
         public float TubeSpeed => _tubeSpeed;
@@ -30,6 +30,7 @@ namespace RollyVortex
 
         //Delay
         public float DelayBeforeStart => _delayBeforeStart;
+        public int Seed => (int) (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
 
 
 #if UNITY_EDITOR

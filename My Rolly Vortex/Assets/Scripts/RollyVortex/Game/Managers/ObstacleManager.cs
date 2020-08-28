@@ -6,13 +6,10 @@ namespace RollyVortex
     {
         private static int _obstacleGroupCount = -1;
         private static int _obstacleId = -1;
-        private static RangedValue _groupRange;
-        private static Random _random;
+        private static IntRangedValue _groupRange;
 
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
-            _random = new Random();
-
             GameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
 
             onComplete?.Invoke(this);
@@ -23,8 +20,8 @@ namespace RollyVortex
             _obstacleGroupCount--;
             if (_obstacleGroupCount <= 0 || _obstacleId < 0)
             {
-                _obstacleId = _random.Next(0, ObstacleDataProvider.ObstacleData.Count - 1);
-                _obstacleGroupCount = _random.Next(_groupRange.Min, _groupRange.Max) - 1;
+                _obstacleId = DeterministicRandomProvider.Next(0, ObstacleDataProvider.ObstacleData.Count - 1);
+                _obstacleGroupCount = DeterministicRandomProvider.Next(_groupRange.Min, _groupRange.Max) - 1;
             }
 
             return ObstacleDataProvider.ObstacleData[_obstacleId];

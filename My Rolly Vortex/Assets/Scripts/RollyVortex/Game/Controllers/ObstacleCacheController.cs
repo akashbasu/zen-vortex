@@ -141,11 +141,6 @@ namespace RollyVortex
                 SetZ(0f);
             }
 
-            private void SetZ(float z)
-            {
-                MovementUtils.SetPositionForObstacle(Entry, z);
-            }
-
             public void Spawn(ObstacleData data)
             {
                 if (data == null)
@@ -154,13 +149,21 @@ namespace RollyVortex
                     return;
                 }
 
-                Enable(true);
                 SetData(data);
+                Enable(true);
+            }
+            
+            private void SetZ(float z)
+            {
+                MovementUtils.SetPositionForObstacle(Entry, z);
             }
 
             private void SetData(ObstacleData data)
             {
+                //Set active
                 for (var i = 0; i < _managedCount; i++) _children[i].SetActive(data.IsEnabled(i));
+                
+                //Set rotation
             }
 
             private void Enable(bool isEnabled)
