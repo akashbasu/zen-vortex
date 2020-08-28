@@ -93,3 +93,10 @@ _UpgradeReport_Files/
 Thumbs.db
 Desktop.ini
 .DS_Store
+
+#LeanTween
+/Assets/LeanTween/Documentation/
+/Assets/LeanTween/Editor/
+/Assets/LeanTween/Examples/
+
+
