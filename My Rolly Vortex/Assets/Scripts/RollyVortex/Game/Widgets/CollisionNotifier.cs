@@ -16,14 +16,14 @@ namespace RollyVortex
 
         private void OnTriggerEnter(Collider other)
         {
-            // Debug.Log($"[{nameof(CollisionNotifier)}] {nameof(OnTriggerEnter)} {gameObject.name} {other.gameObject.name}");
+            Debug.Log($"[{nameof(CollisionNotifier)}] {nameof(OnTriggerEnter)} {gameObject.name} {other.gameObject.name}");
 
             FireCommand(GameEvents.Collisions.Start, gameObject, other.gameObject);
         }
 
         private void OnTriggerExit(Collider other)
         {
-            // Debug.Log($"[{nameof(CollisionNotifier)}] {nameof(OnTriggerExit)} {gameObject.name} {other.gameObject.name}");
+            Debug.Log($"[{nameof(CollisionNotifier)}] {nameof(OnTriggerExit)} {gameObject.name} {other.gameObject.name}");
 
             FireCommand(GameEvents.Collisions.End, gameObject, other.gameObject);
         }

@@ -18,6 +18,6 @@ MonoBehaviour:
     _min: 3
     _max: 7
   _tubeSpeed: 3
-  _obstacleSpeed: 6
   _ballSpeed: 3
+  _obstacleSpeed: 6
   _delayBeforeStart: 3
