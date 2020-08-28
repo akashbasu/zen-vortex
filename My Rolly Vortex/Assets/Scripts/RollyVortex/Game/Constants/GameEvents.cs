@@ -16,14 +16,13 @@ namespace RollyVortex
 
         public static class Gameplay
         {
-            
         }
-        
+
         public static class Collisions
         {
             public static readonly string Start = $"{nameof(Collisions)}.{nameof(Start)}";
             public static readonly string Stay = $"{nameof(Collisions)}.{nameof(Stay)}";
-            public static readonly string End = $"{nameof(Collisions)}.{nameof(End)}";    
+            public static readonly string End = $"{nameof(Collisions)}.{nameof(End)}";
         }
     }
 }

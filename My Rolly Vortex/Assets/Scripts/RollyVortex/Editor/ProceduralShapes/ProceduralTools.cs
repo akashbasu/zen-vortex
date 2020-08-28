@@ -8,7 +8,7 @@ namespace RollyVortex.Editor
     {
         private const string MeshPath = "Assets/Models/";
         private const string MeshPostfix = "_Mesh.asset";
-        
+
         [MenuItem("RollyVortex/ProceduralTools/Tube Mesh")]
         public static void MakeTube()
         {
@@ -24,7 +24,7 @@ namespace RollyVortex.Editor
             var activeGo = Selection.activeGameObject;
             var meshFilter = activeGo != null ? activeGo.GetComponent<MeshFilter>() : null;
             var sharedMesh = meshFilter != null ? meshFilter.sharedMesh : null;
-            return  activeGo != null && sharedMesh == null;
+            return activeGo != null && sharedMesh == null;
         }
 
         private static void AddMesh(GameObject gameObject)
@@ -35,6 +35,7 @@ namespace RollyVortex.Editor
                 filter = gameObject.AddComponent<MeshFilter>();
                 AssetDatabase.SaveAssets();
             }
+
             var mesh = filter.sharedMesh;
             if (mesh == null)
             {
@@ -43,15 +44,15 @@ namespace RollyVortex.Editor
                 AssetDatabase.SaveAssets();
                 mesh = AssetDatabase.LoadAssetAtPath<Mesh>(path);
             }
-            
+
             filter.sharedMesh = mesh;
             EditorUtility.SetDirty(gameObject);
         }
-        
+
         private static void AddRequiredComponents(GameObject gameObject)
         {
             if (gameObject.GetComponent<MeshRenderer>() != null) return;
-            
+
             gameObject.AddComponent<MeshRenderer>();
             EditorUtility.SetDirty(gameObject);
         }

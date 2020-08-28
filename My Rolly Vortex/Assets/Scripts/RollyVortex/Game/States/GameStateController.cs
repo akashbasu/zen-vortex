@@ -63,7 +63,7 @@ namespace RollyVortex
             switch (_gameState)
             {
                 case GameStates.Boot:
-                    
+
                     args = _initializableMonobehaviorSystemObjects;
                     break;
             }
@@ -76,7 +76,7 @@ namespace RollyVortex
         private void OnStepComplete(IInitializable initializable)
         {
             Debug.Log($"[{nameof(GameStateController)}] {nameof(OnStepComplete)} Completed {initializable.GetType()}");
-            
+
             new Command(GameEvents.GameStateEvents.End, _gameState).Execute();
 
             NextState();
@@ -86,14 +86,11 @@ namespace RollyVortex
         private void OnValidate()
         {
             _initializableMonobehaviorSystemObjects = gameObject.GetComponents<IInitializable>();
-            
+
             foreach (var initializable in _initializableMonobehaviorSystemObjects)
-            {
                 if (initializable == null)
-                {
-                    Debug.LogError($"[{nameof(GameStateController)}] {nameof(OnValidate)}  Invalid reference to Monobehavior initializable");
-                }
-            }
+                    Debug.LogError(
+                        $"[{nameof(GameStateController)}] {nameof(OnValidate)}  Invalid reference to Monobehavior initializable");
         }
 #endif
     }

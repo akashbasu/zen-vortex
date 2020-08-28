@@ -10,10 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 51857b0e4fb747da99e77263475a9185, type: 3}
-  m_Name: Level_
+  m_Name: Level_0
   m_EditorClassIdentifier: 
+  _speed: 3
+  _visibility: 3
+  _grouping:
+    _min: 3
+    _max: 7
   _tubeSpeed: 3
   _obstacleSpeed: 6
   _ballSpeed: 3
   _delayBeforeStart: 3
-  _obstacleGroupingDelay: 3

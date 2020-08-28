@@ -7,34 +7,34 @@ namespace RollyVortex.Editor
     {
         private const uint Sides = 72;
         private const float Height = 1f;
-        
+
         private const float HeightToWidthMultiplier = 0.5f;
         private const float TubeWallWidth = 0.1f;
 
-        private static readonly float OuterRadius = Height * HeightToWidthMultiplier;//.5f;
+        private static readonly float OuterRadius = Height * HeightToWidthMultiplier; //.5f;
         private static readonly float InnerRadius = OuterRadius * 0.25f;
-        
+
         public static void Make(GameObject gameObject)
         {
             var filter = gameObject.GetComponent<MeshFilter>();
             var mesh = filter.sharedMesh;
-            
+
             mesh.Clear();
 
-    // Outter shell is at radius1 + radius2 / 2, inner shell at radius1 - radius2 / 2
-            
+            // Outter shell is at radius1 + radius2 / 2, inner shell at radius1 - radius2 / 2
+
 
             var nbVerticesCap = Sides * 2 + 2;
             var nbVerticesSides = Sides * 2 + 2;
 
             #region Vertices
 
-    // bottom + top + sides
+            // bottom + top + sides
             var vertices = new Vector3[nbVerticesCap * 2 + nbVerticesSides * 2];
             var vert = 0;
             var _2pi = Mathf.PI * 2f;
 
-    // Bottom cap
+            // Bottom cap
             var sideCounter = 0;
             while (vert < nbVerticesCap)
             {
@@ -50,7 +50,7 @@ namespace RollyVortex.Editor
                 vert += 2;
             }
 
-    // Top cap
+            // Top cap
             sideCounter = 0;
             while (vert < nbVerticesCap * 2)
             {
@@ -66,7 +66,7 @@ namespace RollyVortex.Editor
                 vert += 2;
             }
 
-    // Sides (out)
+            // Sides (out)
             sideCounter = 0;
             while (vert < nbVerticesCap * 2 + nbVerticesSides)
             {
@@ -83,7 +83,7 @@ namespace RollyVortex.Editor
                 vert += 2;
             }
 
-    // Sides (in)
+            // Sides (in)
             sideCounter = 0;
             while (vert < vertices.Length)
             {
@@ -104,17 +104,17 @@ namespace RollyVortex.Editor
 
             #region Normales
 
-    // bottom + top + sides
+            // bottom + top + sides
             var normales = new Vector3[vertices.Length];
             vert = 0;
 
-    // Bottom cap
+            // Bottom cap
             while (vert < nbVerticesCap) normales[vert++] = Vector3.down;
 
-    // Top cap
+            // Top cap
             while (vert < nbVerticesCap * 2) normales[vert++] = Vector3.up;
 
-    // Sides (out)
+            // Sides (out)
             sideCounter = 0;
             while (vert < nbVerticesCap * 2 + nbVerticesSides)
             {
@@ -127,7 +127,7 @@ namespace RollyVortex.Editor
                 vert += 2;
             }
 
-    // Sides (in)
+            // Sides (in)
             sideCounter = 0;
             while (vert < vertices.Length)
             {
@@ -147,7 +147,7 @@ namespace RollyVortex.Editor
             var uvs = new Vector2[vertices.Length];
 
             vert = 0;
-    // Bottom cap
+            // Bottom cap
             sideCounter = 0;
             while (vert < nbVerticesCap)
             {
@@ -156,7 +156,7 @@ namespace RollyVortex.Editor
                 uvs[vert++] = new Vector2(1f, t);
             }
 
-    // Top cap
+            // Top cap
             sideCounter = 0;
             while (vert < nbVerticesCap * 2)
             {
@@ -165,7 +165,7 @@ namespace RollyVortex.Editor
                 uvs[vert++] = new Vector2(1f, t);
             }
 
-    // Sides (out)
+            // Sides (out)
             sideCounter = 0;
             while (vert < nbVerticesCap * 2 + nbVerticesSides)
             {
@@ -174,7 +174,7 @@ namespace RollyVortex.Editor
                 uvs[vert++] = new Vector2(t, 1f);
             }
 
-    // Sides (in)
+            // Sides (in)
             sideCounter = 0;
             while (vert < vertices.Length)
             {
@@ -192,7 +192,7 @@ namespace RollyVortex.Editor
             var nbIndexes = nbTriangles * 3;
             var triangles = new int[nbIndexes];
 
-    // Bottom cap
+            // Bottom cap
             var i = 0;
             sideCounter = 0;
             while (sideCounter < Sides)
@@ -211,7 +211,7 @@ namespace RollyVortex.Editor
                 sideCounter++;
             }
 
-    // Top cap
+            // Top cap
             while (sideCounter < Sides * 2)
             {
                 var current = sideCounter * 2 + 2;
@@ -228,7 +228,7 @@ namespace RollyVortex.Editor
                 sideCounter++;
             }
 
-    // Sides (out)
+            // Sides (out)
             while (sideCounter < Sides * 3)
             {
                 var current = sideCounter * 2 + 4;
@@ -246,7 +246,7 @@ namespace RollyVortex.Editor
             }
 
 
-    // Sides (in)
+            // Sides (in)
             while (sideCounter < Sides * 4)
             {
                 var current = sideCounter * 2 + 6;
@@ -277,5 +277,4 @@ namespace RollyVortex.Editor
             EditorUtility.SetDirty(gameObject);
         }
     }
-    
 }

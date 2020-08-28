@@ -50,8 +50,8 @@ namespace RollyVortex
 
             if (!DirectoryManager.TryGetEntry(RollyVortexTags.ObstacleCache, out var obstacleCache)) return false;
 
-            var obstacleMovement = new ObstacleMovement(obstacleCache); 
-            
+            var obstacleMovement = new ObstacleMovement(obstacleCache);
+
             _objectMovementMap = new Dictionary<string, ILevelMovement>
             {
                 {RollyVortexTags.Board, tubeMovement},
@@ -83,8 +83,10 @@ namespace RollyVortex
             var source = args[0] as GameObject;
             var collidedWith = args[1] as GameObject;
 
-            if (_objectMovementMap.ContainsKey(source.tag)) _objectMovementMap[source.tag].OnCollisionEnter(collidedWith);
-            if (_objectMovementMap.ContainsKey(collidedWith.tag)) _objectMovementMap[collidedWith.tag].OnCollisionEnter(source);
+            if (_objectMovementMap.ContainsKey(source.tag))
+                _objectMovementMap[source.tag].OnCollisionEnter(collidedWith);
+            if (_objectMovementMap.ContainsKey(collidedWith.tag))
+                _objectMovementMap[collidedWith.tag].OnCollisionEnter(source);
         }
 
         private void CollisionNotifierOnStay(object[] args)
@@ -94,8 +96,10 @@ namespace RollyVortex
             var source = args[0] as GameObject;
             var collidedWith = args[1] as GameObject;
 
-            if (_objectMovementMap.ContainsKey(source.tag)) _objectMovementMap[source.tag].OnCollisionStay(collidedWith);
-            if (_objectMovementMap.ContainsKey(collidedWith.tag)) _objectMovementMap[collidedWith.tag].OnCollisionStay(source);
+            if (_objectMovementMap.ContainsKey(source.tag))
+                _objectMovementMap[source.tag].OnCollisionStay(collidedWith);
+            if (_objectMovementMap.ContainsKey(collidedWith.tag))
+                _objectMovementMap[collidedWith.tag].OnCollisionStay(source);
         }
 
         private void CollisionNotifierOnEnd(object[] args)
@@ -105,10 +109,12 @@ namespace RollyVortex
             var source = args[0] as GameObject;
             var collidedWith = args[1] as GameObject;
 
-            if (_objectMovementMap.ContainsKey(source.tag)) _objectMovementMap[source.tag].OnCollisionExit(collidedWith);
-            if (_objectMovementMap.ContainsKey(collidedWith.tag)) _objectMovementMap[collidedWith.tag].OnCollisionExit(source);
+            if (_objectMovementMap.ContainsKey(source.tag))
+                _objectMovementMap[source.tag].OnCollisionExit(collidedWith);
+            if (_objectMovementMap.ContainsKey(collidedWith.tag))
+                _objectMovementMap[collidedWith.tag].OnCollisionExit(source);
         }
-        
+
         private void OnLevelStop(object[] args)
         {
             foreach (var goMovement in _objectMovementMap) goMovement.Value.OnLevelEnd();

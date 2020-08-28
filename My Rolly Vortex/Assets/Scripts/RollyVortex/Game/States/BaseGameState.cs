@@ -14,7 +14,7 @@ namespace RollyVortex
             _callback = onComplete;
 
             SetupQueue(GetSteps(args));
-            
+
             Debug.Log($"[{GetType()}] {nameof(Initialize)} Step count : {_steps.Count}");
 
             StartQueue();
@@ -46,7 +46,7 @@ namespace RollyVortex
             if (_steps.Peek() != completedStep) return;
 
             Debug.Log($"[{GetType()}] {nameof(OnStepComplete)} {completedStep.GetType()}");
-            
+
             _steps.Dequeue();
             if (!TryCompleteQueue()) InitializeStep();
         }
@@ -56,7 +56,7 @@ namespace RollyVortex
             if (_steps.Count != 0) return false;
 
             Debug.Log($"[{GetType()}] {nameof(OnStepComplete)} Queue complete");
-            
+
             _callback?.Invoke(this);
             _callback = null;
             return true;

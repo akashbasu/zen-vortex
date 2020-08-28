@@ -85,10 +85,7 @@ namespace RollyVortex
             {
                 var entry = _cachedEntries[i];
 
-                if (SafeGetGoWithTag(entry.Tag, out var foundObjectWithTag))
-                {
-                    entry.Reference = foundObjectWithTag;
-                }
+                if (SafeGetGoWithTag(entry.Tag, out var foundObjectWithTag)) entry.Reference = foundObjectWithTag;
             }
         }
 #endif
