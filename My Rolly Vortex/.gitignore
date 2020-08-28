@@ -95,8 +95,6 @@ Desktop.ini
 .DS_Store
 
 #LeanTween
-/Assets/LeanTween/Documentation/
-/Assets/LeanTween/Editor/
-/Assets/LeanTween/Examples/
-
-
+/Assets/LeanTween/Documentation*
+/Assets/LeanTween/Editor*
+/Assets/LeanTween/Examples*
