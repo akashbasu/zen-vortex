@@ -89,17 +89,10 @@ namespace RollyVortex
             _timeToLoop = _tiling / data.BallSpeed;
         }
 
-        public void OnCollisionStay(GameObject other)
-        {
-        }
-
         public void OnCollisionEnter(GameObject other)
         {
             if (other.tag.Equals(RollyVortexTags.Obstacle))
-                if (IsCollisionFatal(other))
-                {
-                    Debug.Log($"[{nameof(BallMovement)}] Ball crashed into obstacle! End level");
-                }
+                if (IsCollisionFatal(other)) Debug.Log($"[{nameof(BallMovement)}] Ball crashed into obstacle! End level");
         }
 
         public void OnCollisionExit(GameObject other)
@@ -115,8 +108,6 @@ namespace RollyVortex
 
         public void OnLevelStart()
         {
-            if (IsEnabled) return;
-
             _input.SetGameInputEnabled(true);
             IsEnabled = true;
         }
@@ -125,5 +116,7 @@ namespace RollyVortex
         {
             return false;
         }
+        
+        public void OnCollisionStay(GameObject other) { }
     }
 }

@@ -33,19 +33,6 @@ namespace RollyVortex
             anchor.rotation = Quaternion.Lerp(currentRotation, wantedRotation, lastTime / totalTime);
         }
 
-        public static void UpdateObstaclePosition(Transform obstacle, ref float lastTime, float deltaTime,
-            float distance, float totalTime)
-        {
-            lastTime += deltaTime;
-            SetPositionForObstacle(obstacle, -(lastTime / totalTime) * distance);
-        }
-
-        public static bool HasReachedDestination(Transform obstacle, Vector3 destination)
-        {
-            var pos = obstacle.position.z;
-            return destination.z + 0.5f > pos || Mathf.Approximately(destination.z, pos);
-        }
-
         public static void SetPositionForObstacle(Transform obstacle, float z)
         {
             var currentPos = obstacle.localPosition;

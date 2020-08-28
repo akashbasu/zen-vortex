@@ -7,17 +7,8 @@ namespace RollyVortex
 {
     public class MovementController : MonoBehaviour, IInitializable
     {
-        // private GameObject _ball;
-        // private BallMovement _ballMovement;
-
         private bool _canMove;
-        // private Rigidbody _ballRB;
-
         private Dictionary<string, ILevelMovement> _objectMovementMap;
-
-        // private Vector3 _cachedBallPosition;
-        // private GameObject _tube;
-        // private TubeMovement _tubeMovement;
 
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {

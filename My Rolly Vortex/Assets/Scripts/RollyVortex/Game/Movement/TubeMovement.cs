@@ -52,10 +52,6 @@ namespace RollyVortex
             _loopInSeconds = _tiling / data.TubeSpeed;
         }
 
-        public void OnCollisionStay(GameObject other)
-        {
-        }
-
         public void OnLevelEnd()
         {
             Reset();
@@ -65,13 +61,9 @@ namespace RollyVortex
         {
             IsEnabled = true;
         }
-
-        public void OnCollisionEnter(GameObject other)
-        {
-        }
-
-        public void OnCollisionExit(GameObject other)
-        {
-        }
+        
+        public void OnCollisionStay(GameObject other) { }
+        public void OnCollisionEnter(GameObject other) { }
+        public void OnCollisionExit(GameObject other) { }
     }
 }
