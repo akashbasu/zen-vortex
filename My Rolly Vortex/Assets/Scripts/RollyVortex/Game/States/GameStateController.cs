@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,8 +7,6 @@ namespace RollyVortex
     public sealed class GameStateController : MonoBehaviour
     {
         private readonly Queue<IInitializable> _steps = new Queue<IInitializable>();
-
-        [SerializeField] private IInitializable[] _initializableMonobehaviorSystemObjects;
 
         private void Awake()
         {
@@ -41,7 +40,7 @@ namespace RollyVortex
         private void ProcessState(IInitializable step)
         {
             object[] args = null;
-            if(step is BootState) args = _initializableMonobehaviorSystemObjects;
+            if(step is BootState) args = Array.ConvertAll(GetComponents<IInitializable>(), x => (object) x);
             
             Debug.Log($"[{nameof(GameStateController)}] {nameof(ProcessState)} {step.GetType()}");
             new Command(GameEvents.GameStateEvents.Start, step.GetType()).Execute();
@@ -57,17 +56,5 @@ namespace RollyVortex
             new Command(GameEvents.GameStateEvents.End, initializable.GetType()).Execute();
             NextState();
         }
-
-#if UNITY_EDITOR
-        private void OnValidate()
-        {
-            _initializableMonobehaviorSystemObjects = gameObject.GetComponents<IInitializable>();
-
-            foreach (var initializable in _initializableMonobehaviorSystemObjects)
-                if (initializable == null)
-                    Debug.LogError(
-                        $"[{nameof(GameStateController)}] {nameof(OnValidate)}  Invalid reference to Monobehavior initializable");
-        }
-#endif
     }
 }

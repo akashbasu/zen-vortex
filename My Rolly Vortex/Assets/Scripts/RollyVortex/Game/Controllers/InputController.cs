@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 namespace RollyVortex
 {
@@ -59,7 +58,20 @@ namespace RollyVortex
         }
 
         private bool IsActiveAndEnabled => _gameInput.enabled && IsPointerAvailable;
-        private static bool IsPointerAvailable => Touch.activeFingers.Count > 0 || Mouse.current.leftButton.isPressed;
+
+        private static bool IsPointerAvailable
+        {
+            get
+            {
+#if(UNITY_EDITOR || UNITY_STANDALONE)
+                return Mouse.current.leftButton.isPressed;
+#elif (UNITY_ANDROID || UNITY_IOS)
+                return Touchscreen.current.primaryTouch.isInProgress;
+#else
+                return false;
+#endif
+            }
+        }
 
         public void SetEnabled(bool isEnabled)
         {
