@@ -42,11 +42,21 @@ namespace RollyVortex
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            _tubeSpeed = _speed * GameConstants.EnvironmentConstants.MasterToTubeSpeedRatio;
-            _obstacleSpeed = _speed * GameConstants.EnvironmentConstants.MasterToObstacleSpeedRatio;
-            _ballSpeed = _speed * GameConstants.EnvironmentConstants.MasterToBallTilingRatio;
+            _tubeSpeed = _speed * GameConstants.Environment.MasterToTubeSpeedRatio;
+            _obstacleSpeed = _speed * GameConstants.Environment.MasterToObstacleSpeedRatio;
+            _ballSpeed = _speed * GameConstants.Environment.MasterToBallTilingRatio;
             EditorUtility.SetDirty(this);
         }
 #endif
+    }
+
+    public partial class GameConstants
+    {
+        public static class Environment
+        {
+            public const float MasterToTubeSpeedRatio = 1f;
+            public const float MasterToObstacleSpeedRatio = 2f;
+            public const float MasterToBallTilingRatio = 1f;
+        }
     }
 }

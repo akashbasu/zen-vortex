@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 namespace RollyVortex
@@ -25,8 +26,19 @@ namespace RollyVortex
 
         private bool LoadDataFromDisk()
         {
-            ObstacleData.AddRange(Resources.LoadAll<ObstacleData>(GameConstants.DataPaths.ObstacleDataPath));
+            ObstacleData.AddRange(Resources.LoadAll<ObstacleData>(GameConstants.DataPaths.Resources.Obstacles));
             return ObstacleData.Count > 0;
+        }
+    }
+    
+    public static partial class GameConstants
+    {
+        public static partial class DataPaths
+        {
+            public partial class Resources
+            {
+                public static readonly string Obstacles = Path.Combine("Data", "Obstacles");
+            }
         }
     }
 }

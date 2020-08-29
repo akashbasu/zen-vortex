@@ -2,19 +2,25 @@ using System.IO;
 
 namespace RollyVortex
 {
-    public static class GameConstants
+    public static partial class GameConstants
     {
-        public static class EnvironmentConstants
+        public static partial class DataPaths
         {
-            public const float MasterToTubeSpeedRatio = 1f;
-            public const float MasterToObstacleSpeedRatio = 2f;
-            public const float MasterToBallTilingRatio = 1f;
+            public static readonly string ResourcesBase = Path.Combine("Assets", "Resources");
         }
-
-        public static class DataPaths
+        
+        public static class Procedural
         {
-            public static readonly string LevelDataPath = Path.Combine("Data", "Levels");
-            public static readonly string ObstacleDataPath = Path.Combine("Data", "Obstacles");
+            public static class Tube
+            {
+                public const int Resolution = 72;
+                public const float Height = 1f;
+                private const float HeightToWidthMultiplier = 0.5f;
+                private const float TubeWallWidth = 0.25f;
+
+                public const float OuterRadius = Height * HeightToWidthMultiplier;
+                public const float InnerRadius = OuterRadius * TubeWallWidth;
+            }
         }
     }
 }

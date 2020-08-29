@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 namespace RollyVortex
@@ -28,7 +29,7 @@ namespace RollyVortex
 
         private bool LoadDataFromDisk()
         {
-            _levelData.AddRange(Resources.LoadAll<LevelData>(GameConstants.DataPaths.LevelDataPath));
+            _levelData.AddRange(Resources.LoadAll<LevelData>(GameConstants.DataPaths.Resources.Levels));
             return _levelData.Count > 0;
         }
 
@@ -36,6 +37,17 @@ namespace RollyVortex
         {
             _currentLevel = Mathf.Clamp(level, 0, _levelData.Count - 1);
             return true;
+        }
+    }
+    
+    public static partial class GameConstants
+    {
+        public static partial class DataPaths
+        {
+            public partial class Resources
+            {
+                public static readonly string Levels = Path.Combine("Data", "Levels");
+            }
         }
     }
 }

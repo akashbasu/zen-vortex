@@ -13,7 +13,7 @@ namespace RollyVortex.Editor
         {
             var newLevelData = ScriptableObject.CreateInstance<LevelData>();
             AssetDatabase.CreateAsset(newLevelData,
-                Path.Combine("Assets", "Resources", GameConstants.DataPaths.LevelDataPath, "Level_.asset"));
+                Path.Combine(GameConstants.DataPaths.ResourcesBase, GameConstants.DataPaths.Resources.Levels, "Level_.asset"));
             AssetDatabase.SaveAssets();
         }
 
@@ -36,7 +36,7 @@ namespace RollyVortex.Editor
         public static void ExportAllObstacleData()
         {
             var prefabSourcePath = Path.Combine("Assets", "Prefabs", "Obstacles", "DataOnlyPrefabs");
-            var obstaclePrefabs = LoadAllPrefabs(prefabSourcePath);//AssetDatabase.LoadAllAssetsAtPath(prefabSourcePath);
+            var obstaclePrefabs = LoadAllPrefabs(prefabSourcePath);
 
             Debug.Log($"Serializing {obstaclePrefabs.Count} obstacle data");
             foreach (var obstaclePrefab in obstaclePrefabs) SerializeObstacleData(obstaclePrefab);
@@ -46,7 +46,7 @@ namespace RollyVortex.Editor
         {
             if(!IsValidObstacle(source)) return;
 
-            var outputPath = Path.Combine("Assets", "Resources", GameConstants.DataPaths.ObstacleDataPath,
+            var outputPath = Path.Combine(GameConstants.DataPaths.ResourcesBase, GameConstants.DataPaths.Resources.Obstacles,
                 $"{RollyVortexTags.Obstacle}_{source.name}.asset").Replace('\\', '/');
 
             var newObstacleData = AssetDatabase.GetAllAssetPaths().Any(x => string.Equals(outputPath, x))

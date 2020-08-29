@@ -5,14 +5,11 @@ namespace RollyVortex.Editor
 {
     public static class Tube
     {
-        private const uint Sides = 72;
-        private const float Height = 1f;
+        private const uint Sides = GameConstants.Procedural.Tube.Resolution;
+        private const float Height = GameConstants.Procedural.Tube.Height;
 
-        private const float HeightToWidthMultiplier = 0.5f;
-        private const float TubeWallWidth = 0.1f;
-
-        private static readonly float OuterRadius = Height * HeightToWidthMultiplier; //.5f;
-        private static readonly float InnerRadius = OuterRadius * 0.25f;
+        private static readonly float OuterRadius = GameConstants.Procedural.Tube.OuterRadius;
+        private static readonly float InnerRadius = GameConstants.Procedural.Tube.InnerRadius;
 
         public static void Make(GameObject gameObject)
         {
