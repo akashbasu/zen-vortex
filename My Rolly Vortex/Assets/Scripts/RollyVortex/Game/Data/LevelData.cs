@@ -10,6 +10,9 @@ namespace RollyVortex
         [SerializeField] private float _speed = 1f;
         [SerializeField] private int _visibility = 3;
         [SerializeField] private IntRangedValue _grouping;
+
+        [Header("Environment")] 
+        [SerializeField] private float _gravity = 1f;
         
         [Header("Speed")]
         [SerializeField] private float _tubeSpeed;
@@ -27,6 +30,9 @@ namespace RollyVortex
         public float TubeSpeed => _tubeSpeed;
         public float ObstacleSpeed => _obstacleSpeed;
         public float BallSpeed => _ballSpeed;
+        
+        //Environment
+        public float Gravity => _gravity;
 
         //Delay
         public float DelayBeforeStart => _delayBeforeStart;

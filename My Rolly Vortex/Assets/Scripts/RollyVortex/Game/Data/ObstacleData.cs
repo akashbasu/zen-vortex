@@ -5,19 +5,29 @@ namespace RollyVortex
 {
     public class ObstacleData : ScriptableObject
     {
-        [SerializeField] private List<int> _disabledObjects;
-        [SerializeField] private List<int> _enabledObjects;
+        private const float rotationTimeNormalized = 0.25f;
+        private const float animationTimeNormalized = 0.5f;
+        
+        [Header("Spawn Data")] 
         [SerializeField] private IntRangedValue _spawnRotation;
         [SerializeField] private IntRangedValue _targetRotation;
+        [SerializeField] private List<Color> _spawnColors = new List<Color>
+            {Color.black, Color.blue, Color.cyan, Color.gray, Color.green, Color.red, Color.magenta, Color.yellow};
+
+        [Header("Prefab Data")]
+        [SerializeField] private List<int> _disabledObjects;
+        [SerializeField] private List<int> _enabledObjects;
+
+        //Spawn
+        public List<Color> SpawnColors => _spawnColors;
+        public IntRangedValue SpawnRotation => _spawnRotation;
+        public IntRangedValue TargetRotation => _targetRotation;
+        public float AnimationTimeNormalized => animationTimeNormalized;
+        public float RotationTimeNormalized => rotationTimeNormalized;
 
         public bool IsEnabled(int childIndex)
         {
             return _enabledObjects.Contains(childIndex);
-        }
-
-        public bool IsDisabled(int childIndex)
-        {
-            return _disabledObjects.Contains(childIndex);
         }
 
 #if UNITY_EDITOR

@@ -17,9 +17,7 @@ namespace RollyVortex
             _cacheController = new ObstacleCacheController(obstacleCache.transform, Camera.main.transform.position);
         }
 
-        public bool IsEnabled { get; set; }
-
-        public void Reset()
+       public void Reset()
         {
             StopTween();
             _cacheController.Reset();
@@ -34,9 +32,8 @@ namespace RollyVortex
 
         public void OnLevelStart()
         {
-            _spawnTween = LeanTween
-                .delayedCall(_releaseObstacleInSeconds, () => _cacheController.SpawnNext(_loopInSeconds)).setRepeat(-1)
-                .setDelay(_delayTime);
+            _spawnTween = LeanTween.delayedCall(_releaseObstacleInSeconds,
+                    () => _cacheController.SpawnNext(_loopInSeconds)).setRepeat(-1).setDelay(_delayTime - _releaseObstacleInSeconds);
         }
         
         public void OnLevelEnd()
@@ -48,7 +45,7 @@ namespace RollyVortex
         {
             if (_spawnTween == null) return;
             
-            LeanTween.cancel(_spawnTween.id);
+            LeanTween.cancel(_spawnTween.uniqueId);
             _spawnTween.reset();
             _spawnTween = null;
         }

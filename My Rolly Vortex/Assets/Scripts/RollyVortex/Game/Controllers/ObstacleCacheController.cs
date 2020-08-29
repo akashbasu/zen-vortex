@@ -32,7 +32,7 @@ namespace RollyVortex
         {
             CacheAllObstacles();
         }
-        
+
         public void SpawnNext(float timeToTween)
         {
             HandleUnderflow();
@@ -41,7 +41,7 @@ namespace RollyVortex
 
         private void TryRecacheObstacle()
         {
-            if(_movingObstacles.Count == 0) return;
+            if (_movingObstacles.Count == 0) return;
             Cache(_movingObstacles.Dequeue());
         }
 
@@ -54,7 +54,7 @@ namespace RollyVortex
         {
             if (_cachedObstacles.Count != 0) return;
 
-            var source = _movingObstacles.Peek().Entry.gameObject;
+            var source = _movingObstacles.Peek().Transform.gameObject;
             var sourceTransform = source.transform;
             var cacheEntry = new ObstacleController(Object
                 .Instantiate(source, sourceTransform.position, sourceTransform.rotation, _cache).transform);

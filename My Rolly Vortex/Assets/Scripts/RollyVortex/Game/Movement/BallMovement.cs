@@ -6,21 +6,23 @@ namespace RollyVortex
     {
         private readonly Transform _anchor;
 
-        private readonly GameInputAdapter _input;
+        // private readonly GameInputAdapter _input;
 
         private readonly Material _material;
         private readonly float _materialXOffset;
         private readonly int _textureId;
         private readonly float _tiling;
-        private float _currentOffset;
 
         private float _currentRotation;
-        private float _timeToLoop;
+        private float _loopInSeconds;
+        private float _gravityTime;
         private float _xGravityClock;
         private float _xInputClock;
 
-        private float _yClock;
+        private LTDescr _animationTween;
 
+        private bool _isEnabled;
+        
         public BallMovement(GameObject ball)
         {
             _anchor = ball.transform.parent;
@@ -39,35 +41,31 @@ namespace RollyVortex
             _materialXOffset = material.GetTextureOffset(_textureId).x;
             _tiling = material.GetTextureScale(_textureId).y;
 
-            _input = new GameInputAdapter();
+            // _input = new GameInputAdapter();
         }
-
-        public bool IsEnabled { get; set; }
 
         public void Reset()
         {
-            IsEnabled = false;
-
-            _yClock = 0;
+            _isEnabled = false;
+            
             _xInputClock = 0;
             _xGravityClock = 0f;
-
-            _currentOffset = 0f;
             _currentRotation = 0;
-            MovementUtils.SetTexturePosition(_material, _textureId, _materialXOffset, -_currentOffset);
+            
             MovementUtils.SetBallRotation(_anchor, _currentRotation);
+            
+            StopTween();
+            MovementUtils.SetTexturePosition(_material, _textureId, _materialXOffset, 0);
         }
 
         public void Update(float deltaTime)
         {
-            if (!IsEnabled) return;
-
-            MovementUtils.UpdateTexturePositionY(ref _yClock, ref _currentOffset, _tiling, deltaTime, _timeToLoop,
-                _material, _textureId);
-
-            if (_input.TryGetInput(out var normalizedInput))
+            if (!_isEnabled) return;
+            
+            if (InputController.GameInput.TryGetInput(out var normalizedInput))
             {
                 _xGravityClock = 0f;
+                
                 var targetRotation = Mathf.Clamp(normalizedInput * 90f, -90f, 90f);
                 if (Mathf.Approximately(targetRotation, _anchor.rotation.z))
                 {
@@ -80,13 +78,15 @@ namespace RollyVortex
             else
             {
                 _xInputClock = 0f;
-                MovementUtils.UpdateBallPosition(ref _xGravityClock, _anchor, deltaTime, 0f, 1f);
+
+                MovementUtils.UpdateBallPosition(ref _xGravityClock, _anchor, deltaTime, 0f, _gravityTime);
             }
         }
 
         public void SetLevelData(LevelData data)
         {
-            _timeToLoop = _tiling / data.BallSpeed;
+            _loopInSeconds = _tiling / data.BallSpeed;
+            _gravityTime = 1f / data.Gravity;
         }
 
         public void OnCollisionEnter(GameObject other)
@@ -108,8 +108,23 @@ namespace RollyVortex
 
         public void OnLevelStart()
         {
-            _input.SetGameInputEnabled(true);
-            IsEnabled = true;
+            StartYAnimationTween();
+            _isEnabled = true;
+        }
+        
+        private void StartYAnimationTween()
+        {
+            _animationTween = LeanTween.value(0f, _tiling, _loopInSeconds).setLoopClamp().setOnUpdate(tiling =>
+                MovementUtils.SetTexturePosition(_material, _textureId, _materialXOffset, -tiling)).setDelay(LevelDataProvider.LevelData.DelayBeforeStart);
+        }
+
+        private void StopTween()
+        {
+            if (_animationTween == null) return;
+            
+            LeanTween.cancel(_animationTween.uniqueId);
+            _animationTween.reset();
+            _animationTween = null;
         }
 
         private bool IsCollisionFatal(GameObject other)

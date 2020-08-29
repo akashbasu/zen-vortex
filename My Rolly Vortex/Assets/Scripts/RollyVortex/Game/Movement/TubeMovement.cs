@@ -8,9 +8,9 @@ namespace RollyVortex
         private readonly float _materialXOffset;
         private readonly int _textureId;
         private readonly float _tiling;
-        private float _currentOffset;
-        private float _lastTime;
         private float _loopInSeconds;
+
+        private LTDescr _animationTween;
 
         public TubeMovement(GameObject tube)
         {
@@ -29,22 +29,10 @@ namespace RollyVortex
             _tiling = material.GetTextureScale(_textureId).y;
         }
 
-        public bool IsEnabled { get; set; }
-
         public void Reset()
         {
-            IsEnabled = false;
-            _lastTime = 0;
-            _currentOffset = 0f;
-            MovementUtils.SetTexturePosition(_material, _textureId, _materialXOffset, -_currentOffset);
-        }
-
-        public void Update(float deltaTime)
-        {
-            if (!IsEnabled) return;
-
-            MovementUtils.UpdateTexturePositionY(ref _lastTime, ref _currentOffset, _tiling, deltaTime,
-                _loopInSeconds, _material, _textureId);
+            StopTween();
+            MovementUtils.SetTexturePosition(_material, _textureId, _materialXOffset, 0f);
         }
 
         public void SetLevelData(LevelData data)
@@ -59,9 +47,25 @@ namespace RollyVortex
 
         public void OnLevelStart()
         {
-            IsEnabled = true;
+            StartTween();
+        }
+
+        private void StartTween()
+        {
+            _animationTween = LeanTween.value(0f, _tiling, _loopInSeconds).setLoopClamp().setOnUpdate(tiling =>
+                MovementUtils.SetTexturePosition(_material, _textureId, _materialXOffset, -tiling)).setDelay(LevelDataProvider.LevelData.DelayBeforeStart);
+        }
+
+        private void StopTween()
+        {
+            if (_animationTween == null) return;
+            
+            LeanTween.cancel(_animationTween.uniqueId);
+            _animationTween.reset();
+            _animationTween = null;
         }
         
+        public void Update(float deltaTime) { }
         public void OnCollisionStay(GameObject other) { }
         public void OnCollisionEnter(GameObject other) { }
         public void OnCollisionExit(GameObject other) { }

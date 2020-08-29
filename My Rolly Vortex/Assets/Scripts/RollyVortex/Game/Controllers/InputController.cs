@@ -7,19 +7,20 @@ namespace RollyVortex
 {
     public class InputController : IInitializable
     {
-        private UnityInput.GameActions _gameInput;
         private UnityInput _input;
         private UnityInput.UIActions _uiActions;
+
+        public static GameInputAdapter GameInput { get; private set; }
 
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
             _input = new UnityInput();
 
-            _gameInput = _input.Game;
+            GameInput = new GameInputAdapter(_input.Game);
             _uiActions = _input.UI;
 
             _uiActions.Disable();
-            // _gameInput.Disable();
+            GameInput.SetEnabled(false);
 
             GameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
             GameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelEnd);
@@ -30,12 +31,12 @@ namespace RollyVortex
         private void OnLevelStart(object[] args)
         {
             _uiActions.Disable();
-            // _gameInput.Enable();
+            GameInput.SetEnabled(true);
         }
 
         private void OnLevelEnd(object[] args)
         {
-            // _gameInput.Disable();
+            GameInput.SetEnabled(false);
             _uiActions.Enable();
         }
     }
@@ -46,16 +47,15 @@ namespace RollyVortex
 
         private UnityInput.GameActions _gameInput;
 
-        public GameInputAdapter()
+        public GameInputAdapter(UnityInput.GameActions game)
         {
-            var input = new UnityInput();
-            _gameInput = input.Game;
+            _gameInput = game;
         }
 
         private bool IsActiveAndEnabled => _gameInput.enabled && IsPointerAvailable;
-        private bool IsPointerAvailable => Touch.activeFingers.Count > 0 || Mouse.current.leftButton.isPressed;
+        private static bool IsPointerAvailable => Touch.activeFingers.Count > 0 || Mouse.current.leftButton.isPressed;
 
-        public void SetGameInputEnabled(bool isEnabled)
+        public void SetEnabled(bool isEnabled)
         {
             if (isEnabled) _gameInput.Enable();
             else _gameInput.Disable();
