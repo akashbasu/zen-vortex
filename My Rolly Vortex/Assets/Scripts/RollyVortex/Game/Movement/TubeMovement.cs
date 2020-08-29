@@ -67,7 +67,7 @@ namespace RollyVortex
         
         public void Update(float deltaTime) { }
         public void OnCollisionStay(GameObject other) { }
-        public void OnCollisionEnter(GameObject other) { }
-        public void OnCollisionExit(GameObject other) { }
+        public void OnCollisionEnter(GameObject other, int pointOfCollision) { }
+        public void OnCollisionExit(GameObject other, int pointOfCollision) { }
     }
 }

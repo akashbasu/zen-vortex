@@ -12,6 +12,8 @@ namespace RollyVortex
         private readonly Queue<ObstacleController> _cachedObstacles;
         private readonly Queue<ObstacleController> _movingObstacles;
 
+        public ObstacleController Current => _movingObstacles.Peek(); 
+        
         public ObstacleCacheController(Transform cache, Vector3 reCacheMarker)
         {
             _cache = cache;
@@ -27,7 +29,7 @@ namespace RollyVortex
         }
 
         public float DistanceToTravel { get; }
-
+        
         public void Reset()
         {
             CacheAllObstacles();
@@ -72,7 +74,7 @@ namespace RollyVortex
         private void Fire(ObstacleController obs, float time)
         {
             _movingObstacles.Enqueue(obs);
-            obs.Begin(DistanceToTravel, time, TryRecacheObstacle);
+            obs.Begin(DistanceToTravel, ObstacleManager.GetCurrentGroupColor, time, TryRecacheObstacle);
         }
 
         private ObstacleController SpawnNextFromCache()

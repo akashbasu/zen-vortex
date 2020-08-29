@@ -28,6 +28,12 @@ namespace RollyVortex
             onComplete?.Invoke(this);
         }
 
+        ~InputController()
+        {
+            GameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
+            GameEventManager.Unsubscribe(GameEvents.LevelEvents.Stop, OnLevelEnd);
+        }
+
         private void OnLevelStart(object[] args)
         {
             _uiActions.Disable();

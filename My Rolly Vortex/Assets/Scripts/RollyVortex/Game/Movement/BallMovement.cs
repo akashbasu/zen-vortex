@@ -89,17 +89,9 @@ namespace RollyVortex
             _gravityTime = 1f / data.Gravity;
         }
 
-        public void OnCollisionEnter(GameObject other)
-        {
-            if (other.tag.Equals(RollyVortexTags.Obstacle))
-                if (IsCollisionFatal(other)) Debug.Log($"[{nameof(BallMovement)}] Ball crashed into obstacle! End level");
-        }
+        public void OnCollisionEnter(GameObject other, int pointOfCollision) { }
 
-        public void OnCollisionExit(GameObject other)
-        {
-            if (other.tag.Equals(RollyVortexTags.Obstacle))
-                Debug.Log($"[{nameof(BallMovement)}] Ball passed obstacle. Activate furthest.");
-        }
+        public void OnCollisionExit(GameObject other, int pointOfCollision) { }
 
         public void OnLevelEnd()
         {

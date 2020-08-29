@@ -16,6 +16,7 @@ namespace RollyVortex
 
         public static class Gameplay
         {
+            public static string End = $"{nameof(Gameplay)}.{nameof(End)}";
         }
 
         public static class Collisions

@@ -18,7 +18,6 @@ namespace RollyVortex
 
                 GameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
                 GameEventManager.Subscribe(GameEvents.Collisions.Start, CollisionNotifierOnStart);
-                GameEventManager.Subscribe(GameEvents.Collisions.Stay, CollisionNotifierOnStay);
                 GameEventManager.Subscribe(GameEvents.Collisions.End, CollisionNotifierOnEnd);
                 GameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
 
@@ -27,6 +26,14 @@ namespace RollyVortex
             }
 
             Debug.LogError($"[{nameof(MovementController)}] Cannot find references");
+        }
+        
+        private void OnDestroy()
+        {
+            GameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
+            GameEventManager.Unsubscribe(GameEvents.Collisions.Start, CollisionNotifierOnStart);
+            GameEventManager.Unsubscribe(GameEvents.Collisions.End, CollisionNotifierOnEnd);
+            GameEventManager.Unsubscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
         }
 
         private bool GetReferences()
@@ -61,56 +68,44 @@ namespace RollyVortex
         private void OnLevelStart(object[] args)
         {
             foreach (var goMovement in _objectMovementMap) goMovement.Value.SetLevelData(LevelDataProvider.LevelData);
-
             foreach (var goMovement in _objectMovementMap) goMovement.Value.OnLevelStart();
-
+            
             _canMove = true;
         }
 
         private void CollisionNotifierOnStart(object[] args)
         {
-            if (!(args?.Length >= 2)) return;
+            if (!(args?.Length >= 3)) return;
 
             var source = args[0] as GameObject;
             var collidedWith = args[1] as GameObject;
+            var pointOfCollision = (int) args[2];
 
             if (_objectMovementMap.ContainsKey(source.tag))
-                _objectMovementMap[source.tag].OnCollisionEnter(collidedWith);
+                _objectMovementMap[source.tag].OnCollisionEnter(collidedWith, pointOfCollision);
             if (_objectMovementMap.ContainsKey(collidedWith.tag))
-                _objectMovementMap[collidedWith.tag].OnCollisionEnter(source);
+                _objectMovementMap[collidedWith.tag].OnCollisionEnter(source, pointOfCollision);
         }
-
-        private void CollisionNotifierOnStay(object[] args)
-        {
-            if (!(args?.Length >= 2)) return;
-
-            var source = args[0] as GameObject;
-            var collidedWith = args[1] as GameObject;
-
-            if (_objectMovementMap.ContainsKey(source.tag))
-                _objectMovementMap[source.tag].OnCollisionStay(collidedWith);
-            if (_objectMovementMap.ContainsKey(collidedWith.tag))
-                _objectMovementMap[collidedWith.tag].OnCollisionStay(source);
-        }
-
+    
         private void CollisionNotifierOnEnd(object[] args)
         {
             if (!(args?.Length >= 2)) return;
 
             var source = args[0] as GameObject;
             var collidedWith = args[1] as GameObject;
+            var pointOfCollision = (int) args[2];
 
             if (_objectMovementMap.ContainsKey(source.tag))
-                _objectMovementMap[source.tag].OnCollisionExit(collidedWith);
+                _objectMovementMap[source.tag].OnCollisionExit(collidedWith, pointOfCollision);
             if (_objectMovementMap.ContainsKey(collidedWith.tag))
-                _objectMovementMap[collidedWith.tag].OnCollisionExit(source);
+                _objectMovementMap[collidedWith.tag].OnCollisionExit(source, pointOfCollision);
         }
 
         private void OnLevelStop(object[] args)
         {
             foreach (var goMovement in _objectMovementMap) goMovement.Value.OnLevelEnd();
         }
-
+        
         private void FixedUpdate()
         {
             if (!_canMove) return;

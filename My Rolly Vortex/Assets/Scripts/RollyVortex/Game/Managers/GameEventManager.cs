@@ -26,14 +26,14 @@ namespace RollyVortex
             _eventDirectory[gameEvent].Add(callback);
         }
 
-        public static void Unsubscribe(string gameEvent, Action<object> callback)
+        public static void Unsubscribe(string gameEvent, Action<object[]> callback)
         {
             if (_eventDirectory == null) return;
 
             if (!_eventDirectory.ContainsKey(gameEvent)) return;
 
             var callbacks = _eventDirectory[gameEvent];
-            callbacks.RemoveAll(x => x == callback);
+            callbacks?.RemoveAll(x => x == callback);
         }
 
         public static void Broadcast(string gameEvent, params object[] args)
@@ -41,9 +41,15 @@ namespace RollyVortex
             if (_eventDirectory == null) return;
 
             if (!_eventDirectory.ContainsKey(gameEvent)) return;
+            
+            if(_eventDirectory[gameEvent] == null) return;
 
             var callbacks = _eventDirectory[gameEvent];
-            foreach (var callback in callbacks) callback?.Invoke(args);
+            var count = callbacks?.Count ?? 0;
+            for (int i = count - 1; i >= 0; i--)
+            {
+                callbacks[i]?.Invoke(args);
+            }
         }
     }
 }

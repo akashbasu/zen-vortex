@@ -157,7 +157,7 @@ namespace RollyVortex
                 public static readonly IntRangedValue DefaultRotation = new IntRangedValue(0, 360);
                 public static readonly List<Color> DefaultColors = new List<Color>
                 {
-                    Color.black, Color.blue, Color.cyan, Color.gray, Color.green, Color.red, Color.magenta, Color.yellow
+                    Color.black, Color.blue, Color.cyan, Color.green, Color.red, Color.yellow
                 };
             }
         }

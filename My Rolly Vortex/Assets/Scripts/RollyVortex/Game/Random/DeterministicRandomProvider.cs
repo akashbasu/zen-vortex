@@ -9,10 +9,18 @@ namespace RollyVortex
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
             GameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
+            GameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
+            
             onComplete?.Invoke(this);
         }
 
-        private void OnLevelStart(object[] obj)
+        private static void OnLevelStop(object[] obj)
+        {
+            GameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
+            GameEventManager.Unsubscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
+        }
+
+        private static void OnLevelStart(object[] obj)
         {
             _random = new Random(LevelDataProvider.LevelData.Seed);
         }

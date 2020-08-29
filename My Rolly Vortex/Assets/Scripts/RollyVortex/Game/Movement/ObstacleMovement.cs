@@ -38,7 +38,7 @@ namespace RollyVortex
         
         public void OnLevelEnd()
         {
-            StopTween();
+            Reset();
         }
 
         private void StopTween()
@@ -51,8 +51,40 @@ namespace RollyVortex
         }
 
         public void Update(float deltaTime) { }
-        public void OnCollisionEnter(GameObject other) { }
+
+        public void OnCollisionEnter(GameObject other, int pointOfCollision)
+        {
+            if (!other.tag.Equals(RollyVortexTags.Ball)) return;
+
+            _cacheController.Current.CollisionStart(pointOfCollision);
+            
+            switch (_cacheController.Current.HasFatalCollision)
+            {
+                case true: Debug.Log($"[{nameof(ObstacleMovement)}] {nameof(OnCollisionEnter)} Point of collision {pointOfCollision} FATAL!");
+                    new Command(GameEvents.Gameplay.End).Execute();
+                    break;
+                case false:
+                    break;
+            }
+
+        }
         public void OnCollisionStay(GameObject other) { }
-        public void OnCollisionExit(GameObject other) { }
+
+        public void OnCollisionExit(GameObject other, int pointOfCollision)
+        {
+            if (!other.tag.Equals(RollyVortexTags.Ball)) return;
+            
+            _cacheController.Current.CollisionComplete(pointOfCollision);
+            
+            switch (_cacheController.Current.HasFatalCollision)
+            {
+                case true: Debug.Log($"[{nameof(ObstacleMovement)}] {nameof(OnCollisionExit)} Point of collision {pointOfCollision} FATAL!");
+                    new Command(GameEvents.Gameplay.End).Execute();
+                    break;
+                case false:
+                    
+                    break;
+            }
+        }
     }
 }

@@ -2,83 +2,59 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace RollyVortex
-{
-    internal enum GameStates
-    {
-        Invalid = -1,
-        Boot = 0,
-        Player,
-        MetaStart,
-        Game,
-        MetaEnd,
-        End,
-
-        BootComplete = MetaStart,
-        GameComplete = End
-    }
-
+{ 
     public sealed class GameStateController : MonoBehaviour
     {
-        private readonly Dictionary<GameStates, IInitializable> _gameStates =
-            new Dictionary<GameStates, IInitializable>();
-
-        private GameStates _gameState = GameStates.Invalid;
+        private readonly Queue<IInitializable> _steps = new Queue<IInitializable>();
 
         [SerializeField] private IInitializable[] _initializableMonobehaviorSystemObjects;
 
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
-            AddGameStates();
+            AddGameStates(true);
             NextState();
         }
 
-        private void AddGameStates()
+        private void AddGameStates(bool addOneTimeStates = false)
         {
-            _gameStates.Add(GameStates.Boot, new BootState());
-            _gameStates.Add(GameStates.Player, new PlayerState());
-            _gameStates.Add(GameStates.MetaStart, new MetaStartState());
-            _gameStates.Add(GameStates.Game, new GameState());
-            _gameStates.Add(GameStates.MetaEnd, new MetaEndState());
-            _gameStates.Add(GameStates.End, new ResetState());
+            _steps.Clear();
+            
+            if (addOneTimeStates)
+            {
+                _steps.Enqueue(new BootState());
+                _steps.Enqueue(new PlayerState());
+            }
+            
+            _steps.Enqueue(new MetaStartState());
+            _steps.Enqueue(new GameState());
+            _steps.Enqueue(new MetaEndState());
+            _steps.Enqueue(new ResetState());
         }
 
         private void NextState()
         {
-            var nextState = _gameState + 1;
-            nextState = nextState > GameStates.GameComplete ? GameStates.BootComplete : nextState;
-            ProcessState(nextState);
-        }
+            if(_steps.Count == 0) AddGameStates();
+            ProcessState(_steps.Peek());
+       }
 
-        private void ProcessState(GameStates state)
+        private void ProcessState(IInitializable step)
         {
-            if (state == _gameState) return;
-
-            Debug.Log($"[{nameof(GameStateController)}] {nameof(ProcessState)} Old {_gameState} New {state}");
-
-            _gameState = state;
-            var initializable = _gameStates[_gameState];
             object[] args = null;
-
-            switch (_gameState)
-            {
-                case GameStates.Boot:
-
-                    args = _initializableMonobehaviorSystemObjects;
-                    break;
-            }
-
-            new Command(GameEvents.GameStateEvents.Start, _gameState).Execute();
-            initializable.Initialize(OnStepComplete, args);
+            if(step is BootState) args = _initializableMonobehaviorSystemObjects;
+            
+            Debug.Log($"[{nameof(GameStateController)}] {nameof(ProcessState)} {step.GetType()}");
+            new Command(GameEvents.GameStateEvents.Start, step.GetType()).Execute();
+            step.Initialize(OnStepComplete, args);
         }
-
 
         private void OnStepComplete(IInitializable initializable)
         {
+            if(_steps.Peek() != initializable) return;
+            
+            _steps.Dequeue();
             Debug.Log($"[{nameof(GameStateController)}] {nameof(OnStepComplete)} Completed {initializable.GetType()}");
-
-            new Command(GameEvents.GameStateEvents.End, _gameState).Execute();
-
+            new Command(GameEvents.GameStateEvents.End, initializable.GetType()).Execute();
             NextState();
         }
 

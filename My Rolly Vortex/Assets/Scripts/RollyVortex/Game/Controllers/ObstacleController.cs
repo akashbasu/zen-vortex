@@ -1,14 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace RollyVortex
 {
     public class ObstacleController
     {
-        private readonly List<GameObject> _children;
         private readonly List<MeshRenderer> _renderers;
         private readonly List<Collider> _colliders;
+        private readonly HashSet<int> _fatalCollisions;
+        private readonly HashSet<int> _currentCollisions;
 
         private readonly GameObject _go;
         private readonly int _managedCount;
@@ -16,6 +18,7 @@ namespace RollyVortex
         private ObstacleData _spawnData;
 
         public readonly Transform Transform;
+        public bool HasFatalCollision => _currentCollisions.Any(x => _fatalCollisions.Contains(x));
 
         public ObstacleController(Transform transform)
         {
@@ -25,11 +28,11 @@ namespace RollyVortex
 
             _colliders = new List<Collider>(_managedCount);
             _renderers = new  List<MeshRenderer>(_managedCount);
-            _children = new List<GameObject>(_managedCount);
+            _fatalCollisions = new HashSet<int>();
+            _currentCollisions = new HashSet<int>();
 
             foreach (Transform child in transform.transform)
             {
-                _children.Add(child.gameObject);
                 _colliders.Add(child.GetComponent<Collider>());
                 _renderers.Add(child.GetComponent<MeshRenderer>());
             }
@@ -37,8 +40,14 @@ namespace RollyVortex
 
         public void Reset()
         {
+            LeanTween.cancel(_go);
+            
             Transform.localScale = GameConstants.Animation.Obstacle.ResetScaleValue;
             foreach (var renderer in _renderers) renderer.enabled = true;
+            _fatalCollisions.Clear();
+            _currentCollisions.Clear();
+            _go.LeanColor(Color.clear, 0);
+                
             Enable(false);
             SetZ(0f);
         }
@@ -56,13 +65,25 @@ namespace RollyVortex
             Enable(true);
         }
 
-        public void Begin(float distanceToTravel, float time, Action onComplete)
+        public void Begin(float distanceToTravel, Color groupColor,float time, Action onComplete)
         {
-            Animate(time * _spawnData.AnimationTimeNormalization);
+            Animate(GameConstants.Animation.Obstacle.TargetScaleValue, groupColor, time * _spawnData.AnimationTimeNormalization);
             StartMovement(distanceToTravel, time, onComplete);
             StartRotation(time * _spawnData.RotationTimeNormalization);
         }
 
+        public void CollisionStart(int pointOfCollision)
+        {
+            _currentCollisions.Add(pointOfCollision);
+        }
+        
+        public void CollisionComplete(int pointOfCollision)
+        {
+            _currentCollisions.Remove(pointOfCollision);
+            
+            if(_currentCollisions.Count == 0) Animate(GameConstants.Animation.Obstacle.ResetScaleValue, Color.clear, GameConstants.Animation.Obstacle.AnimateOutTime);
+        }
+        
         private void SetZ(float z)
         {
             MovementUtils.SetPositionForObstacle(Transform, z);
@@ -70,25 +91,31 @@ namespace RollyVortex
 
         private void SetSpawnData()
         {
-            for (var i = 0; i < _managedCount; i++) _renderers[i].enabled = _spawnData.IsEnabled(i);
+            for (var i = 0; i < _managedCount; i++)
+            {
+                _renderers[i].enabled = _spawnData.IsEnabled(i);
+                if (_renderers[i].enabled) _fatalCollisions.Add(i);
+            }
+            
             var spawnRotation = DeterministicRandomProvider.Next(_spawnData.SpawnRotation.Min, _spawnData.SpawnRotation.Max);
             MovementUtils.SetRotation(Transform, spawnRotation);
         }
         
         private void StartMovement(float distanceToTravel, float time, Action onComplete)
         {
-            LeanTween.moveLocalZ(_go, -distanceToTravel, time).setOnComplete(onComplete);
+            Transform.LeanMoveLocalZ(-distanceToTravel, time).setOnComplete(onComplete);
         }
         
         private void StartRotation(float time)
         {
-            LeanTween.rotateZ(_go,
-                DeterministicRandomProvider.Next(_spawnData.TargetRotation.Min, _spawnData.TargetRotation.Max), time);
+            Transform.LeanRotateZ(DeterministicRandomProvider.Next(_spawnData.TargetRotation.Min, _spawnData.TargetRotation.Max), time)
+                .setEase(GameConstants.Animation.Obstacle.Ease);
         }
 
-        private void Animate(float time)
+        private void Animate(Vector3 sizeTarget, Color colorTarget, float time)
         {
-            LeanTween.scale(_go, GameConstants.Animation.Obstacle.TargetScaleValue, time).setEase(GameConstants.Animation.Obstacle.Ease);
+            _go.LeanColor(colorTarget, time).setEase(GameConstants.Animation.Obstacle.Ease);
+            Transform.LeanScale(sizeTarget, time).setEase(GameConstants.Animation.Obstacle.Ease);
         }
 
         private void Enable(bool isEnabled)
@@ -106,6 +133,7 @@ namespace RollyVortex
             {
                 public static readonly Vector3 ResetScaleValue = new Vector3(2f, 2f, 2f);
                 public static readonly Vector3 TargetScaleValue = Vector3.one;
+                public const float AnimateOutTime = 0.5f;
                 public const LeanTweenType Ease = LeanTweenType.easeInOutSine;
             }
         }
