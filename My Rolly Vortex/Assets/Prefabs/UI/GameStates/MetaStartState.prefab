@@ -1194,7 +1194,7 @@ PrefabInstance:
     - target: {fileID: 6804699917846071000, guid: c210843a65f393c4ea9f37a99247243c,
         type: 3}
       propertyPath: _onClickEvent
-      value: 
+      value: Gameplay.Start
       objectReference: {fileID: 0}
     - target: {fileID: 7618541726727274122, guid: c210843a65f393c4ea9f37a99247243c,
         type: 3}

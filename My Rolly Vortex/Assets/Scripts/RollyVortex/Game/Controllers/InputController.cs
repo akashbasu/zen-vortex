@@ -37,7 +37,7 @@ namespace RollyVortex
             GameEventManager.Unsubscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);
         }
 
-        private static void OnGameStateStart(object[] obj)
+        private void OnGameStateStart(object[] obj)
         {
             if (obj?.Length < 1) return;
             
@@ -46,11 +46,9 @@ namespace RollyVortex
             var isGameState = GameStates.Contains(currentState);
             GameInput.SetEnabled(isGameState);
             UiInput.SetEnabled(!isGameState);
-            
-            
         }
         
-        private static void OnGameStateEnd(object[] obj)
+        private void OnGameStateEnd(object[] obj)
         {
             GameInput.SetEnabled(false);
             UiInput.SetEnabled(false);
