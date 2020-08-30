@@ -18,6 +18,7 @@ namespace RollyVortex
         {
             public static string Start = $"{nameof(Gameplay)}.{nameof(Start)}";
             public static string End = $"{nameof(Gameplay)}.{nameof(End)}";
+            public static string CrossedObstacle = $"{nameof(Gameplay)}.{nameof(CrossedObstacle)}";
         }
 
         internal static class Collisions

@@ -90,7 +90,12 @@ namespace RollyVortex
                 _currentCollisions.Remove((int)args[0]);    
             }
             
-            if(_currentCollisions.Count == 0) Animate(GameConstants.Animation.Obstacle.ResetScaleValue, Color.clear, GameConstants.Animation.Obstacle.AnimateOutTime);
+            if(_currentCollisions.Count == 0)
+            {
+                new Command(GameEvents.Gameplay.CrossedObstacle).Execute();
+                Animate(GameConstants.Animation.Obstacle.ResetScaleValue, Color.clear,
+                    GameConstants.Animation.Obstacle.AnimateOutTime);
+            }
         }
         
         private void SetZ(float z)
