@@ -38,19 +38,19 @@ namespace RollyVortex
 
         private bool GetReferences()
         {
-            if (!DirectoryManager.TryGetEntry(Tags.Board, out var tube)) return false;
+            if (!SceneReferenceProvider.TryGetEntry(Tags.Board, out var tube)) return false;
 
             var tubeMovement = new TubeMovement(tube);
 
-            if (!DirectoryManager.TryGetEntry(Tags.Ball, out var ball)) return false;
+            if (!SceneReferenceProvider.TryGetEntry(Tags.Ball, out var ball)) return false;
 
             var ballMovement = new BallMovement(ball);
 
-            if (!DirectoryManager.TryGetEntry(Tags.ObstacleCache, out var obstacleCache)) return false;
+            if (!SceneReferenceProvider.TryGetEntry(Tags.ObstacleCache, out var obstacleCache)) return false;
 
             var obstacleMovement = new ObstacleMovement(obstacleCache);
             
-            if (!DirectoryManager.TryGetEntry(Tags.PowerupCache, out var powerupCache)) return false;
+            if (!SceneReferenceProvider.TryGetEntry(Tags.PowerupCache, out var powerupCache)) return false;
             
             var powerupMovement = new PowerupMovement(powerupCache);
 

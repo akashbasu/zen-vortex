@@ -32,7 +32,7 @@ namespace RollyVortex
 
         private bool GetReferences()
         {
-            if (!DirectoryManager.TryGetEntry(Tags.UiRoot, out var uiRoot)) return false;
+            if (!SceneReferenceProvider.TryGetEntry(Tags.UiRoot, out var uiRoot)) return false;
 
             _root = uiRoot;
             _gameStateToUiMap = new Dictionary<string, List<GameObject>>(_root.transform.childCount);

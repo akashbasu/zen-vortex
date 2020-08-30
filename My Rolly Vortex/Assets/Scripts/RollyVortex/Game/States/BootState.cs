@@ -30,6 +30,7 @@ namespace RollyVortex
             }
 
             states.Add(new InputController());
+            states.Add(new UiDataProvider());
             states.Add(new UiController());
 
             return states;
