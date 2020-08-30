@@ -4,14 +4,10 @@ namespace RollyVortex
 {
     public sealed class MetaStartState : BaseGameState
     {
+        //Pre game UI
         protected override List<IInitializable> GetSteps(object[] args)
         {
-            var states = new List<IInitializable>
-            {
-                new WaitForMetaStartComplete()
-            };
-
-            return states;
+            return new List<IInitializable>();
         }
     }
 }
