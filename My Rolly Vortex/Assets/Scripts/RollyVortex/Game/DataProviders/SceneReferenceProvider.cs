@@ -20,9 +20,10 @@ namespace RollyVortex
         }
     }
 
-    internal class DirectoryManager : MonoBehaviour, IInitializable
+    internal class SceneReferenceProvider : MonoBehaviour, IInitializable
     {
         private static Dictionary<string, GameObject> _directory;
+        
         [SerializeField] private List<DirectoryEntry> _cachedEntries = new List<DirectoryEntry>();
 
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
@@ -43,7 +44,7 @@ namespace RollyVortex
             if (go == null)
             {
                 Debug.LogWarning(
-                    $"[{nameof(DirectoryManager)}] is searching for go with tag. This is slow and expensive!");
+                    $"[{nameof(SceneReferenceProvider)}] is searching for go with tag. This is slow and expensive!");
                 SafeGetGoWithTag(tag, out go);
             }
 
@@ -72,7 +73,7 @@ namespace RollyVortex
             }
             catch
             {
-                Debug.LogError($"[{nameof(DirectoryManager)}] Failed to find Game object with tag {tag}");
+                Debug.LogError($"[{nameof(SceneReferenceProvider)}] Failed to find Game object with tag {tag}");
                 go = null;
                 return false;
             }
