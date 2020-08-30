@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace RollyVortex
 {
-    public sealed class TubeMovement : ILevelMovement
+    internal sealed class TubeMovement : ILevelMovement
     {
         private readonly Material _material;
         private readonly float _materialXOffset;
@@ -12,7 +12,7 @@ namespace RollyVortex
 
         private LTDescr _animationTween;
 
-        public TubeMovement(GameObject tube)
+        internal TubeMovement(GameObject tube)
         {
             var material = tube.GetComponent<Renderer>().material;
 

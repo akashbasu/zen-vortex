@@ -3,7 +3,7 @@ using System;
 namespace RollyVortex
 {
     //Setup score
-    public class ScoreManager : IInitializable
+    internal class ScoreManager : IInitializable
     {
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {

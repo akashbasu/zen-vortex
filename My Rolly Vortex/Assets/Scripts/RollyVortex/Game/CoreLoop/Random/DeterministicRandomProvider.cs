@@ -2,7 +2,7 @@ using System;
 
 namespace RollyVortex
 {
-    public class DeterministicRandomProvider : IInitializable
+    internal class DeterministicRandomProvider : IInitializable
     {
         private static Random _random;
         

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RollyVortex
 {
-    public class ObstacleManager : IInitializable
+    internal class ObstacleManager : IInitializable
     {
         private static int _groupCount = -1;
         private static int _obstacleId = -1;

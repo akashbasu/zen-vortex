@@ -52,7 +52,7 @@ namespace RollyVortex
 
     public partial class GameConstants
     {
-        public static class Environment
+        internal static class Environment
         {
             public const float MasterToTubeSpeedRatio = 1f;
             public const float MasterToObstacleSpeedRatio = 2f;

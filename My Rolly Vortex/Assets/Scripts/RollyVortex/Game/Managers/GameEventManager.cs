@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RollyVortex
 {
-    public class GameEventManager : IInitializable
+    internal class GameEventManager : IInitializable
     {
         private static Dictionary<string, List<Action<object[]>>> _eventDirectory;
 

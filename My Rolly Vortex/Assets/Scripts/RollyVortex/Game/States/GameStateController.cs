@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RollyVortex
 { 
-    public sealed class GameStateController : MonoBehaviour
+    internal sealed class GameStateController : MonoBehaviour
     {
         private readonly Queue<IInitializable> _steps = new Queue<IInitializable>();
 

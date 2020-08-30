@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RollyVortex
 {
-    public class InputController : IInitializable
+    internal class InputController : IInitializable
     {
         private static UnityInput _input;
         

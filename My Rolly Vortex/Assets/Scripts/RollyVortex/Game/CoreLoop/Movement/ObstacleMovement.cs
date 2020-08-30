@@ -12,7 +12,7 @@ namespace RollyVortex
         
         private LTDescr _spawnTween;
 
-        public ObstacleMovement(GameObject obstacleCache)
+        internal ObstacleMovement(GameObject obstacleCache)
         {
             _cacheController = new ObstacleCacheController(obstacleCache.transform, Camera.main.transform.position);
         }

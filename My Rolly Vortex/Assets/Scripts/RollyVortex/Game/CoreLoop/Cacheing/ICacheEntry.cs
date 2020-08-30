@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RollyVortex
 {
-    public interface ICacheEntry
+    internal interface ICacheEntry
     {
         Transform Transform { get; }
         bool HasActionableCollision { get; }

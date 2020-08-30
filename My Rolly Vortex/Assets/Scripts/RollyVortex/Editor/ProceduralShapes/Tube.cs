@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RollyVortex.Editor
 {
-    public static class Tube
+    internal static class Tube
     {
         private const uint Sides = GameConstants.Procedural.Tube.Resolution;
         private const float Height = GameConstants.Procedural.Tube.Height;

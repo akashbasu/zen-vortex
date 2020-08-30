@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace RollyVortex
 {
-    public sealed class GameState : BaseGameState
+    internal sealed class GameState : BaseGameState
     {
         protected override List<IInitializable> GetSteps(object[] args)
         {

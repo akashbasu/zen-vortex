@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace RollyVortex
 {
-    public interface ILevelMovement
+    internal interface ILevelMovement
     {
         void Reset();
         void Update(float deltaTime);

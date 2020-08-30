@@ -2,12 +2,12 @@ using System.Collections.Generic;
 
 namespace RollyVortex
 {
-    public class ShuffleBag
+    internal class ShuffleBag
     {
         private readonly int _size;
         private List<int> _bag;
 
-        public ShuffleBag(int size)
+        internal ShuffleBag(int size)
         {
             _size = size;
             FillBag();

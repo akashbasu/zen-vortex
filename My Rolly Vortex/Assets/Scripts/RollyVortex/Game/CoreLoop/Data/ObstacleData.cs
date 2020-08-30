@@ -143,12 +143,12 @@ namespace RollyVortex
         }
 #endif
     }
-    
+
     public partial class GameConstants
     {
-        public static partial class Animation
+        internal static partial class Animation
         {
-            public static partial class Obstacle
+            internal static partial class Obstacle
             {
                 public const float TravelTimeToRotationRatio = 0.25f;
                 public const float TravelTimeToAnimationRatio = 0.5f;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RollyVortex
 {
-    public abstract class WaitForEventState : IInitializable
+    internal abstract class WaitForEventState : IInitializable
     {
         private Action<IInitializable> _onComplete;
 
@@ -31,12 +31,12 @@ namespace RollyVortex
         }
     }
 
-    public class WaitForMetaStartComplete : WaitForEventState, IInitializable
+    internal class WaitForMetaStartComplete : WaitForEventState, IInitializable
     {
         protected override string EndEvent => GameEvents.Gameplay.Start;
     }
     
-    public class WaitForGameLoopEnd : WaitForEventState, IInitializable
+    internal class WaitForGameLoopEnd : WaitForEventState, IInitializable
     {
         protected override string EndEvent => GameEvents.Gameplay.End;
     }

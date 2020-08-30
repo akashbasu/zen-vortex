@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace RollyVortex
 {
-    public class LevelDataProvider : IInitializable
+    internal class LevelDataProvider : IInitializable
     {
         private static List<LevelData> _levelData;
         private static int _currentLevel = -1;
 
-        public static LevelData LevelData => _levelData[_currentLevel];
+        internal static LevelData LevelData => _levelData[_currentLevel];
 
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
@@ -39,7 +39,7 @@ namespace RollyVortex
             return true;
         }
     }
-    
+
     public static partial class GameConstants
     {
         public static partial class DataPaths

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 namespace RollyVortex
 {
     [RequireComponent(typeof(Button))]
-    public class ButtonWidget : MonoBehaviour
+    internal class ButtonWidget : MonoBehaviour
     {
         [SerializeField] private string _onClickEvent;
         

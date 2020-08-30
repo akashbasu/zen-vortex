@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RollyVortex
 {
-    public sealed class BootState : BaseGameState
+    internal sealed class BootState : BaseGameState
     {
         protected override List<IInitializable> GetSteps(object[] args)
         {

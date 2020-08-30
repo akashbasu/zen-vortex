@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RollyVortex
 {
-    public class ObstacleDataProvider : IInitializable
+    internal class ObstacleDataProvider : IInitializable
     {
         public static List<ObstacleData> ObstacleData { get; private set; }
 
@@ -30,7 +30,7 @@ namespace RollyVortex
             return ObstacleData.Count > 0;
         }
     }
-    
+
     public static partial class GameConstants
     {
         public static partial class DataPaths

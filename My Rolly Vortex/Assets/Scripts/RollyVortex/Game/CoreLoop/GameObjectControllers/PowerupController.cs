@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RollyVortex
 {
-    public class PowerupController : ICacheEntry
+    internal class PowerupController : ICacheEntry
     {
         public Transform Transform { get; }
         public bool HasActionableCollision { get; }

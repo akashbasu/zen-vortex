@@ -1,12 +1,12 @@
 namespace RollyVortex
 {
-    public class UiInputAdapter : IInputAdapter<bool>
+    internal class UiInputAdapter : IInputAdapter<bool>
     {
         private UnityInput.UIActions _uiInput;
 
         private bool IsActiveAndEnabled => _uiInput.enabled;
 
-        public UiInputAdapter(UnityInput.UIActions ui)
+        internal UiInputAdapter(UnityInput.UIActions ui)
         {
             _uiInput = ui;
         }

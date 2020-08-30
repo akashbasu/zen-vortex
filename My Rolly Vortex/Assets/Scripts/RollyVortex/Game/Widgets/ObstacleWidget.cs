@@ -1,6 +1,6 @@
 namespace RollyVortex
 {
-    public class ObstacleWidget
+    internal class ObstacleWidget
     {
     }
 }

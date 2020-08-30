@@ -1,26 +1,26 @@
 namespace RollyVortex
 {
-    public static class GameEvents
+    internal static class GameEvents
     {
-        public static class GameStateEvents
+        internal static class GameStateEvents
         {
             public static readonly string Start = $"{nameof(GameStateEvents)}.{nameof(Start)}";
             public static readonly string End = $"{nameof(GameStateEvents)}.{nameof(End)}";
         }
 
-        public static class LevelEvents
+        internal static class LevelEvents
         {
             public static readonly string Start = $"{nameof(LevelEvents)}.{nameof(Start)}";
             public static readonly string Stop = $"{nameof(LevelEvents)}.{nameof(Stop)}";
         }
 
-        public static class Gameplay
+        internal static class Gameplay
         {
             public static string Start = $"{nameof(Gameplay)}.{nameof(Start)}";
             public static string End = $"{nameof(Gameplay)}.{nameof(End)}";
         }
 
-        public static class Collisions
+        internal static class Collisions
         {
             public static readonly string Start = $"{nameof(Collisions)}.{nameof(Start)}";
             public static readonly string Stay = $"{nameof(Collisions)}.{nameof(Stay)}";

@@ -1,7 +1,7 @@
 namespace RollyVortex
 {
-    public sealed class LevelStartCommand : InitializableCommand
+    internal sealed class LevelStartCommand : InitializableCommand
     {
-        public LevelStartCommand() : base(GameEvents.LevelEvents.Start) { }
+        internal LevelStartCommand() : base(GameEvents.LevelEvents.Start) { }
     }
 }

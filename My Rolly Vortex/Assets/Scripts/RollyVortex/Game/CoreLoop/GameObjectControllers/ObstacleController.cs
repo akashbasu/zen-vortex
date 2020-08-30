@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RollyVortex
 {
-    public class ObstacleController : ICacheEntry
+    internal class ObstacleController : ICacheEntry
     {
         private readonly List<MeshRenderer> _renderers;
         private readonly List<Collider> _colliders;
@@ -20,6 +20,7 @@ namespace RollyVortex
         public Transform Transform { get; }
         public bool HasActionableCollision => _currentCollisions.Any(x => _fatalCollisions.Contains(x));
 
+        //Runtime injection
         public ObstacleController(Transform transform)
         {
             Transform = transform;
@@ -132,12 +133,12 @@ namespace RollyVortex
             foreach (var collider in _colliders) collider.enabled = isEnabled;
         }
     }
-    
+
     public static partial class GameConstants
     {
-        public static partial class Animation
+        internal static partial class Animation
         {
-            public static partial class Obstacle
+            internal static partial class Obstacle
             {
                 public static readonly Vector3 ResetScaleValue = new Vector3(2f, 2f, 2f);
                 public static readonly Vector3 TargetScaleValue = Vector3.one;

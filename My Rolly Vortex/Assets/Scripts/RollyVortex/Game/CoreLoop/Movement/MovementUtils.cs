@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace RollyVortex
 {
-    public static class MovementUtils
+    internal static class MovementUtils
     {
         public static void SetTexturePosition(Material material, int textureId, float x, float y)
         {

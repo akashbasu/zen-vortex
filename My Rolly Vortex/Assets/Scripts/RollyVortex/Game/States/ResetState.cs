@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace RollyVortex
 {
     //Clean up here
-    public sealed class ResetState : BaseGameState
+    internal sealed class ResetState : BaseGameState
     {
         protected override List<IInitializable> GetSteps(object[] args)
         {

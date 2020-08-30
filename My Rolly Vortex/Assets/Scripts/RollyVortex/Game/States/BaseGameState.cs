@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RollyVortex
 {
-    public abstract class BaseGameState : IInitializable
+    internal abstract class BaseGameState : IInitializable
     {
         private Action<IInitializable> _callback;
         private Queue<IInitializable> _steps;

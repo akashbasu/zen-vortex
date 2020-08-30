@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace RollyVortex
 {
-    public class PowerupMovement : ILevelMovement
+    internal class PowerupMovement : ILevelMovement
     {
         private readonly ICacheController _cacheController;
         
@@ -12,7 +12,7 @@ namespace RollyVortex
         
         private LTDescr _spawnTween;
         
-        public PowerupMovement(GameObject powerupCache)
+        internal PowerupMovement(GameObject powerupCache)
         {
             _cacheController = new PowerupCacheController(powerupCache.transform, Camera.main.transform.position);
         }

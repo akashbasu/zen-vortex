@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace RollyVortex
 {
-    public class CollisionNotifier : MonoBehaviour
+    internal class CollisionNotifier : MonoBehaviour
     {
         private const string Untagged = nameof(Untagged);
 

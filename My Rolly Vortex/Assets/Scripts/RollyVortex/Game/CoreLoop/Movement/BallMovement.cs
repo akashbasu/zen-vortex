@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace RollyVortex
 {
-    public sealed class BallMovement : ILevelMovement
+    internal sealed class BallMovement : ILevelMovement
     {
         private readonly Transform _anchor;
 
@@ -23,7 +23,7 @@ namespace RollyVortex
 
         private bool _isEnabled;
         
-        public BallMovement(GameObject ball)
+        internal BallMovement(GameObject ball)
         {
             _anchor = ball.transform.parent;
 

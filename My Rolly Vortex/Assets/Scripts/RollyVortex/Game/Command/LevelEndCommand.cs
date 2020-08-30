@@ -1,7 +1,7 @@
 namespace RollyVortex
 {
-    public sealed class LevelEndCommand : InitializableCommand
+    internal sealed class LevelEndCommand : InitializableCommand
     {
-        public LevelEndCommand() : base(GameEvents.LevelEvents.Stop) { }
+        internal LevelEndCommand() : base(GameEvents.LevelEvents.Stop) { }
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RollyVortex
 {
-    public class MovementController : MonoBehaviour, IInitializable
+    internal class MovementController : MonoBehaviour, IInitializable
     {
         private bool _canMove;
         private Dictionary<string, ILevelMovement> _objectMovementMap;

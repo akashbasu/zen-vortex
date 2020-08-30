@@ -8,7 +8,7 @@ namespace RollyVortex
         {
             public static readonly string ResourcesBase = Path.Combine("Assets", "Resources");
         }
-        
+
         public static class Procedural
         {
             public static class Tube

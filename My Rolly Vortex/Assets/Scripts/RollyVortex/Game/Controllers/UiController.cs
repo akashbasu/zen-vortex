@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RollyVortex
 {
-    public class UiController : IInitializable
+    internal class UiController : IInitializable
     {
         private GameObject _root;
 

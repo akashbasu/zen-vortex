@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace RollyVortex
 {
-    public class GameInputAdapter : IInputAdapter<float>
+    internal class GameInputAdapter : IInputAdapter<float>
     {
         private readonly float _screenMid = Screen.width / 2f;
 

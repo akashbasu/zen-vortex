@@ -2,12 +2,12 @@ using System;
 
 namespace RollyVortex
 {
-    public class Command
+    internal class Command
     {
         private readonly object[] _args;
         private readonly string _event;
 
-        public Command(string eventName, params object[] args)
+        internal Command(string eventName, params object[] args)
         {
             _event = eventName;
             _args = args;
@@ -28,7 +28,7 @@ namespace RollyVortex
         }
     }
 
-    public abstract class InitializableCommand : Command, IInitializable
+    internal abstract class InitializableCommand : Command, IInitializable
     {
         protected InitializableCommand(string eventName, params object[] args) : base(eventName, args)
         {

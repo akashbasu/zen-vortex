@@ -5,7 +5,7 @@ using Object = UnityEngine.Object;
 
 namespace RollyVortex
 {
-    public interface ICacheController
+    internal interface ICacheController
     {
         float DistanceToTravel { get; }
         
@@ -14,7 +14,7 @@ namespace RollyVortex
         ICacheEntry Current { get; }
     }
     
-    public abstract class CacheController : ICacheController
+    internal abstract class CacheController : ICacheController
     {
         private readonly Transform _cache;
 
@@ -26,7 +26,7 @@ namespace RollyVortex
         
         public ICacheEntry Current => _moving.Peek();
         
-        public CacheController(Transform cache, Vector3 reCacheMarker, Type entryType)
+        internal CacheController(Transform cache, Vector3 reCacheMarker, Type entryType)
         {
             _cache = cache;
 

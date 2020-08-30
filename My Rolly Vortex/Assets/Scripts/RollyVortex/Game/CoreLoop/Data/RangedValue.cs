@@ -12,7 +12,7 @@ namespace RollyVortex
         public T Min => _min;
         public T Max => _max;
 
-        public RangedValue(T min, T max)
+        internal RangedValue(T min, T max)
         {
             _min = min;
             _max = max;
