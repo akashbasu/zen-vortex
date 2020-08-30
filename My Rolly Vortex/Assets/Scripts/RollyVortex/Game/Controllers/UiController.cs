@@ -11,17 +11,23 @@ namespace RollyVortex
 
         private Dictionary<string, List<GameObject>> _gameStateToUiMap;
         
-        
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
             if (GetReferences())
             {
                 GameEventManager.Subscribe(GameEvents.GameStateEvents.Start, OnGameStateStart);
                 GameEventManager.Subscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);
-                onComplete?.Invoke(this);    
+                onComplete?.Invoke(this);
+                return;
             }
             
             Debug.LogError($"[{nameof(UiController)}] {nameof(Initialize)} Failed to find references!");
+        }
+
+        ~UiController()
+        {
+            GameEventManager.Unsubscribe(GameEvents.GameStateEvents.Start, OnGameStateStart);
+            GameEventManager.Unsubscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);
         }
 
         private bool GetReferences()

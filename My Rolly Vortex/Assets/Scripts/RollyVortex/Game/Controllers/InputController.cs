@@ -1,93 +1,59 @@
 using System;
-using UnityEngine;
-using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
 namespace RollyVortex
 {
     public class InputController : IInitializable
     {
-        private UnityInput _input;
-        private UnityInput.UIActions _uiActions;
+        private static UnityInput _input;
+        
+        private static readonly List<string> GameStates = new List<string>()
+        {
+            nameof(GameState)
+        };
 
         public static GameInputAdapter GameInput { get; private set; }
+        public static UiInputAdapter UiInput { get; private set; }
 
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
             _input = new UnityInput();
 
             GameInput = new GameInputAdapter(_input.Game);
-            _uiActions = _input.UI;
+            UiInput = new UiInputAdapter(_input.UI);
 
-            _uiActions.Disable();
+            UiInput.SetEnabled(false);
             GameInput.SetEnabled(false);
 
-            GameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
-            GameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelEnd);
+            GameEventManager.Subscribe(GameEvents.GameStateEvents.Start, OnGameStateStart);
+            GameEventManager.Subscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);
 
             onComplete?.Invoke(this);
         }
 
         ~InputController()
         {
-            GameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
-            GameEventManager.Unsubscribe(GameEvents.LevelEvents.Stop, OnLevelEnd);
+            GameEventManager.Unsubscribe(GameEvents.GameStateEvents.Start, OnGameStateStart);
+            GameEventManager.Unsubscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);
         }
 
-        private void OnLevelStart(object[] args)
+        private static void OnGameStateStart(object[] obj)
         {
-            _uiActions.Disable();
-            GameInput.SetEnabled(true);
-        }
+            if (obj?.Length < 1) return;
+            
+            var currentState = (string) obj[0];
 
-        private void OnLevelEnd(object[] args)
+            var isGameState = GameStates.Contains(currentState);
+            GameInput.SetEnabled(isGameState);
+            UiInput.SetEnabled(!isGameState);
+            
+            
+        }
+        
+        private static void OnGameStateEnd(object[] obj)
         {
             GameInput.SetEnabled(false);
-            _uiActions.Enable();
-        }
-    }
-
-    public class GameInputAdapter
-    {
-        private readonly float _screenMid = Screen.width / 2f;
-
-        private UnityInput.GameActions _gameInput;
-
-        public GameInputAdapter(UnityInput.GameActions game)
-        {
-            _gameInput = game;
-        }
-
-        private bool IsActiveAndEnabled => _gameInput.enabled && IsPointerAvailable;
-
-        private static bool IsPointerAvailable
-        {
-            get
-            {
-#if(UNITY_EDITOR || UNITY_STANDALONE)
-                return Mouse.current.leftButton.isPressed;
-#elif (UNITY_ANDROID || UNITY_IOS)
-                return Touchscreen.current.primaryTouch.isInProgress;
-#else
-                return false;
-#endif
-            }
-        }
-
-        public void SetEnabled(bool isEnabled)
-        {
-            if (isEnabled) _gameInput.Enable();
-            else _gameInput.Disable();
-        }
-
-        public bool TryGetInput(out float normalizedInput)
-        {
-            normalizedInput = 0f;
-            if (!IsActiveAndEnabled) return false;
-
-            normalizedInput = _gameInput.Move.ReadValue<Vector2>().x;
-            normalizedInput = (normalizedInput - _screenMid) / _screenMid;
-            normalizedInput = Mathf.Clamp(normalizedInput, -1f, 1f);
-            return true;
+            UiInput.SetEnabled(false);
         }
     }
 }
