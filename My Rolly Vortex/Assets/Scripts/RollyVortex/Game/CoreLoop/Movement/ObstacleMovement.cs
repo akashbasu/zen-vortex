@@ -4,7 +4,7 @@ namespace RollyVortex
 {
     internal class ObstacleMovement : ILevelMovement
     {
-        private readonly ObstacleCacheController _cacheController;
+        private readonly ICacheController _cacheController;
 
         private float _delayTime;
         private float _loopInSeconds;
@@ -54,11 +54,11 @@ namespace RollyVortex
 
         public void OnCollisionEnter(GameObject other, int pointOfCollision)
         {
-            if (!other.tag.Equals(RollyVortexTags.Ball)) return;
+            if (!other.tag.Equals(Tags.Ball)) return;
 
-            _cacheController.Current.CollisionStart(pointOfCollision);
+            _cacheController.Current.CollisionStart(new object[]{pointOfCollision});
             
-            switch (_cacheController.Current.HasFatalCollision)
+            switch (_cacheController.Current.HasActionableCollision)
             {
                 case true: Debug.Log($"[{nameof(ObstacleMovement)}] {nameof(OnCollisionEnter)} Point of collision {pointOfCollision} FATAL!");
                     new Command(GameEvents.Gameplay.End).Execute();
@@ -72,11 +72,11 @@ namespace RollyVortex
 
         public void OnCollisionExit(GameObject other, int pointOfCollision)
         {
-            if (!other.tag.Equals(RollyVortexTags.Ball)) return;
+            if (!other.tag.Equals(Tags.Ball)) return;
             
-            _cacheController.Current.CollisionComplete(pointOfCollision);
+            _cacheController.Current.CollisionComplete(new object[]{pointOfCollision});
             
-            switch (_cacheController.Current.HasFatalCollision)
+            switch (_cacheController.Current.HasActionableCollision)
             {
                 case true: Debug.Log($"[{nameof(ObstacleMovement)}] {nameof(OnCollisionExit)} Point of collision {pointOfCollision} FATAL!");
                     new Command(GameEvents.Gameplay.End).Execute();
