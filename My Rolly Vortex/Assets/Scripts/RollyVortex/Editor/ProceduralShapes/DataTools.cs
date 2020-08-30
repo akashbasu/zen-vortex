@@ -47,7 +47,7 @@ namespace RollyVortex.Editor
             if(!IsValidObstacle(source)) return;
 
             var outputPath = Path.Combine(GameConstants.DataPaths.ResourcesBase, GameConstants.DataPaths.Resources.Obstacles,
-                $"{RollyVortexTags.Obstacle}_{source.name}.asset").Replace('\\', '/');
+                $"{Tags.Obstacle}_{source.name}.asset").Replace('\\', '/');
 
             var newObstacleData = AssetDatabase.GetAllAssetPaths().Any(x => string.Equals(outputPath, x))
                 ? AssetDatabase.LoadAssetAtPath<ObstacleData>(outputPath)
@@ -68,7 +68,7 @@ namespace RollyVortex.Editor
 
         private static bool IsValidObstacle(GameObject go)
         {
-            return go != null && string.Equals(go.tag, RollyVortexTags.Obstacle);
+            return go != null && string.Equals(go.tag, Tags.Obstacle);
         }
         
         private static List<GameObject> LoadAllPrefabs(string path)

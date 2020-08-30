@@ -172,6 +172,10 @@ MonoBehaviour:
     _tag: Ball
   - _reference: {fileID: 2238844153489286938}
     _tag: ObstacleCache
+  - _reference: {fileID: 5843745626807742250}
+    _tag: PowerupCache
+  - _reference: {fileID: 5843745626807742249}
+    _tag: UiRoot
 --- !u!4 &248740215
 Transform:
   m_ObjectHideFlags: 0
@@ -316,3 +320,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8fa1d2631f91d046ae09557fd3155c5, type: 3}
+--- !u!1 &5843745626807742249 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5843745626399530877, guid: c8fa1d2631f91d046ae09557fd3155c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 5843745626807742248}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5843745626807742250 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7077628880930806216, guid: c8fa1d2631f91d046ae09557fd3155c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 5843745626807742248}
+  m_PrefabAsset: {fileID: 0}

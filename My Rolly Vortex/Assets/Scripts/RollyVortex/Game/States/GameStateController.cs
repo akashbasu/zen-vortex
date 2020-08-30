@@ -42,8 +42,8 @@ namespace RollyVortex
             object[] args = null;
             if(step is BootState) args = Array.ConvertAll(GetComponents<IInitializable>(), x => (object) x);
             
-            Debug.Log($"[{nameof(GameStateController)}] {nameof(ProcessState)} {step.GetType()}");
-            new Command(GameEvents.GameStateEvents.Start, step.GetType()).Execute();
+            Debug.Log($"[{nameof(GameStateController)}] {nameof(ProcessState)} {step.GetType().Name}");
+            new Command(GameEvents.GameStateEvents.Start, step.GetType().Name).Execute();
             step.Initialize(OnStepComplete, args);
         }
 
@@ -52,8 +52,8 @@ namespace RollyVortex
             if(_steps.Peek() != initializable) return;
             
             _steps.Dequeue();
-            Debug.Log($"[{nameof(GameStateController)}] {nameof(OnStepComplete)} Completed {initializable.GetType()}");
-            new Command(GameEvents.GameStateEvents.End, initializable.GetType()).Execute();
+            Debug.Log($"[{nameof(GameStateController)}] {nameof(OnStepComplete)} Completed {initializable.GetType().Name}");
+            new Command(GameEvents.GameStateEvents.End, initializable.GetType().Name).Execute();
             NextState();
         }
     }

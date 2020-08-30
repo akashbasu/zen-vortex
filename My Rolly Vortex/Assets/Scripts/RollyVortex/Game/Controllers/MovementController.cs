@@ -38,23 +38,28 @@ namespace RollyVortex
 
         private bool GetReferences()
         {
-            if (!DirectoryManager.TryGetEntry(RollyVortexTags.Board, out var tube)) return false;
+            if (!DirectoryManager.TryGetEntry(Tags.Board, out var tube)) return false;
 
             var tubeMovement = new TubeMovement(tube);
 
-            if (!DirectoryManager.TryGetEntry(RollyVortexTags.Ball, out var ball)) return false;
+            if (!DirectoryManager.TryGetEntry(Tags.Ball, out var ball)) return false;
 
             var ballMovement = new BallMovement(ball);
 
-            if (!DirectoryManager.TryGetEntry(RollyVortexTags.ObstacleCache, out var obstacleCache)) return false;
+            if (!DirectoryManager.TryGetEntry(Tags.ObstacleCache, out var obstacleCache)) return false;
 
             var obstacleMovement = new ObstacleMovement(obstacleCache);
+            
+            if (!DirectoryManager.TryGetEntry(Tags.PowerupCache, out var powerupCache)) return false;
+            
+            var powerupMovement = new PowerupMovement(powerupCache);
 
             _objectMovementMap = new Dictionary<string, ILevelMovement>
             {
-                {RollyVortexTags.Board, tubeMovement},
-                {RollyVortexTags.Ball, ballMovement},
-                {RollyVortexTags.Obstacle, obstacleMovement}
+                {Tags.Board, tubeMovement},
+                {Tags.Ball, ballMovement},
+                {Tags.Obstacle, obstacleMovement},
+                {Tags.PowerupCache, powerupMovement}
             };
 
             return !_objectMovementMap.Any(x => x.Key == null || x.Value == null);
