@@ -9,6 +9,8 @@ TagManager:
   - Anchor
   - Obstacle
   - ObstacleCache
+  - UiRoot
+  - PowerupCache
   layers:
   - Default
   - TransparentFX
