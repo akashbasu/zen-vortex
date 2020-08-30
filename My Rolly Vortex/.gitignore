@@ -98,3 +98,6 @@ Desktop.ini
 /Assets/LeanTween/Documentation*
 /Assets/LeanTween/Editor*
 /Assets/LeanTween/Examples*
+
+#TextMeshPro
+/Assets/TextMesh Pro/Documentation*
