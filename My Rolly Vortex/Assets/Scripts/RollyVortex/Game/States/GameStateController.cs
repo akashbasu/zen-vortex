@@ -39,12 +39,9 @@ namespace RollyVortex
 
         private void ProcessState(IInitializable step)
         {
-            object[] args = null;
-            if(step is BootState) args = Array.ConvertAll(GetComponents<IInitializable>(), x => (object) x);
-            
             Debug.Log($"[{nameof(GameStateController)}] {nameof(ProcessState)} {step.GetType().Name}");
             new Command(GameEvents.GameStateEvents.Start, step.GetType().Name).Execute();
-            step.Initialize(OnStepComplete, args);
+            step.Initialize(OnStepComplete);
         }
 
         private void OnStepComplete(IInitializable initializable)

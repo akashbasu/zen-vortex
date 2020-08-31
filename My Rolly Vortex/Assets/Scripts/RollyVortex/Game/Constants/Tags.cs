@@ -9,5 +9,6 @@ namespace RollyVortex
         public static readonly string Powerup = nameof(Powerup);
         public static readonly string Obstacle = nameof(Obstacle);
         public static readonly string UiRoot = nameof(UiRoot);
+        public static readonly string System = nameof(System);
     }
 }

@@ -8,7 +8,7 @@ namespace RollyVortex
         {
             var states = new List<IInitializable>
             {
-                new SocialManager(),
+                CreateMonoBehavior<SocialManager>(),
                 new WaitForMetaEndComplete()
             };
 

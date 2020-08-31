@@ -28,7 +28,7 @@ namespace RollyVortex
 
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
-            _directory = new Dictionary<string, GameObject>();
+            LazyInit();
 
             LoadCachedDirectory();
             FindDirectoryObjects();
@@ -39,6 +39,8 @@ namespace RollyVortex
         public static bool TryGetEntry(string tag, out GameObject go)
         {
             go = null;
+            
+            LazyInit();
             if (_directory.ContainsKey(tag)) go = _directory[tag];
 
             if (go == null)
@@ -49,6 +51,13 @@ namespace RollyVortex
             }
 
             return go != null;
+        }
+
+        private static void LazyInit()
+        {
+            if(_directory != null) return;
+            
+            _directory = new Dictionary<string, GameObject>();
         }
 
         private void LoadCachedDirectory()

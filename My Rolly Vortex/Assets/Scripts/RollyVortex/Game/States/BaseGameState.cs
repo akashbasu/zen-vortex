@@ -9,6 +9,8 @@ namespace RollyVortex
         private Action<IInitializable> _callback;
         private Queue<IInitializable> _steps;
 
+        private static GameObject _systemObject;
+
         public virtual void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
             _callback = onComplete;
@@ -21,6 +23,22 @@ namespace RollyVortex
         }
 
         protected abstract List<IInitializable> GetSteps(object[] args);
+        
+        protected static T CreateMonoBehavior<T>() where T : Component
+        {
+            if (_systemObject == null)
+            {
+                if (!SceneReferenceProvider.TryGetEntry(Tags.System, out _systemObject))
+                {
+                    Debug.LogWarning("Failed to find system object!");
+                    return null;
+                }
+            }
+
+            var component = _systemObject.GetComponent<T>();
+            component = component == null ? _systemObject.AddComponent<T>() : component;
+            return component;
+        }
 
         private void SetupQueue(List<IInitializable> initializables)
         {

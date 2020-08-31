@@ -6,8 +6,10 @@ namespace RollyVortex
     internal class PlayerDataProvider : IInitializable
     {
         private int _highestScore;
-        private int _lastRunScore;
+        private static int _lastRunScore;
         private int _gemsEarnedInRun;
+
+        public static int LastRunScore => _lastRunScore;
         
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {

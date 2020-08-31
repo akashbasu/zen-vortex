@@ -12,6 +12,7 @@ TagManager:
   - UiRoot
   - PowerupCache
   - Powerup
+  - System
   layers:
   - Default
   - TransparentFX

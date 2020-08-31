@@ -7,31 +7,15 @@ namespace RollyVortex
     {
         protected override List<IInitializable> GetSteps(object[] args)
         {
-            if (args == null || args.Length == 0)
+            var states = new List<IInitializable>
             {
-                Debug.LogError($"[{nameof(BootState)}] {nameof(GetSteps)} Cannot find monobeahvior initializables in args! Failing boot.");
-                return null;
-            }
-            
-            var states = new List<IInitializable>();
-
-            states.Add(new GameEventManager());
-            foreach (var monoBehaviorBootables in args)
-            {
-                var initializable = monoBehaviorBootables as IInitializable;
-                if (initializable == null)
-                {
-                    Debug.LogError(
-                        $"[{nameof(BootState)}] {nameof(GetSteps)} Invalid reference to Monobehavior initializable");
-                    continue;
-                }
-
-                states.Add(initializable);
-            }
-
-            states.Add(new InputController());
-            states.Add(new UiDataProvider());
-            states.Add(new UiController());
+                new GameEventManager(),
+                CreateMonoBehavior<SceneReferenceProvider>(),
+                CreateMonoBehavior<MovementController>(),
+                new InputController(),
+                new UiDataProvider(),
+                new UiController()
+            };
 
             return states;
         }
