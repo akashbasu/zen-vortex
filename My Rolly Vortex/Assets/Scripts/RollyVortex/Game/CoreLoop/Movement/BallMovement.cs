@@ -63,6 +63,7 @@ namespace RollyVortex
             _xInputClock = 0;
             _xGravityClock = 0f;
             _currentRotation = 0;
+            _ball.transform.localScale = _originalScale;
             
             MovementUtils.SetBallRotation(_anchor, _currentRotation);
             MovementUtils.SetTexturePosition(_material, _textureId, _materialXOffset, 0);

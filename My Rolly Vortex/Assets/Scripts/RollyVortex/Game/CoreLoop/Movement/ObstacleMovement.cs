@@ -90,7 +90,6 @@ namespace RollyVortex
                     new Command(GameEvents.Gameplay.End).Execute();
                     break;
                 case false:
-                    
                     break;
             }
         }

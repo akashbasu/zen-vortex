@@ -16,9 +16,10 @@ namespace RollyVortex
         private readonly int _managedCount;
         
         private ObstacleData _spawnData;
+        private bool _didConsumeLife;
 
         public Transform Transform { get; }
-        public bool HasActionableCollision => _currentCollisions.Any(x => _fatalCollisions.Contains(x));
+        public bool HasActionableCollision => _currentCollisions.Any(x => _fatalCollisions.Contains(x)) && PlayerDataProvider.LifeCount <= 0;
 
         //Runtime injection
         public ObstacleController(Transform transform)
@@ -42,7 +43,8 @@ namespace RollyVortex
         public void Reset()
         {
             LeanTween.cancel(_go);
-            
+
+            _didConsumeLife = false;
             Transform.localScale = GameConstants.Animation.Obstacle.ResetScaleValue;
             foreach (var renderer in _renderers) renderer.enabled = true;
             _fatalCollisions.Clear();
@@ -84,7 +86,8 @@ namespace RollyVortex
         {
             if (args?.Length > 0)
             {
-                _currentCollisions.Add((int)args[0]);    
+                _currentCollisions.Add((int)args[0]);
+                _didConsumeLife = _currentCollisions.Any(x => _fatalCollisions.Contains(x));
             }
         }
         
@@ -96,6 +99,11 @@ namespace RollyVortex
             }
 
             if (_currentCollisions.Count != 0) return;
+
+            if (_didConsumeLife)
+            {
+                new Command(GameEvents.Gameplay.ConsumeLife).Execute();
+            }
             
             new Command(GameEvents.Gameplay.CrossedObstacle).Execute();
             Animate(GameConstants.Animation.Obstacle.ResetScaleValue, Color.clear,

@@ -7,16 +7,18 @@ namespace RollyVortex
     {
         private int _highestScore;
         private static int _lastRunScore;
-        private int _gemsEarnedInRun;
+        private static int _livesEarnedInRun;
 
         public static int LastRunScore => _lastRunScore;
+        public static int LifeCount => _livesEarnedInRun;
         
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
             LoadPlayerData();
             
             GameEventManager.Subscribe(GameEvents.Gameplay.ScoreUpdated, OnScoreUpdated);
-            GameEventManager.Subscribe(GameEvents.Gameplay.EarnedGem, OnGemEarned);
+            GameEventManager.Subscribe(GameEvents.Gameplay.EarnedLife, OnLifeEarned);
+            GameEventManager.Subscribe(GameEvents.Gameplay.ConsumeLife, OnLifeLost);
             GameEventManager.Subscribe(GameEvents.Gameplay.End, UpdateLastRunScore);
             
             onComplete?.Invoke(this);
@@ -25,7 +27,8 @@ namespace RollyVortex
         ~PlayerDataProvider()
         {
             GameEventManager.Unsubscribe(GameEvents.Gameplay.End, UpdateLastRunScore);
-            GameEventManager.Unsubscribe(GameEvents.Gameplay.EarnedGem, OnGemEarned);
+            GameEventManager.Unsubscribe(GameEvents.Gameplay.EarnedLife, OnLifeEarned);
+            GameEventManager.Unsubscribe(GameEvents.Gameplay.ConsumeLife, OnLifeLost);
             GameEventManager.Unsubscribe(GameEvents.Gameplay.ScoreUpdated, OnScoreUpdated);
         }
         
@@ -36,6 +39,15 @@ namespace RollyVortex
             _lastRunScore = (int) obj[0];
             _highestScore = Math.Max(_lastRunScore, _highestScore);
             UpdateUiData();
+        }
+        
+        private void OnLifeLost(object[] obj)
+        {
+            _livesEarnedInRun--;
+            if (_livesEarnedInRun < 0)
+            {
+                new Command(GameEvents.Gameplay.End).Execute();
+            }
         }
 
         private void LoadPlayerData()
@@ -51,9 +63,9 @@ namespace RollyVortex
             StorePlayerData();
         }
         
-        private void OnGemEarned(object[] obj)
+        private void OnLifeEarned(object[] obj)
         {
-            _gemsEarnedInRun++;
+            _livesEarnedInRun++;
             UpdateUiData();
         }
 
@@ -61,7 +73,7 @@ namespace RollyVortex
         {
             UiDataProvider.UpdateData(UiDataKeys.Player.LastScore, _lastRunScore);
             UiDataProvider.UpdateData(UiDataKeys.Player.HighScore, _highestScore);
-            UiDataProvider.UpdateData(UiDataKeys.Player.Gems, _gemsEarnedInRun);
+            UiDataProvider.UpdateData(UiDataKeys.Player.Gems, _livesEarnedInRun);
         }
 
         private void StorePlayerData()

@@ -25,7 +25,7 @@ namespace RollyVortex
             switch (powerup.Type)
             {
                 case PowerupType.Gems:
-                    new Command(GameEvents.Gameplay.EarnedGem).Execute();
+                    new Command(GameEvents.Gameplay.EarnedLife).Execute();
                     break;
                 case PowerupType.Shrink:
                     new Command(GameEvents.Gameplay.OverrideSize, powerup.Data, GameConstants.Powerup.PowerupDuration).Execute();

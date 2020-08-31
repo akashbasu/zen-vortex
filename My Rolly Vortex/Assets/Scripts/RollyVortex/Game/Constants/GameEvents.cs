@@ -24,9 +24,10 @@ namespace RollyVortex
             public static readonly string ScoreUpdated = $"{nameof(Gameplay)}.{nameof(ScoreUpdated)}";
             public static readonly string HighScore = $"{nameof(Gameplay)}.{nameof(HighScore)}";
             public static readonly string Pickup = $"{nameof(Gameplay)}.{nameof(Pickup)}";
-            public static readonly string EarnedGem = $"{nameof(Gameplay)}.{nameof(EarnedGem)}";
+            public static readonly string EarnedLife = $"{nameof(Gameplay)}.{nameof(EarnedLife)}";
             public static readonly string OverrideSize = $"{nameof(Gameplay)}.{nameof(OverrideSize)}";
             public static readonly string OverrideTimeScale = $"{nameof(Gameplay)}.{nameof(OverrideTimeScale)}";
+            public static readonly string ConsumeLife = $"{nameof(Gameplay)}.{nameof(ConsumeLife)}";
         }
 
         internal static class Collisions
