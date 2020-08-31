@@ -43,7 +43,6 @@ namespace RollyVortex
             
             Enable(false);
             SetZ(0f);
-            Transform.rotation = Quaternion.Euler(Vector3.zero);
         }
 
         public void Spawn(params object[] args)
@@ -97,7 +96,7 @@ namespace RollyVortex
 
         private void Animate(float time)
         {
-            Transform.LeanRotateY(360f, time).setRepeat(-1);
+            LeanTween.rotateAroundLocal(_go, Vector3.up, 360f, time).setRepeat(-1);
         }
         
         private void StartMovement(float distanceToTravel, float time, Action onComplete)

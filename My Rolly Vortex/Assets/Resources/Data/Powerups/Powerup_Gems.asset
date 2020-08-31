@@ -18,4 +18,4 @@ MonoBehaviour:
     _min: -90
     _max: 90
     _isZeroBased: 0
-  _rotationTimeNormalization: 0.2
+  _rotationTimeNormalization: 0.05

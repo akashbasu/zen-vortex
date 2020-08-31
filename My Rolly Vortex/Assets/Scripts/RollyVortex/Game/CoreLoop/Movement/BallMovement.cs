@@ -100,8 +100,16 @@ namespace RollyVortex
 
         public void OnLevelStart()
         {
+            AnimateIntro();
             StartYAnimationTween();
             _isEnabled = true;
+        }
+
+        private void AnimateIntro()
+        {
+            LeanTween.value(0f, _tiling, LevelDataProvider.LevelData.DelayBeforeStart / GameConstants.Animation.Ball.LoopsBeforeStart).setLoopClamp().setOnUpdate(
+                tiling =>
+                    MovementUtils.SetTexturePosition(_material, _textureId, -tiling, 0)).setRepeat((int) GameConstants.Animation.Ball.LoopsBeforeStart);
         }
         
         private void StartYAnimationTween()
@@ -125,5 +133,17 @@ namespace RollyVortex
         }
         
         public void OnCollisionStay(GameObject other) { }
+    }
+    
+    
+    public static partial class GameConstants
+    {
+        internal static partial class Animation
+        {
+            internal static partial class Ball
+            {
+                public const float LoopsBeforeStart = 5f;
+            }
+        }
     }
 }
