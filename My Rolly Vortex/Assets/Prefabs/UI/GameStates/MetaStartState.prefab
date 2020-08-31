@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 1539444157326221160}
   - component: {fileID: 8752937031635260587}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: Read Me
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -247,26 +247,29 @@ MonoBehaviour:
     The controls are simple!
 
     1. Keep you
-    finger down to move the ball.
+    finger down to move the ball. You can move from side to side.
 
-    2. Pick up powerups
+    2. Pick up
+    powerups
 
     3. Have fun!
 
 
-    There
-    are three powerups in the game so far. Powerups last for 5 seconds and you can
-    have more than one active at a time
+    There are three powerups in the game so far.
+    Powerups last for 5 seconds and you can have more than one active at a time
 
-    1. Lives
+    1.
+    Lives
 
     2. Time slow down
 
-    3.
-    Size reduction'
+    3. Size reduction
+
+
+    Tap anywhere to continue...'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 0057e822a5de62747a2e3e2ebabdfcc4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -332,12 +335,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 8752937031635260587}
-    characterCount: 290
+    characterCount: 351
     spriteCount: 0
-    spaceCount: 59
-    wordCount: 58
+    spaceCount: 71
+    wordCount: 69
     linkCount: 0
-    lineCount: 12
+    lineCount: 14
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
@@ -427,7 +430,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -200, y: -400}
+  m_SizeDelta: {x: -200, y: -200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &581100960327719094
 CanvasRenderer:
@@ -450,7 +453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7254902, g: 0.8000001, b: 0.9294118, a: 0.2509804}
+  m_Color: {r: 0.18823531, g: 0.2784314, b: 0.36862746, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
