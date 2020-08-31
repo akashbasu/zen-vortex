@@ -11,6 +11,7 @@ TagManager:
   - ObstacleCache
   - UiRoot
   - PowerupCache
+  - Powerup
   layers:
   - Default
   - TransparentFX
