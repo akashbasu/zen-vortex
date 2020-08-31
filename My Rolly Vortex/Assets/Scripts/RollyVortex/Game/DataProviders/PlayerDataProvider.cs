@@ -66,6 +66,11 @@ namespace RollyVortex
 
         private void StorePlayerData()
         {
+            if (_highestScore != PlayerPrefs.GetInt(GameConstants.PlayerData.LastScore, 0))
+            {
+                new Command(GameEvents.Gameplay.HighScore);
+            }
+            
             PlayerPrefs.SetInt(GameConstants.PlayerData.LastScore, _lastRunScore);
             PlayerPrefs.SetInt(GameConstants.PlayerData.HighScore, _highestScore);
         }

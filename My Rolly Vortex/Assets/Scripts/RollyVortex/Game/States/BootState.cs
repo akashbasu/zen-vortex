@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace RollyVortex
 {
@@ -11,10 +10,14 @@ namespace RollyVortex
             {
                 new GameEventManager(),
                 CreateMonoBehavior<SceneReferenceProvider>(),
-                CreateMonoBehavior<MovementController>(),
-                new InputController(),
+                new AudioDataProvider(),
                 new UiDataProvider(),
-                new UiController()
+                
+                new InputController(),
+                new VibrationController(),
+                new AudioController(),
+                new UiController(),
+                CreateMonoBehavior<MovementController>(),
             };
 
             return states;

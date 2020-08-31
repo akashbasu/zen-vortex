@@ -16,13 +16,14 @@ namespace RollyVortex
 
         internal static class Gameplay
         {
-            public static string Start = $"{nameof(Gameplay)}.{nameof(Start)}";
-            public static string End = $"{nameof(Gameplay)}.{nameof(End)}";
-            public static string CrossedObstacle = $"{nameof(Gameplay)}.{nameof(CrossedObstacle)}";
-            public static string Reset = $"{nameof(Gameplay)}.{nameof(Reset)}";
-            public static string ScoreUpdated = $"{nameof(Gameplay)}.{nameof(ScoreUpdated)}";
-            public static string Pickup = $"{nameof(Gameplay)}.{nameof(Pickup)}";
-            public static string EarnedGem = $"{nameof(Gameplay)}.{nameof(EarnedGem)}";
+            public static readonly string Start = $"{nameof(Gameplay)}.{nameof(Start)}";
+            public static readonly string End = $"{nameof(Gameplay)}.{nameof(End)}";
+            public static readonly string CrossedObstacle = $"{nameof(Gameplay)}.{nameof(CrossedObstacle)}";
+            public static readonly string Reset = $"{nameof(Gameplay)}.{nameof(Reset)}";
+            public static readonly string ScoreUpdated = $"{nameof(Gameplay)}.{nameof(ScoreUpdated)}";
+            public static readonly string HighScore = $"{nameof(Gameplay)}.{nameof(HighScore)}";
+            public static readonly string Pickup = $"{nameof(Gameplay)}.{nameof(Pickup)}";
+            public static readonly string EarnedGem = $"{nameof(Gameplay)}.{nameof(EarnedGem)}";
         }
 
         internal static class Collisions
