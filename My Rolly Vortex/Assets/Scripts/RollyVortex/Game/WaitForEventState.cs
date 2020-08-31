@@ -31,12 +31,17 @@ namespace RollyVortex
         }
     }
 
-    internal class WaitForMetaStartComplete : WaitForEventState, IInitializable
+    internal class WaitForMetaStartComplete : WaitForEventState
     {
         protected override string EndEvent => GameEvents.Gameplay.Start;
     }
     
-    internal class WaitForGameLoopEnd : WaitForEventState, IInitializable
+    internal class WaitForMetaEndComplete : WaitForEventState
+    {
+        protected override string EndEvent => GameEvents.Gameplay.Reset;
+    }
+    
+    internal class WaitForGameLoopEnd : WaitForEventState
     {
         protected override string EndEvent => GameEvents.Gameplay.End;
     }

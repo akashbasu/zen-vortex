@@ -43,15 +43,15 @@ namespace RollyVortex
             onComplete?.Invoke(this);
         }
 
-        public static void UpdateData(string key, string data)
+        public static void UpdateData(string key, object data)
         {
             if (_directory.ContainsKey(key))
             {
-                _directory[key].UpdateData(data);
+                _directory[key].UpdateData(data.ToString());
             }
             else
             {
-                _directory[key] = new UiDataEntry<string>(data);
+                _directory[key] = new UiDataEntry<string>(data.ToString());
             }
         }
 

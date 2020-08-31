@@ -7,7 +7,11 @@ namespace RollyVortex
         //Load player data here : History, High Score, Data on Disk
         protected override List<IInitializable> GetSteps(object[] args)
         {
-            return new List<IInitializable>();
+            var steps = new List<IInitializable>();
+            
+            steps.Add(new PlayerDataProvider());
+
+            return steps;
         }
     }
 }

@@ -19,6 +19,8 @@ namespace RollyVortex
             public static string Start = $"{nameof(Gameplay)}.{nameof(Start)}";
             public static string End = $"{nameof(Gameplay)}.{nameof(End)}";
             public static string CrossedObstacle = $"{nameof(Gameplay)}.{nameof(CrossedObstacle)}";
+            public static string Reset = $"{nameof(Gameplay)}.{nameof(Reset)}";
+            public static string ScoreUpdated = $"{nameof(Gameplay)}.{nameof(ScoreUpdated)}";
         }
 
         internal static class Collisions
@@ -26,6 +28,12 @@ namespace RollyVortex
             public static readonly string Start = $"{nameof(Collisions)}.{nameof(Start)}";
             public static readonly string Stay = $"{nameof(Collisions)}.{nameof(Stay)}";
             public static readonly string End = $"{nameof(Collisions)}.{nameof(End)}";
+        }
+        
+        internal static class Application
+        {
+            public static readonly string Share = $"{nameof(Application)}.{nameof(Share)}";
+            public static readonly string Contact = $"{nameof(Application)}.{nameof(Contact)}";
         }
     }
 }

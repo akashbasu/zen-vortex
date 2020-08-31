@@ -9,6 +9,7 @@ namespace RollyVortex
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
             GameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
+            GameEventManager.Subscribe(GameEvents.Gameplay.CrossedObstacle, OnScoredPoint);
             GameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelEnd);
             
             onComplete?.Invoke(this);
@@ -17,7 +18,6 @@ namespace RollyVortex
         private void OnLevelStart(object[] obj)
         {
             UpdateScore(0);
-            GameEventManager.Subscribe(GameEvents.Gameplay.CrossedObstacle, OnScoredPoint);
         }
 
         private void OnLevelEnd(object[] obj)
@@ -38,7 +38,9 @@ namespace RollyVortex
         private void UpdateScore(int newScore)
         {
             _scoreForRun = newScore;
-            UiDataProvider.UpdateData(UiDataKeys.Player.Score, _scoreForRun.ToString());
+            UiDataProvider.UpdateData(UiDataKeys.Player.Score, _scoreForRun);
+            
+            new Command(GameEvents.Gameplay.ScoreUpdated, new object[]{_scoreForRun}).Execute();
         }
     }
     

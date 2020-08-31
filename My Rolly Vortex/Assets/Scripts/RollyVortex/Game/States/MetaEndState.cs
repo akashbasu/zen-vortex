@@ -2,12 +2,17 @@ using System.Collections.Generic;
 
 namespace RollyVortex
 {
-    //Post game UI
     internal sealed class MetaEndState : BaseGameState
     {
         protected override List<IInitializable> GetSteps(object[] args)
         {
-            return new List<IInitializable>();
+            var states = new List<IInitializable>
+            {
+                new SocialManager(),
+                new WaitForMetaEndComplete()
+            };
+
+            return states;
         }
     }
 }

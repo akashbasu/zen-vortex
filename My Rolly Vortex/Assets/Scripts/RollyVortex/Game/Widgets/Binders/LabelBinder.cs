@@ -3,10 +3,12 @@ using UnityEngine;
 
 namespace RollyVortex
 {
+    [DisallowMultipleComponent]
     [RequireComponent(typeof(TextMeshProUGUI))]
     internal class LabelBinder : MonoBehaviour, IBindable<string>
     {
         [SerializeField] private string _uiKey;
+        [SerializeField] private string _format;
         
         private TextMeshProUGUI _label;
         
@@ -17,7 +19,9 @@ namespace RollyVortex
 
         private void OnEnable()
         {
-            if (string.IsNullOrEmpty(_uiKey)) return;
+            if (!string.IsNullOrWhiteSpace(_format)) _label.text = string.Empty;
+            
+            if(string.IsNullOrEmpty(_uiKey)) return;
 
             UiDataProvider.RegisterLabel(_uiKey, this);
         }
@@ -29,7 +33,7 @@ namespace RollyVortex
 
         public void UpdateData(string data)
         {
-            _label.text = data;
+            _label.text = !string.IsNullOrWhiteSpace(_format) ? string.Format(_format, data) : data;
         }
     }
 }
