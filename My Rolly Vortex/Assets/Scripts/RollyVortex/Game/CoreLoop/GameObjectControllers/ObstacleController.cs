@@ -75,6 +75,11 @@ namespace RollyVortex
             StartRotation(time * _spawnData.RotationTimeNormalization);
         }
 
+        public void Pause()
+        {
+            LeanTween.pause(_go);
+        }
+
         public void CollisionStart(params object[] args)
         {
             if (args?.Length > 0)
@@ -116,19 +121,19 @@ namespace RollyVortex
         
         private void StartMovement(float distanceToTravel, float time, Action onComplete)
         {
-            Transform.LeanMoveLocalZ(-distanceToTravel, time).setOnComplete(onComplete);
+            _go.LeanMoveLocalZ(-distanceToTravel, time).setOnComplete(onComplete);
         }
         
         private void StartRotation(float time)
         {
-            Transform.LeanRotateZ(DeterministicRandomProvider.Next(_spawnData.TargetRotation.Min, _spawnData.TargetRotation.Max), time)
+            _go.LeanRotateZ(DeterministicRandomProvider.Next(_spawnData.TargetRotation.Min, _spawnData.TargetRotation.Max), time)
                 .setEase(GameConstants.Animation.Obstacle.Ease);
         }
 
         private void Animate(Vector3 sizeTarget, Color colorTarget, float time)
         {
             _go.LeanColor(colorTarget, time).setEase(GameConstants.Animation.Obstacle.Ease);
-            Transform.LeanScale(sizeTarget, time).setEase(GameConstants.Animation.Obstacle.Ease);
+            _go.LeanScale(sizeTarget, time).setEase(GameConstants.Animation.Obstacle.Ease);
         }
 
         private void Enable(bool isEnabled)

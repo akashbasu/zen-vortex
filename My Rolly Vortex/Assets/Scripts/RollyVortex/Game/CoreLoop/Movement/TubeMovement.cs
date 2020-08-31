@@ -31,7 +31,7 @@ namespace RollyVortex
 
         public void Reset()
         {
-            StopTween();
+            ResetTween();
             MovementUtils.SetTexturePosition(_material, _textureId, _materialXOffset, 0f);
         }
 
@@ -42,7 +42,12 @@ namespace RollyVortex
 
         public void OnLevelEnd()
         {
-            Reset();
+            StopMovement();
+        }
+
+        private void StopMovement()
+        {
+            _animationTween?.pause();
         }
 
         public void OnLevelStart()
@@ -56,9 +61,11 @@ namespace RollyVortex
                 MovementUtils.SetTexturePosition(_material, _textureId, _materialXOffset, -tiling)).setDelay(LevelDataProvider.LevelData.DelayBeforeStart);
         }
 
-        private void StopTween()
+        private void ResetTween()
         {
             if (_animationTween == null) return;
+
+            StopMovement();
             
             LeanTween.cancel(_animationTween.uniqueId);
             _animationTween.reset();

@@ -11,6 +11,8 @@ namespace RollyVortex
         
         void Reset();
         void SpawnNext(float timeForTravel);
+        void Pause();
+        
         ICacheEntry Current { get; }
     }
     
@@ -43,6 +45,11 @@ namespace RollyVortex
                 var instance = Activator.CreateInstance(entryType, new object[]{_cache.GetChild(i)});
                 Cache(instance as ICacheEntry);
             }
+        }
+
+        public void Pause()
+        {
+            foreach (var entry in _moving) entry.Pause();
         }
 
         public void Reset()

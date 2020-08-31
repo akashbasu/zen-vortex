@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RollyVortex
@@ -5,8 +6,6 @@ namespace RollyVortex
     internal sealed class BallMovement : ILevelMovement
     {
         private readonly Transform _anchor;
-
-        // private readonly GameInputAdapter _input;
 
         private readonly Material _material;
         private readonly float _materialXOffset;
@@ -20,6 +19,7 @@ namespace RollyVortex
         private float _xInputClock;
 
         private LTDescr _animationTween;
+        private List<GameObject> _particleStates;
 
         private bool _isEnabled;
         
@@ -41,20 +41,25 @@ namespace RollyVortex
             _materialXOffset = material.GetTextureOffset(_textureId).x;
             _tiling = material.GetTextureScale(_textureId).y;
 
-            // _input = new GameInputAdapter();
+            _particleStates = new List<GameObject>();
+            foreach (Transform child in ball.transform)
+            {
+                if (!string.Equals(child.name, GameConstants.Animation.Emitter)) continue;
+                foreach (Transform particleObject in child.transform) _particleStates.Add(particleObject.gameObject);
+            }
         }
 
         public void Reset()
         {
-            _isEnabled = false;
+            ParticleForState(AnimationState.Idle);
+            StopMovement();
+            ResetTween();
             
             _xInputClock = 0;
             _xGravityClock = 0f;
             _currentRotation = 0;
             
             MovementUtils.SetBallRotation(_anchor, _currentRotation);
-            
-            StopTween();
             MovementUtils.SetTexturePosition(_material, _textureId, _materialXOffset, 0);
         }
 
@@ -95,7 +100,8 @@ namespace RollyVortex
 
         public void OnLevelEnd()
         {
-            Reset();
+            StopMovement();
+            ParticleForState(AnimationState.Complete);
         }
 
         public void OnLevelStart()
@@ -105,8 +111,15 @@ namespace RollyVortex
             _isEnabled = true;
         }
 
+        private void StopMovement()
+        {
+            _isEnabled = false;
+            _animationTween?.pause();
+        }
+
         private void AnimateIntro()
         {
+            ParticleForState(AnimationState.Moving);
             LeanTween.value(0f, _tiling, LevelDataProvider.LevelData.DelayBeforeStart / GameConstants.Animation.Ball.LoopsBeforeStart).setLoopClamp().setOnUpdate(
                 tiling =>
                     MovementUtils.SetTexturePosition(_material, _textureId, -tiling, 0)).setRepeat((int) GameConstants.Animation.Ball.LoopsBeforeStart);
@@ -118,18 +131,28 @@ namespace RollyVortex
                 MovementUtils.SetTexturePosition(_material, _textureId, _materialXOffset, -tiling)).setDelay(LevelDataProvider.LevelData.DelayBeforeStart);
         }
 
-        private void StopTween()
+        private void ResetTween()
         {
             if (_animationTween == null) return;
+            
+            _animationTween.pause();
             
             LeanTween.cancel(_animationTween.uniqueId);
             _animationTween.reset();
             _animationTween = null;
         }
 
-        private bool IsCollisionFatal(GameObject other)
+        private void ParticleForState(AnimationState state)
         {
-            return false;
+            var index = (int) state;
+            foreach (var particleState in _particleStates) particleState.SetActive(false);
+            
+            if(_particleStates.Count > 0 && index < _particleStates.Count)
+            {
+                _particleStates[index].SetActive(true);
+                var ps = _particleStates[index].GetComponent<ParticleSystem>();
+                if(ps != null) ps.Play();
+            }
         }
         
         public void OnCollisionStay(GameObject other) { }
@@ -144,6 +167,8 @@ namespace RollyVortex
             {
                 public const float LoopsBeforeStart = 5f;
             }
+
+            public const string Emitter = nameof(Emitter);
         }
     }
 }

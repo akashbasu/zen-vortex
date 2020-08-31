@@ -19,7 +19,7 @@ namespace RollyVortex
         
         public void Reset()
         {
-            StopTween();
+            ResetTween();
             _cacheController.Reset();
         }
 
@@ -69,12 +69,20 @@ namespace RollyVortex
 
         public void OnLevelEnd()
         {
-            Reset();
+            StopMovement();
         }
-        
-        private void StopTween()
+
+        private void StopMovement()
+        {
+            _spawnTween?.pause();
+            _cacheController.Pause();
+        }
+
+        private void ResetTween()
         {
             if (_spawnTween == null) return;
+            
+            StopMovement();
             
             LeanTween.cancel(_spawnTween.uniqueId);
             _spawnTween.reset();

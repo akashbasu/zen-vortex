@@ -20,6 +20,7 @@ namespace RollyVortex
                 GameEventManager.Subscribe(GameEvents.Collisions.Start, CollisionNotifierOnStart);
                 GameEventManager.Subscribe(GameEvents.Collisions.End, CollisionNotifierOnEnd);
                 GameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
+                GameEventManager.Subscribe(GameEvents.Gameplay.Reset, OnReset);
 
                 onComplete?.Invoke(this);
                 return;
@@ -116,6 +117,11 @@ namespace RollyVortex
             if (!_canMove) return;
 
             foreach (var goMovement in _objectMovementMap) goMovement.Value.Update(Time.fixedDeltaTime);
+        }
+        
+        private void OnReset(object[] args)
+        {
+            ResetLevelValues();
         }
     }
 }

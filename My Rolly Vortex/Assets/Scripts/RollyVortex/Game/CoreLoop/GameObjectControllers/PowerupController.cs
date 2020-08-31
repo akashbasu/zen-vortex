@@ -65,6 +65,11 @@ namespace RollyVortex
             StartMovement(distanceToTravel, time, onComplete);
         }
 
+        public void Pause()
+        {
+            LeanTween.pause(_go);
+        }
+        
         public void CollisionStart(params object[] args)
         {
             Pickup();

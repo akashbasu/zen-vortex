@@ -17,6 +17,7 @@ namespace RollyVortex
         internal static class Gameplay
         {
             public static readonly string Start = $"{nameof(Gameplay)}.{nameof(Start)}";
+            public static readonly string Stop = $"{nameof(Gameplay)}.{nameof(Stop)}";
             public static readonly string End = $"{nameof(Gameplay)}.{nameof(End)}";
             public static readonly string CrossedObstacle = $"{nameof(Gameplay)}.{nameof(CrossedObstacle)}";
             public static readonly string Reset = $"{nameof(Gameplay)}.{nameof(Reset)}";
