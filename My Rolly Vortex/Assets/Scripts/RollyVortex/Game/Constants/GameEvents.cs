@@ -21,6 +21,8 @@ namespace RollyVortex
             public static string CrossedObstacle = $"{nameof(Gameplay)}.{nameof(CrossedObstacle)}";
             public static string Reset = $"{nameof(Gameplay)}.{nameof(Reset)}";
             public static string ScoreUpdated = $"{nameof(Gameplay)}.{nameof(ScoreUpdated)}";
+            public static string Pickup = $"{nameof(Gameplay)}.{nameof(Pickup)}";
+            public static string EarnedGem = $"{nameof(Gameplay)}.{nameof(EarnedGem)}";
         }
 
         internal static class Collisions

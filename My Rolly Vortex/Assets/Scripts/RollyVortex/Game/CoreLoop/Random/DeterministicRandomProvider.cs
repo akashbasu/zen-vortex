@@ -27,6 +27,7 @@ namespace RollyVortex
 
         public static int Next() => _random.Next();
         public static int Next(int min, int max) => _random.Next(min, max);
+        public static double NextNormalized() => _random.NextDouble();
         public static int Next(IntRangedValue val) => _random.Next(val.Min, val.Max);
     }
 }

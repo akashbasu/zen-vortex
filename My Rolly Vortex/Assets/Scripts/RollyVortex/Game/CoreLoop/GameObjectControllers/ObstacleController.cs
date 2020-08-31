@@ -53,7 +53,7 @@ namespace RollyVortex
             SetZ(0f);
         }
 
-        public void Spawn(params object[] args)//(ObstacleData data)
+        public void Spawn(params object[] args)
         {
             if (args?.Length == 0 || !(args[0] is ObstacleData spawnData))
             {
@@ -89,13 +89,12 @@ namespace RollyVortex
             {
                 _currentCollisions.Remove((int)args[0]);    
             }
+
+            if (_currentCollisions.Count != 0) return;
             
-            if(_currentCollisions.Count == 0)
-            {
-                new Command(GameEvents.Gameplay.CrossedObstacle).Execute();
-                Animate(GameConstants.Animation.Obstacle.ResetScaleValue, Color.clear,
-                    GameConstants.Animation.Obstacle.AnimateOutTime);
-            }
+            new Command(GameEvents.Gameplay.CrossedObstacle).Execute();
+            Animate(GameConstants.Animation.Obstacle.ResetScaleValue, Color.clear,
+                GameConstants.Animation.Obstacle.AnimateOutTime);
         }
         
         private void SetZ(float z)

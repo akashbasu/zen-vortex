@@ -50,7 +50,7 @@ namespace RollyVortex
             CacheAll();
         }
         
-        public void SpawnNext(float timeToTween)
+        public virtual void SpawnNext(float timeToTween)
         {
             HandleUnderflow();
             Fire(SpawnNextFromCache(), timeToTween);

@@ -25,23 +25,46 @@ namespace RollyVortex
 
         public void SetLevelData(LevelData data)
         {
-            //Set PU data here
+            _delayTime = data.DelayBeforeStart;
+            _loopInSeconds = _cacheController.DistanceToTravel / data.ObstacleSpeed;
+            _releasePowerupInSeconds = _loopInSeconds / data.Visibility;
         }
 
         public void OnCollisionEnter(GameObject other, int pointOfCollision)
         {
-            //Pick up PU here
+            if (!other.tag.Equals(Tags.Ball)) return;
+
+            _cacheController.Current.CollisionStart();
+            
+            switch (_cacheController.Current.HasActionableCollision)
+            {
+                case true: Debug.Log($"[{nameof(PowerupMovement)}] {nameof(OnCollisionEnter)} Picked up a powerup!");
+                    break;
+                case false:
+                    break;
+            }
         }
 
         public void OnCollisionExit(GameObject other, int pointOfCollision)
         {
-            //Deploy PU here
+            if (!other.tag.Equals(Tags.Ball)) return;
+            
+            _cacheController.Current.CollisionComplete();
+            
+            switch (_cacheController.Current.HasActionableCollision)
+            {
+                case true: Debug.Log($"[{nameof(PowerupMovement)}] {nameof(OnCollisionExit)} Exiting PU");
+                    break;
+                case false:
+                    
+                    break;
+            }
         }
 
         public void OnLevelStart()
         {
             _spawnTween = LeanTween.delayedCall(_releasePowerupInSeconds,
-                () => _cacheController.SpawnNext(_loopInSeconds)).setRepeat(-1).setDelay(_delayTime - _releasePowerupInSeconds);
+                () => _cacheController.SpawnNext(_loopInSeconds)).setRepeat(-1).setDelay(_delayTime - _releasePowerupInSeconds + (_releasePowerupInSeconds * GameConstants.Animation.Powerup.SpawnTimeOffset));
         }
 
         public void OnLevelEnd()
@@ -60,5 +83,16 @@ namespace RollyVortex
         
         public void Update(float deltaTime) { }
         public void OnCollisionStay(GameObject other) { }
+    }
+    
+    public static partial class GameConstants
+    {
+        internal static partial class Animation
+        {
+            internal static partial class Powerup
+            {
+                public static float SpawnTimeOffset = 0.5f;
+            }
+        }
     }
 }

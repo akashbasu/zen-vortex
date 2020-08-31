@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RollyVortex.Editor
 {
-    public static class ProceduralTools
+    internal static class ProceduralTools
     {
         private const string MeshPath = "Assets/Models/";
         private const string MeshPostfix = "_Mesh.asset";

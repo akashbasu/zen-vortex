@@ -11,6 +11,9 @@ namespace RollyVortex
         [SerializeField] private int _visibility = 3;
         [SerializeField] private IntRangedValue _grouping;
 
+        [Header("Powerups")] 
+        [SerializeField] private float _powerupDropProbability = 0.3f;
+
         [Header("Environment")] 
         [SerializeField] private float _gravity = 1f;
         
@@ -31,6 +34,9 @@ namespace RollyVortex
         public float ObstacleSpeed => _obstacleSpeed;
         public float BallSpeed => _ballSpeed;
         
+        //Powerups
+        public float PowerupDropProbability => _powerupDropProbability;
+
         //Environment
         public float Gravity => _gravity;
 

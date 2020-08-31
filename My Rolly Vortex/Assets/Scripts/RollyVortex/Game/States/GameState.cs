@@ -11,6 +11,7 @@ namespace RollyVortex
                 new LevelDataProvider(),
                 new DeterministicRandomProvider(),
                 new ObstacleDataProvider(),
+                new PowerupDataProvider(),
 
                 new ObstacleManager(),
                 new PowerupManager(),

@@ -7,12 +7,14 @@ namespace RollyVortex
     {
         private int _highestScore;
         private int _lastRunScore;
+        private int _gemsEarnedInRun;
         
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
             LoadPlayerData();
             
             GameEventManager.Subscribe(GameEvents.Gameplay.ScoreUpdated, OnScoreUpdated);
+            GameEventManager.Subscribe(GameEvents.Gameplay.EarnedGem, OnGemEarned);
             GameEventManager.Subscribe(GameEvents.Gameplay.End, UpdateLastRunScore);
             
             onComplete?.Invoke(this);
@@ -21,6 +23,7 @@ namespace RollyVortex
         ~PlayerDataProvider()
         {
             GameEventManager.Unsubscribe(GameEvents.Gameplay.End, UpdateLastRunScore);
+            GameEventManager.Unsubscribe(GameEvents.Gameplay.EarnedGem, OnGemEarned);
             GameEventManager.Unsubscribe(GameEvents.Gameplay.ScoreUpdated, OnScoreUpdated);
         }
         
@@ -45,11 +48,18 @@ namespace RollyVortex
             UpdateUiData();
             StorePlayerData();
         }
+        
+        private void OnGemEarned(object[] obj)
+        {
+            _gemsEarnedInRun++;
+            UpdateUiData();
+        }
 
         private void UpdateUiData()
         {
             UiDataProvider.UpdateData(UiDataKeys.Player.LastScore, _lastRunScore);
             UiDataProvider.UpdateData(UiDataKeys.Player.HighScore, _highestScore);
+            UiDataProvider.UpdateData(UiDataKeys.Player.Gems, _gemsEarnedInRun);
         }
 
         private void StorePlayerData()
@@ -74,6 +84,7 @@ namespace RollyVortex
         {
             public static readonly string LastScore = $"{nameof(Player)}.{nameof(LastScore)}";
             public static readonly string HighScore = $"{nameof(Player)}.{nameof(HighScore)}";
+            public static readonly string Gems = $"{nameof(Player)}.{nameof(Gems)}";
         }
     }
 }

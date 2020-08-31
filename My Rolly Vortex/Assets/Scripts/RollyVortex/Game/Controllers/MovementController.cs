@@ -59,7 +59,7 @@ namespace RollyVortex
                 {Tags.Board, tubeMovement},
                 {Tags.Ball, ballMovement},
                 {Tags.Obstacle, obstacleMovement},
-                {Tags.PowerupCache, powerupMovement}
+                {Tags.Powerup, powerupMovement}
             };
 
             return !_objectMovementMap.Any(x => x.Key == null || x.Value == null);

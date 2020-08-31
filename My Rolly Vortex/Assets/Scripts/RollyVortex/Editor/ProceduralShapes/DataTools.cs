@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace RollyVortex.Editor
 {
-    public class DataTools
+    internal class DataTools
     {
         [MenuItem("RollyVortex/DataTools/Level Data")]
         public static void CreateLevelData()
@@ -24,6 +24,19 @@ namespace RollyVortex.Editor
             if (selectedObject == null) return;
 
             SerializeObstacleData(selectedObject);
+        }
+        
+        [MenuItem("RollyVortex/DataTools/Powerup Data")]
+        public static void CreatePowerupData()
+        {
+            var outputPath = Path.Combine(GameConstants.DataPaths.ResourcesBase, GameConstants.DataPaths.Resources.Powerups,
+                $"{Tags.Powerup}_X.asset").Replace('\\', '/');
+
+            var doesAssetExist = AssetDatabase.GetAllAssetPaths().Any(x => string.Equals(outputPath, x));
+            if(doesAssetExist) return;
+            
+            AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<PowerupData>(), outputPath);
+            AssetDatabase.SaveAssets();
         }
 
         [MenuItem("RollyVortex/DataTools/Obstacle Data", true)]
