@@ -5,12 +5,15 @@ namespace RollyVortex
     public enum PowerupType
     {
         None = 0,
-        Gems = 1
+        Gems = 1,
+        Shrink = 2,
+        Time = 3
     }
     
     public class PowerupData : ScriptableObject
     {
         [SerializeField] private PowerupType _type;
+        [SerializeField] private float _data;
         
         [Header("Visuals")]
         [SerializeField] private Texture _image;
@@ -21,7 +24,7 @@ namespace RollyVortex
 
         //Type
         public PowerupType Type => _type;
-        
+        public float Data => _data;
         
         //Visuals
         public Texture Image => _image;

@@ -27,6 +27,12 @@ namespace RollyVortex
                 case PowerupType.Gems:
                     new Command(GameEvents.Gameplay.EarnedGem).Execute();
                     break;
+                case PowerupType.Shrink:
+                    new Command(GameEvents.Gameplay.OverrideSize, powerup.Data, GameConstants.Powerup.PowerupDuration).Execute();
+                    break;
+                case PowerupType.Time:
+                    new Command(GameEvents.Gameplay.OverrideTimeScale, powerup.Data, GameConstants.Powerup.PowerupDuration).Execute();
+                    break;
                 case PowerupType.None:
                 default:
                     Debug.LogError($"[{nameof(PowerupManager)}] {nameof(OnPowerupCollected)} Invalid Powerup type.");
@@ -50,6 +56,14 @@ namespace RollyVortex
             GameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
             GameEventManager.Unsubscribe(GameEvents.Gameplay.Pickup, OnPowerupCollected);
             GameEventManager.Unsubscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
+        }
+    }
+    
+    public static partial class GameConstants
+    {
+        internal static partial class Powerup
+        {
+            public const float PowerupDuration = 5f;
         }
     }
 }

@@ -13,6 +13,7 @@ namespace RollyVortex
                 new AudioDataProvider(),
                 new UiDataProvider(),
                 
+                new TimeController(),
                 new InputController(),
                 new VibrationController(),
                 new AudioController(),

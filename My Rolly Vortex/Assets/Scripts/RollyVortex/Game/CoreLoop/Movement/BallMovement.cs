@@ -5,6 +5,7 @@ namespace RollyVortex
 {
     internal sealed class BallMovement : ILevelMovement
     {
+        private readonly GameObject _ball;
         private readonly Transform _anchor;
 
         private readonly Material _material;
@@ -18,6 +19,8 @@ namespace RollyVortex
         private float _xGravityClock;
         private float _xInputClock;
 
+        private Vector3 _originalScale;
+        private LTSeq _scaleSequence;
         private LTDescr _animationTween;
         private List<GameObject> _particleStates;
 
@@ -25,6 +28,8 @@ namespace RollyVortex
         
         internal BallMovement(GameObject ball)
         {
+            _ball = ball;
+            _originalScale = _ball.transform.localScale;
             _anchor = ball.transform.parent;
 
             var material = ball.GetComponent<Renderer>().material;
@@ -100,12 +105,16 @@ namespace RollyVortex
 
         public void OnLevelEnd()
         {
+            GameEventManager.Unsubscribe(GameEvents.Gameplay.OverrideSize, StartScaleTween);
+            
             StopMovement();
             ParticleForState(AnimationState.Complete);
         }
 
         public void OnLevelStart()
         {
+            GameEventManager.Subscribe(GameEvents.Gameplay.OverrideSize, StartScaleTween);
+            
             AnimateIntro();
             StartYAnimationTween();
             _isEnabled = true;
@@ -131,15 +140,40 @@ namespace RollyVortex
                 MovementUtils.SetTexturePosition(_material, _textureId, _materialXOffset, -tiling)).setDelay(LevelDataProvider.LevelData.DelayBeforeStart);
         }
 
+        private void StartScaleTween(object[] args)
+        {
+            if(args?.Length < 2) return;
+            float scaleFactor = (float) args[0], duration = (float) args[1];
+            
+            if (_scaleSequence != null && LeanTween.isTweening(_scaleSequence.id))
+            {
+                var currentScale = _ball.transform.localScale;
+                LeanTween.cancel(_scaleSequence.id);
+                _ball.transform.localScale = currentScale;
+            }
+            
+            var targetScale = _originalScale * scaleFactor;
+
+            _scaleSequence = LeanTween.sequence().append(LeanTween.scale(_ball, targetScale, duration * .1f)).append(duration)
+                .append(LeanTween.scale(_ball, _originalScale, duration * .1f));
+        }
+
         private void ResetTween()
         {
-            if (_animationTween == null) return;
-            
-            _animationTween.pause();
-            
-            LeanTween.cancel(_animationTween.uniqueId);
-            _animationTween.reset();
-            _animationTween = null;
+            if (_animationTween != null)
+            {
+                _animationTween.pause();
+
+                LeanTween.cancel(_animationTween.uniqueId);
+                _animationTween.reset();
+                _animationTween = null;
+            }
+
+            if (_scaleSequence != null)
+            {
+                LeanTween.cancel(_scaleSequence.id);
+                _scaleSequence.reset();
+            }
         }
 
         private void ParticleForState(AnimationState state)
