@@ -482,7 +482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 337fc0b0c18e414abfc7df743ba68051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _uiKey: Player.Gems
+  _uiKey: Player.Lives
   _format: 
 --- !u!1 &5902499121198850155
 GameObject:
