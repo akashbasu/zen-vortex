@@ -126,7 +126,7 @@ namespace ZenVortex
                 if (_renderers[i].enabled) _fatalCollisions.Add(i);
             }
             
-            var spawnRotation = DeterministicRandomProvider.Next(_spawnData.SpawnRotation.Min, _spawnData.SpawnRotation.Max);
+            var spawnRotation = DeterministicRandomProvider.Next(_spawnData.SpawnRotation);
             MovementUtils.SetRotation(Transform, spawnRotation);
         }
         
@@ -165,8 +165,11 @@ namespace ZenVortex
         
         private void StartRotation(float time)
         {
-            _go.LeanRotateZ(DeterministicRandomProvider.Next(_spawnData.TargetRotation.Min, _spawnData.TargetRotation.Max), time)
-                .setEase(GameConstants.Animation.Obstacle.Ease);
+            if (DeterministicRandomProvider.NextBool(_spawnData.RotationProbability))
+            {
+                _go.LeanRotateZ(DeterministicRandomProvider.Next(_spawnData.TargetRotation), time)
+                    .setEase(GameConstants.Animation.Obstacle.Ease);    
+            }
         }
 
         private void Enable(bool isEnabled)
