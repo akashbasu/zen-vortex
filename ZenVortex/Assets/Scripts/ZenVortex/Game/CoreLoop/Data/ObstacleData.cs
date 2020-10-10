@@ -22,8 +22,8 @@ namespace ZenVortex
         public IntRangedValue SpawnRotation => _spawnRotation;
         public IntRangedValue TargetRotation => _targetRotation;
         public float AnimationInTimeNormalization => GameConstants.Animation.Obstacle.TravelTimeToAnimationRatio;
-        public float RotationTimeNormalization => GameConstants.Animation.Obstacle.TravelTimeToRotationRatio;
-
+        public float RotationTimeNormalization => 1f / LevelDataProvider.LevelData.Visibility - AnimationInTimeNormalization;
+        
         public bool IsEnabled(int childIndex)
         {
             return _enabledObjects.Contains(childIndex);
