@@ -8,7 +8,7 @@ namespace ZenVortex
         {
             var states = new List<IInitializable>
             {
-                CreateMonoBehavior<SocialManager>(),
+                MonoBehaviourUtils.CreateMonoBehaviorSingleton<SocialManager>(),
                 new WaitForMetaEndComplete()
             };
 

@@ -11,6 +11,11 @@ namespace ZenVortex
 
         private static GameObject _systemObject;
 
+        protected BaseGameState()
+        {
+            ConfigureState();
+        }
+
         public virtual void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
             _callback = onComplete;
@@ -21,6 +26,8 @@ namespace ZenVortex
 
             StartQueue();
         }
+
+        protected abstract void ConfigureState();
 
         protected abstract List<IInitializable> GetSteps(object[] args);
         
