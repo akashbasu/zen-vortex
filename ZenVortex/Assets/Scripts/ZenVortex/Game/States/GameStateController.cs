@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,20 +10,22 @@ namespace ZenVortex
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
-            AddGameStates(true);
+            
+            _steps.Clear();
+            AddOneTimeStates();
+            AddGameStates();
+            
             NextState();
         }
 
-        private void AddGameStates(bool addOneTimeStates = false)
+        private void AddOneTimeStates()
         {
-            _steps.Clear();
-            
-            if (addOneTimeStates)
-            {
-                _steps.Enqueue(new BootState());
-                _steps.Enqueue(new PlayerState());
-            }
-            
+            _steps.Enqueue(new BootState());
+            _steps.Enqueue(new PlayerState());
+        }
+
+        private void AddGameStates()
+        {
             _steps.Enqueue(new MetaStartState());
             _steps.Enqueue(new GameState());
             _steps.Enqueue(new MetaEndState());
