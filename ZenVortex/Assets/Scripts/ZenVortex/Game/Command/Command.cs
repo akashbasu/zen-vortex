@@ -30,9 +30,7 @@ namespace ZenVortex
 
     internal abstract class InitializableCommand : Command, IInitializable
     {
-        protected InitializableCommand(string eventName, params object[] args) : base(eventName, args)
-        {
-        }
+        protected InitializableCommand(string eventName, params object[] args) : base(eventName, args) { }
 
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {

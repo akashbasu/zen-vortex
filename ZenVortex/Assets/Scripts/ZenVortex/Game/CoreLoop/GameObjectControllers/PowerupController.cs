@@ -6,7 +6,6 @@ namespace ZenVortex
 {
     internal class PowerupController : ICacheEntry
     {
-        private readonly List<Texture> _textures;
         private readonly List<MeshRenderer> _renderers;
         private readonly List<Collider> _colliders;
         
@@ -23,14 +22,12 @@ namespace ZenVortex
             
             _colliders = new List<Collider>(_managedCount);
             _renderers = new  List<MeshRenderer>(_managedCount);
-            _textures = new List<Texture>(_managedCount);
             
             foreach (Transform child in transform.transform)
             {
                 _colliders.Add(child.GetComponent<Collider>());
                 var renderer = child.GetComponent<MeshRenderer>();
                 _renderers.Add(renderer);
-                _textures.Add(renderer.material.mainTexture);
             }
         }
         
