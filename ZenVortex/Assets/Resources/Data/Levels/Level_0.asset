@@ -18,6 +18,7 @@ MonoBehaviour:
     _min: 3
     _max: 7
     _isZeroBased: 0
+  _rotationProbability: 0.75
   _powerupDropProbability: 0.2
   _gravity: 1
   _tubeSpeed: 7

@@ -10,6 +10,7 @@ namespace ZenVortex
         [SerializeField] private float _speed = 1f;
         [SerializeField] private int _visibility = 3;
         [SerializeField] private IntRangedValue _grouping;
+        [SerializeField] private float _rotationProbability = 0.5f;
 
         [Header("Powerups")] 
         [SerializeField] private float _powerupDropProbability = 0.3f;
@@ -28,6 +29,7 @@ namespace ZenVortex
         //Difficulty
         public int Visibility => _visibility;
         public IntRangedValue Grouping => _grouping;
+        public float RotationProbability => _rotationProbability;
 
         //Speed
         public float TubeSpeed => _tubeSpeed;

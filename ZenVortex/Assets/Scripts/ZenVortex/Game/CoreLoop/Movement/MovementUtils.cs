@@ -28,6 +28,11 @@ namespace ZenVortex
             anchor.rotation = Quaternion.Euler(0, 0, targetRotation);
         }
 
+        public static float GetCurrentRotation(Transform anchor)
+        {
+            return anchor.rotation.eulerAngles.z;
+        }
+
         public static void SetPositionForObstacle(Transform obstacle, float z)
         {
             var currentPos = obstacle.localPosition;

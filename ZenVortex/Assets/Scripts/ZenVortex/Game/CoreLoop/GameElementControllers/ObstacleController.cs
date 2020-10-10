@@ -13,9 +13,12 @@ namespace ZenVortex
         private readonly HashSet<int> _currentCollisions;
 
         private readonly GameObject _go;
+        private readonly ObstacleAnimator _animator;
         private readonly int _managedCount;
         
-        private ObstacleData _spawnData;
+        private bool _canSpin;
+        private ObstacleData _obstacleData;
+        private LevelData _levelData;
         private bool _didConsumeLife;
 
         public Transform Transform { get; }
@@ -27,6 +30,7 @@ namespace ZenVortex
             Transform = transform;
             _go = transform.gameObject;
             _managedCount = transform.childCount;
+            _animator = new ObstacleAnimator(_go);
 
             _colliders = new List<Collider>(_managedCount);
             _renderers = new  List<MeshRenderer>(_managedCount);
@@ -42,48 +46,49 @@ namespace ZenVortex
 
         public void Reset()
         {
-            LeanTween.cancel(_go);
+            _animator.Reset();
 
             _didConsumeLife = false;
+            _canSpin = true;
             Transform.localScale = GameConstants.Animation.Obstacle.ResetScaleValue;
             foreach (var renderer in _renderers) renderer.enabled = true;
             _fatalCollisions.Clear();
             _currentCollisions.Clear();
-            AnimateColor(Color.clear, 0, 0);
+            
             Enable(false);
             SetZ(0f);
         }
 
         public void Spawn(params object[] args)
         {
-            if (args?.Length == 0 || !(args[0] is ObstacleData spawnData))
+            if (args?.Length < 2 || !(args[0] is ObstacleData spawnData) || !(args[1] is LevelData levelData))
             {
                 Reset();
                 return;
             }
 
-            _spawnData = spawnData;
+            _obstacleData = spawnData;
+            _levelData = levelData;
 
-            SetSpawnData();
+            ApplySpawnData();
             Enable(true);
         }
 
         public void Fire(float distanceToTravel, float time, Action onComplete, params object[] args)
         {
-            if (!(args?.Length == 0 || !(args[0] is Color groupColor)))
-            {
-                AnimateIn(distanceToTravel, groupColor, time, onComplete);
-            }
-            else
-            {
-                Debug.LogError($"[{nameof(ObstacleController)}] {nameof(Fire)} did not find argument with obstacle group color.");
-                AnimateIn(distanceToTravel, Color.magenta, time, onComplete);
-            }
+            if (args?.Length < 1 || !(args[0] is Color groupColor)) return;
+            
+            var animationParams = new ObstacleAnimator.AnimateInParams(distanceToTravel, time,
+                time * _obstacleData.AnimationInTimeNormalization,
+                GameConstants.Animation.Obstacle.TargetScaleValue, GetNextTargetRotation(),
+                time * _obstacleData.RotationTimeNormalization, groupColor);
+                
+            _animator.AnimateIn(animationParams, onComplete);
         }
 
         public void Pause()
         {
-            LeanTween.pause(_go);
+            _animator.Pause();
         }
 
         public void CollisionStart(params object[] args)
@@ -110,7 +115,7 @@ namespace ZenVortex
             }
             
             new Command(GameEvents.Gameplay.CrossedObstacle).Execute();
-            AnimateOut(GameConstants.Animation.Obstacle.ResetScaleValue, GameConstants.Animation.Obstacle.AnimateOutTime);
+            _animator.AnimateOut(new ObstacleAnimator.AnimateOutParams(GameConstants.Animation.Obstacle.ResetScaleValue, GameConstants.Animation.Obstacle.AnimateOutTime));
         }
         
         private void SetZ(float z)
@@ -118,59 +123,26 @@ namespace ZenVortex
             MovementUtils.SetPositionForObstacle(Transform, z);
         }
 
-        private void SetSpawnData()
+        private void ApplySpawnData()
         {
             for (var i = 0; i < _managedCount; i++)
             {
-                _renderers[i].enabled = _spawnData.IsEnabled(i);
+                _renderers[i].enabled = _obstacleData.IsEnabled(i);
                 if (_renderers[i].enabled) _fatalCollisions.Add(i);
             }
-            
-            var spawnRotation = DeterministicRandomProvider.Next(_spawnData.SpawnRotation);
-            MovementUtils.SetRotation(Transform, spawnRotation);
-        }
-        
-        private void AnimateIn(float distanceToTravel, Color groupColor, float time, Action onComplete)
-        {
-            var animateInTime = time * _spawnData.AnimationInTimeNormalization;
 
-            LeanTween.sequence()
-                .append(() => StartMovement(distanceToTravel, time, onComplete))
-                .append(() => AnimateScale(GameConstants.Animation.Obstacle.TargetScaleValue, animateInTime))
-                .append(() => AnimateColor(groupColor, 1, animateInTime))
-                .append(animateInTime)
-                .append(() => StartRotation(time * _spawnData.RotationTimeNormalization));
+            _canSpin = DeterministicRandomProvider.NextBool(_levelData.RotationProbability);
+            
+            MovementUtils.SetRotation(Transform, GetNextSpawnRotation());
         }
         
-        private void AnimateOut(Vector3 sizeTarget, float time)
-        {
-            AnimateScale(sizeTarget, time);
-        }
-        
-        private void StartMovement(float distanceToTravel, float time, Action onComplete)
-        {
-            _go.LeanMoveLocalZ(-distanceToTravel, time).setOnComplete(onComplete);
-        }
-        
-        private void AnimateScale(Vector3 targetScale, float time)
-        {
-            _go.LeanScale(targetScale, time).setEase(GameConstants.Animation.Obstacle.Ease);
-        }
-        
-        private void AnimateColor(Color targetColor, float alpha, float time)
-        {
-            _go.LeanColor(targetColor, 0);
-            _go.LeanAlpha(alpha, time);
-        }
-        
-        private void StartRotation(float time)
-        {
-            if (DeterministicRandomProvider.NextBool(_spawnData.RotationProbability))
-            {
-                _go.LeanRotateZ(DeterministicRandomProvider.Next(_spawnData.TargetRotation), time)
-                    .setEase(GameConstants.Animation.Obstacle.Ease);    
-            }
-        }
+        private float GetNextSpawnRotation() => _canSpin 
+            ? DeterministicRandomProvider.Next(_obstacleData.SpawnRotation) 
+            : DeterministicRandomProvider.Next(_obstacleData.TargetRotation);
+
+        private float GetNextTargetRotation() => _canSpin
+            ? DeterministicRandomProvider.Next(_obstacleData.TargetRotation)
+            : MovementUtils.GetCurrentRotation(Transform);
 
         private void Enable(bool isEnabled)
         {
