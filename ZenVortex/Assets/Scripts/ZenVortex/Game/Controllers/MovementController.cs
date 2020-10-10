@@ -31,6 +31,7 @@ namespace ZenVortex
         {
             GameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
             GameEventManager.Unsubscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
+            GameEventManager.Unsubscribe(GameEvents.Gameplay.Reset, OnReset);
         }
 
         private bool GetReferences()
@@ -64,6 +65,7 @@ namespace ZenVortex
 
         private void ResetLevelValues()
         {
+            _canMove = false;
             foreach (var goMovement in _objectMovementMap) goMovement.Value.Reset();
         }
 
@@ -77,6 +79,7 @@ namespace ZenVortex
 
         private void OnLevelStop(object[] args)
         {
+            _canMove = false;
             foreach (var goMovement in _objectMovementMap) goMovement.Value.OnLevelEnd();
         }
         
