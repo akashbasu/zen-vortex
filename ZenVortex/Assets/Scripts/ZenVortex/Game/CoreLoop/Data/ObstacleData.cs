@@ -21,7 +21,7 @@ namespace ZenVortex
         public List<Color> SpawnColors => _spawnColors;
         public IntRangedValue SpawnRotation => _spawnRotation;
         public IntRangedValue TargetRotation => _targetRotation;
-        public float AnimationTimeNormalization => GameConstants.Animation.Obstacle.TravelTimeToAnimationRatio;
+        public float AnimationInTimeNormalization => GameConstants.Animation.Obstacle.TravelTimeToAnimationRatio;
         public float RotationTimeNormalization => GameConstants.Animation.Obstacle.TravelTimeToRotationRatio;
 
         public bool IsEnabled(int childIndex)
@@ -150,8 +150,8 @@ namespace ZenVortex
         {
             internal static partial class Obstacle
             {
-                public const float TravelTimeToRotationRatio = 0.25f;
-                public const float TravelTimeToAnimationRatio = 0.5f;
+                public const float TravelTimeToRotationRatio = 0.10f;
+                public const float TravelTimeToAnimationRatio = 0.15f;
                 public const int MinGapSize = 5;
                 public const int Resolution = 24;
                 public static readonly IntRangedValue DefaultRotation = new IntRangedValue(0, 360);

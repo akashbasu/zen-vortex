@@ -49,8 +49,7 @@ namespace ZenVortex
             foreach (var renderer in _renderers) renderer.enabled = true;
             _fatalCollisions.Clear();
             _currentCollisions.Clear();
-            _go.LeanColor(Color.clear, 0);
-                
+            AnimateColor(Color.clear, 0, 0);
             Enable(false);
             SetZ(0f);
         }
@@ -71,10 +70,15 @@ namespace ZenVortex
 
         public void Fire(float distanceToTravel, float time, Action onComplete, params object[] args)
         {
-            if (!(args?.Length == 0 || !(args[0] is Color groupColor))) Animate(GameConstants.Animation.Obstacle.TargetScaleValue, groupColor, time * _spawnData.AnimationTimeNormalization);
-            
-            StartMovement(distanceToTravel, time, onComplete);
-            StartRotation(time * _spawnData.RotationTimeNormalization);
+            if (!(args?.Length == 0 || !(args[0] is Color groupColor)))
+            {
+                AnimateIn(distanceToTravel, groupColor, time, onComplete);
+            }
+            else
+            {
+                Debug.LogError($"[{nameof(ObstacleController)}] {nameof(Fire)} did not find argument with obstacle group color.");
+                AnimateIn(distanceToTravel, Color.magenta, time, onComplete);
+            }
         }
 
         public void Pause()
@@ -106,8 +110,7 @@ namespace ZenVortex
             }
             
             new Command(GameEvents.Gameplay.CrossedObstacle).Execute();
-            Animate(GameConstants.Animation.Obstacle.ResetScaleValue, Color.clear,
-                GameConstants.Animation.Obstacle.AnimateOutTime);
+            AnimateOut(GameConstants.Animation.Obstacle.ResetScaleValue, GameConstants.Animation.Obstacle.AnimateOutTime);
         }
         
         private void SetZ(float z)
@@ -127,21 +130,43 @@ namespace ZenVortex
             MovementUtils.SetRotation(Transform, spawnRotation);
         }
         
+        private void AnimateIn(float distanceToTravel, Color groupColor, float time, Action onComplete)
+        {
+            var animateInTime = time * _spawnData.AnimationInTimeNormalization;
+
+            LeanTween.sequence()
+                .append(() => StartMovement(distanceToTravel, time, onComplete))
+                .append(() => AnimateScale(GameConstants.Animation.Obstacle.TargetScaleValue, animateInTime))
+                .append(() => AnimateColor(groupColor, 1, animateInTime))
+                .append(animateInTime)
+                .append(() => StartRotation(time * _spawnData.RotationTimeNormalization));
+        }
+        
+        private void AnimateOut(Vector3 sizeTarget, float time)
+        {
+            AnimateScale(sizeTarget, time);
+        }
+        
         private void StartMovement(float distanceToTravel, float time, Action onComplete)
         {
             _go.LeanMoveLocalZ(-distanceToTravel, time).setOnComplete(onComplete);
+        }
+        
+        private void AnimateScale(Vector3 targetScale, float time)
+        {
+            _go.LeanScale(targetScale, time).setEase(GameConstants.Animation.Obstacle.Ease);
+        }
+        
+        private void AnimateColor(Color targetColor, float alpha, float time)
+        {
+            _go.LeanColor(targetColor, 0);
+            _go.LeanAlpha(alpha, time);
         }
         
         private void StartRotation(float time)
         {
             _go.LeanRotateZ(DeterministicRandomProvider.Next(_spawnData.TargetRotation.Min, _spawnData.TargetRotation.Max), time)
                 .setEase(GameConstants.Animation.Obstacle.Ease);
-        }
-
-        private void Animate(Vector3 sizeTarget, Color colorTarget, float time)
-        {
-            _go.LeanColor(colorTarget, time).setEase(GameConstants.Animation.Obstacle.Ease);
-            _go.LeanScale(sizeTarget, time).setEase(GameConstants.Animation.Obstacle.Ease);
         }
 
         private void Enable(bool isEnabled)

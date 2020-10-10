@@ -192,6 +192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _uiKey: Player.HighScore
   _format: High Score {0}
+  _animateOnChange: 1
 --- !u!1 &1726124617925569930
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,6 +485,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _uiKey: Player.Lives
   _format: 
+  _animateOnChange: 1
 --- !u!1 &5902499121198850155
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,6 +773,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _uiKey: Player.Score
   _format: 
+  _animateOnChange: 1
 --- !u!1001 &775875525860241183
 PrefabInstance:
   m_ObjectHideFlags: 0

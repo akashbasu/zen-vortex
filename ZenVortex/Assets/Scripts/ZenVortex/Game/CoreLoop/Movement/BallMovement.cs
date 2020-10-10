@@ -19,10 +19,10 @@ namespace ZenVortex
         private float _xGravityClock;
         private float _xInputClock;
 
-        private Vector3 _originalScale;
+        private readonly Vector3 _originalScale;
         private LTSeq _scaleSequence;
         private LTDescr _animationTween;
-        private List<GameObject> _particleStates;
+        private readonly List<GameObject> _particleStates;
 
         private bool _isEnabled;
         
