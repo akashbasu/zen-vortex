@@ -2,17 +2,10 @@ using UnityEngine;
 
 namespace ZenVortex
 {
-    internal interface ILevelMovement
+    internal interface ICollisionEventObserver
     {
-        void Reset();
-        void Update(float deltaTime);
-        void SetLevelData(LevelData data);
-
         void OnCollisionEnter(GameObject other, int pointOfCollision);
         void OnCollisionStay(GameObject other);
         void OnCollisionExit(GameObject other, int pointOfCollision);
-
-        void OnLevelStart();
-        void OnLevelEnd();
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ZenVortex
 {
-    internal sealed class BallMovement : ILevelMovement
+    internal sealed class BallMovement : ILevelMovementObserver
     {
         private readonly GameObject _ball;
         private readonly Transform _anchor;
@@ -100,10 +100,6 @@ namespace ZenVortex
             _gravityTime = 1f / data.Gravity;
         }
 
-        public void OnCollisionEnter(GameObject other, int pointOfCollision) { }
-
-        public void OnCollisionExit(GameObject other, int pointOfCollision) { }
-
         public void OnLevelEnd()
         {
             GameEventManager.Unsubscribe(GameEvents.Gameplay.OverrideSize, StartScaleTween);
@@ -189,8 +185,6 @@ namespace ZenVortex
                 if(ps != null) ps.Play();
             }
         }
-        
-        public void OnCollisionStay(GameObject other) { }
     }
     
     

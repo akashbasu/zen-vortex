@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace ZenVortex
 {
-    internal class ObstacleMovement : ILevelMovement
+    internal class ObstacleMovement : ILevelMovementObserver, ICollisionEventObserver
     {
-        private readonly ICacheController _cacheController;
+        private static ICacheController _cacheController;
 
         private float _delayTime;
         private float _loopInSeconds;
@@ -14,7 +14,7 @@ namespace ZenVortex
 
         internal ObstacleMovement(GameObject obstacleCache)
         {
-            _cacheController = new ObstacleCacheController(obstacleCache.transform, Camera.main.transform.position);
+            if(_cacheController == null) _cacheController = new ObstacleCacheController(obstacleCache.transform, Camera.main.transform.position);
         }
 
        public void Reset()

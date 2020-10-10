@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace ZenVortex
 {
-    internal class PowerupMovement : ILevelMovement
+    internal class PowerupMovement : ILevelMovementObserver, ICollisionEventObserver
     {
-        private readonly ICacheController _cacheController;
+        private static ICacheController _cacheController;
         
         private float _delayTime;
         private float _loopInSeconds;
@@ -14,7 +14,7 @@ namespace ZenVortex
         
         internal PowerupMovement(GameObject powerupCache)
         {
-            _cacheController = new PowerupCacheController(powerupCache.transform, Camera.main.transform.position);
+            if(_cacheController == null) _cacheController = new PowerupCacheController(powerupCache.transform, Camera.main.transform.position);
         }
         
         public void Reset()

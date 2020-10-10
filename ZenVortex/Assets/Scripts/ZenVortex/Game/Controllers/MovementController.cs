@@ -8,7 +8,7 @@ namespace ZenVortex
     internal class MovementController : MonoBehaviour, IInitializable
     {
         private bool _canMove;
-        private Dictionary<string, ILevelMovement> _objectMovementMap;
+        private Dictionary<string, ILevelMovementObserver> _objectMovementMap;
 
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
@@ -17,8 +17,6 @@ namespace ZenVortex
                 ResetLevelValues();
 
                 GameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
-                GameEventManager.Subscribe(GameEvents.Collisions.Start, CollisionNotifierOnStart);
-                GameEventManager.Subscribe(GameEvents.Collisions.End, CollisionNotifierOnEnd);
                 GameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
                 GameEventManager.Subscribe(GameEvents.Gameplay.Reset, OnReset);
 
@@ -32,8 +30,6 @@ namespace ZenVortex
         private void OnDestroy()
         {
             GameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
-            GameEventManager.Unsubscribe(GameEvents.Collisions.Start, CollisionNotifierOnStart);
-            GameEventManager.Unsubscribe(GameEvents.Collisions.End, CollisionNotifierOnEnd);
             GameEventManager.Unsubscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
         }
 
@@ -55,7 +51,7 @@ namespace ZenVortex
             
             var powerupMovement = new PowerupMovement(powerupCache);
 
-            _objectMovementMap = new Dictionary<string, ILevelMovement>
+            _objectMovementMap = new Dictionary<string, ILevelMovementObserver>
             {
                 {Tags.Board, tubeMovement},
                 {Tags.Ball, ballMovement},
@@ -77,34 +73,6 @@ namespace ZenVortex
             foreach (var goMovement in _objectMovementMap) goMovement.Value.OnLevelStart();
             
             _canMove = true;
-        }
-
-        private void CollisionNotifierOnStart(object[] args)
-        {
-            if (!(args?.Length >= 3)) return;
-
-            var source = args[0] as GameObject;
-            var collidedWith = args[1] as GameObject;
-            var pointOfCollision = (int) args[2];
-
-            if (_objectMovementMap.ContainsKey(source.tag))
-                _objectMovementMap[source.tag].OnCollisionEnter(collidedWith, pointOfCollision);
-            if (_objectMovementMap.ContainsKey(collidedWith.tag))
-                _objectMovementMap[collidedWith.tag].OnCollisionEnter(source, pointOfCollision);
-        }
-    
-        private void CollisionNotifierOnEnd(object[] args)
-        {
-            if (!(args?.Length >= 2)) return;
-
-            var source = args[0] as GameObject;
-            var collidedWith = args[1] as GameObject;
-            var pointOfCollision = (int) args[2];
-
-            if (_objectMovementMap.ContainsKey(source.tag))
-                _objectMovementMap[source.tag].OnCollisionExit(collidedWith, pointOfCollision);
-            if (_objectMovementMap.ContainsKey(collidedWith.tag))
-                _objectMovementMap[collidedWith.tag].OnCollisionExit(source, pointOfCollision);
         }
 
         private void OnLevelStop(object[] args)

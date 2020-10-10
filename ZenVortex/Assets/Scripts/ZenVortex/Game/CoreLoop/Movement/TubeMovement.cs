@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ZenVortex
 {
-    internal sealed class TubeMovement : ILevelMovement
+    internal sealed class TubeMovement : ILevelMovementObserver
     {
         private readonly Material _material;
         private readonly float _materialXOffset;
@@ -73,8 +73,5 @@ namespace ZenVortex
         }
         
         public void Update(float deltaTime) { }
-        public void OnCollisionStay(GameObject other) { }
-        public void OnCollisionEnter(GameObject other, int pointOfCollision) { }
-        public void OnCollisionExit(GameObject other, int pointOfCollision) { }
     }
 }
