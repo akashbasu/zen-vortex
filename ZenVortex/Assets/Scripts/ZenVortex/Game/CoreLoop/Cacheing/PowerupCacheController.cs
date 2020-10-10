@@ -8,8 +8,7 @@ namespace ZenVortex
 
         public override void SpawnNext(float timeToTween)
         {
-            var canSpawn = DeterministicRandomProvider.NextNormalized();
-            if(canSpawn > LevelDataProvider.LevelData.PowerupDropProbability) return;
+            if(!DeterministicRandomProvider.NextBool(LevelDataProvider.LevelData.PowerupDropProbability)) return;
             
             base.SpawnNext(timeToTween);
         }

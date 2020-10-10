@@ -29,5 +29,6 @@ namespace ZenVortex
         public static int Next(int min, int max) => _random.Next(min, max);
         public static double NextNormalized() => _random.NextDouble();
         public static int Next(IntRangedValue val) => _random.Next(val.Min, val.Max);
+        public static bool NextBool(float normalizedProbability) => NextNormalized() <= normalizedProbability;
     }
 }
