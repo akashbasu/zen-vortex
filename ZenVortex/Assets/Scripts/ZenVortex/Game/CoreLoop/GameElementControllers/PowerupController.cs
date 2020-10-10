@@ -12,7 +12,7 @@ namespace ZenVortex
         private readonly GameObject _go;
         private readonly int _managedCount;
         
-        private PowerupData _spawnData;
+        private PowerupData _powerupData;
 
         public PowerupController(Transform transform)
         {
@@ -50,7 +50,7 @@ namespace ZenVortex
                 return;
             }
             
-            _spawnData = spawnData;
+            _powerupData = spawnData;
 
             SetSpawnData();
             Enable(true);
@@ -58,7 +58,7 @@ namespace ZenVortex
 
         public void Fire(float distanceToTravel, float time, Action onComplete, params object[] args)
         {
-            Animate(time * _spawnData.RotationTimeNormalization);
+            Animate(time * _powerupData.RotationTimeNormalization);
             StartMovement(distanceToTravel, time, onComplete);
         }
 
@@ -90,9 +90,9 @@ namespace ZenVortex
         
         private void SetSpawnData()
         {
-            for (var i = 0; i < _managedCount; i++) _renderers[i].material.mainTexture = _spawnData.Image;
+            for (var i = 0; i < _managedCount; i++) _renderers[i].material.mainTexture = _powerupData.Image;
             
-            var spawnRotation = DeterministicRandomProvider.Next(_spawnData.SpawnRotation);
+            var spawnRotation = DeterministicRandomProvider.Next(_powerupData.SpawnRotation);
             MovementUtils.SetRotation(Transform, spawnRotation);
         }
 
@@ -108,7 +108,7 @@ namespace ZenVortex
 
         private void Pickup()
         {
-            new Command(GameEvents.Gameplay.Pickup, new object[]{_spawnData}).Execute();
+            new Command(GameEvents.Gameplay.Pickup, new object[]{_powerupData}).Execute();
         }
     }
 }

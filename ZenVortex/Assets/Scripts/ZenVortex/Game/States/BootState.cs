@@ -18,6 +18,7 @@ namespace ZenVortex
                 new VibrationController(),
                 new AudioController(),
                 new UiController(),
+                new CollisionController(),
                 CreateMonoBehavior<MovementController>(),
             };
 

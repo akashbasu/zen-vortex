@@ -46,7 +46,7 @@ namespace ZenVortex
             if (go == null)
             {
                 Debug.LogWarning(
-                    $"[{nameof(SceneReferenceProvider)}] is searching for go with tag. This is slow and expensive!");
+                    $"[{nameof(SceneReferenceProvider)}] is searching for go with tag {tag}. This is slow and expensive!");
                 SafeGetGoWithTag(tag, out go);
             }
 
