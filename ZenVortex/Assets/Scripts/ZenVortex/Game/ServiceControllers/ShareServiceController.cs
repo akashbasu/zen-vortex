@@ -4,7 +4,9 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class ShareServiceController : MonoBehaviour, IPostConstructable
+    internal interface IShareServiceController : IPostConstructable {}
+    
+    internal class ShareServiceController : MonoBehaviour, IShareServiceController
     {
         [Dependency] private readonly IGameEventManager _gameEventManager;
         [Dependency] private readonly IPlayerDataManager _playerDataManager;

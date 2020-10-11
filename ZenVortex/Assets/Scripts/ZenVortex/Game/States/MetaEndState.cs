@@ -7,7 +7,7 @@ namespace ZenVortex
     {
         protected override void InstallDependencies()
         {
-            DependencyRegistry.RegisterConcreteType<ShareServiceController>();
+            DependencyRegistry.RegisterInterface<IShareServiceController, ShareServiceController>();
         }
         
         protected override Queue<IInitializable> GetSteps()
