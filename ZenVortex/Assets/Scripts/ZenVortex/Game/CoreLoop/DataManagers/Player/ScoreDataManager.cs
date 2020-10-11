@@ -3,7 +3,7 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class ScoreManager : IInitializable
+    internal class ScoreDataManager : IInitializable
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         [Dependency] private readonly UiDataProvider _uiDataProvider;
