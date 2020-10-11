@@ -1,24 +1,21 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class ShareServiceController : MonoBehaviour, IInitializable
+    internal class ShareServiceController : MonoBehaviour, IPostConstructable
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         [Dependency] private readonly PlayerDataManager _playerDataManager;
         
-        public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
+        public void PostConstruct(params object[] args)
         {
             _gameEventManager.Subscribe(GameEvents.Application.Share, OnShare);
             _gameEventManager.Subscribe(GameEvents.Application.Contact, OnContact);
-            
-            onComplete?.Invoke(this);
         }
 
-        private void OnDestroy()
+        public void Dispose()
         {
             _gameEventManager.Unsubscribe(GameEvents.Application.Share, OnShare);
             _gameEventManager.Unsubscribe(GameEvents.Application.Contact, OnContact);

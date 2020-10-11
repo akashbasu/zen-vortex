@@ -5,8 +5,6 @@ namespace ZenVortex
 {
     internal sealed class MetaEndState : BaseGameState
     {
-        [Dependency] private readonly ShareServiceController _shareServiceController;
-        
         protected override void Configure()
         {
             DependencyRegistry.Register<ShareServiceController>();
@@ -14,13 +12,10 @@ namespace ZenVortex
         
         protected override List<IInitializable> GetSteps(object[] args)
         {
-            var states = new List<IInitializable>
+            return new List<IInitializable>
             {
-                _shareServiceController,
                 new WaitForMetaEndComplete()
             };
-
-            return states;
         }
     }
 }
