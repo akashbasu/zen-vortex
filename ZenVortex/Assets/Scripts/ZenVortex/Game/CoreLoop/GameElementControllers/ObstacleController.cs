@@ -8,7 +8,7 @@ namespace ZenVortex
 {
     internal class ObstacleController : ICacheEntry
     {
-        [Dependency] private readonly PlayerDataProvider _playerDataProvider;
+        [Dependency] private readonly PlayerDataManager _playerDataManager;
         [Dependency] private readonly DeterministicRandomProvider _deterministicRandomProvider;
         
         private readonly List<MeshRenderer> _renderers;
@@ -26,7 +26,7 @@ namespace ZenVortex
         private bool _didConsumeLife;
 
         public Transform Transform { get; }
-        public bool HasActionableCollision => _currentCollisions.Any(x => _fatalCollisions.Contains(x)) && _playerDataProvider.LifeCount <= 0;
+        public bool HasActionableCollision => _currentCollisions.Any(x => _fatalCollisions.Contains(x)) && _playerDataManager.LifeCount <= 0;
 
         //Runtime injection
         public ObstacleController(Transform transform)

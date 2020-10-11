@@ -8,7 +8,7 @@ namespace ZenVortex
     internal class ShareServiceController : MonoBehaviour, IInitializable
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
-        [Dependency] private readonly PlayerDataProvider _playerDataProvider;
+        [Dependency] private readonly PlayerDataManager _playerDataManager;
         
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
@@ -39,7 +39,7 @@ namespace ZenVortex
             yield return new WaitForEndOfFrame();
             
             var ns = new NativeShare().SetSubject(GameConstants.Social.Share.Subject)
-                .SetTitle(GameConstants.Social.Share.Content).SetText(string.Format(GameConstants.Social.Share.BodyFormat, _playerDataProvider.LastRunScore))
+                .SetTitle(GameConstants.Social.Share.Content).SetText(string.Format(GameConstants.Social.Share.BodyFormat, _playerDataManager.LastRunScore))
                 .AddFile(ScreenCapture.CaptureScreenshotAsTexture(), "HighScore.png");
             ns.Share();
         }

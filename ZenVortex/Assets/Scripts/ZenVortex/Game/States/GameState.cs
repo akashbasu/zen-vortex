@@ -13,7 +13,7 @@ namespace ZenVortex
         
         [Dependency] private readonly ObstacleDataManager _obstacleDataManager;
         [Dependency] private readonly PowerupDataManager _powerupDataManager;
-        [Dependency] private readonly ScoreManager _scoreManager;
+        [Dependency] private readonly ScoreDataManager _scoreDataManager;
         
         protected override void Configure()
         {
@@ -25,7 +25,7 @@ namespace ZenVortex
             
             DependencyRegistry.Register<ObstacleDataManager>();
             DependencyRegistry.Register<PowerupDataManager>();
-            DependencyRegistry.Register<ScoreManager>();
+            DependencyRegistry.Register<ScoreDataManager>();
         }
 
         protected override List<IInitializable> GetSteps(object[] args)
@@ -40,7 +40,7 @@ namespace ZenVortex
 
                 _obstacleDataManager,
                 _powerupDataManager,
-                _scoreManager,
+                _scoreDataManager,
 
                 new LevelStartEventCommand(),
                 new WaitForGameLoopEnd(),
