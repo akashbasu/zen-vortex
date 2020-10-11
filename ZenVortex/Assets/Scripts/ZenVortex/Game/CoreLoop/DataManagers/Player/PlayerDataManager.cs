@@ -4,7 +4,7 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class PlayerDataProvider : IInitializable
+    internal class PlayerDataManager : IInitializable
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         [Dependency] private readonly UiDataProvider _uiDataProvider;
@@ -28,7 +28,7 @@ namespace ZenVortex
             onComplete?.Invoke(this);
         }
         
-        ~PlayerDataProvider()
+        ~PlayerDataManager()
         {
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.End, UpdateLastRunScore);
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.EarnedLife, OnLifeEarned);
