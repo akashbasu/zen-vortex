@@ -4,7 +4,7 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class PlayerDataManager : IInitializable
+    internal class PlayerDataManager : IPostConstructable
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         [Dependency] private readonly UiDataProvider _uiDataProvider;
@@ -16,7 +16,7 @@ namespace ZenVortex
         public int LastRunScore => _lastRunScore;
         public int LifeCount => _livesEarnedInRun;
         
-        public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
+        public void PostConstruct(params object[] args)
         {
             LoadPlayerData();
             
@@ -24,18 +24,16 @@ namespace ZenVortex
             _gameEventManager.Subscribe(GameEvents.Gameplay.EarnedLife, OnLifeEarned);
             _gameEventManager.Subscribe(GameEvents.Gameplay.ConsumeLife, OnLifeLost);
             _gameEventManager.Subscribe(GameEvents.Gameplay.End, UpdateLastRunScore);
-            
-            onComplete?.Invoke(this);
         }
         
-        ~PlayerDataManager()
+        public void Dispose()
         {
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.End, UpdateLastRunScore);
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.EarnedLife, OnLifeEarned);
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.ConsumeLife, OnLifeLost);
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.ScoreUpdated, OnScoreUpdated);
         }
-        
+
         private void OnScoreUpdated(object[] obj)
         {
             if(obj?.Length < 1) return;
