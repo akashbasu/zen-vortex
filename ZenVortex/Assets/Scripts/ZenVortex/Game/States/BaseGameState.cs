@@ -12,7 +12,7 @@ namespace ZenVortex
 
         protected BaseGameState()
         {
-            Configure();
+            InstallDependencies();
         }
 
         public virtual void Initialize(Action<IInitializable> onComplete = null, params object[] args)
@@ -21,22 +21,20 @@ namespace ZenVortex
             
             _callback = onComplete;
 
-            SetupQueue(GetSteps(args));
+            SetupQueue(GetSteps());
 
             Debug.Log($"[{GetType()}] {nameof(Initialize)} Step count : {_steps.Count}");
 
             StartQueue();
         }
 
-        protected abstract void Configure();
+        protected virtual void InstallDependencies() {}
 
-        protected abstract List<IInitializable> GetSteps(object[] args);
+        protected virtual Queue<IInitializable> GetSteps() => new Queue<IInitializable>();
 
-        private void SetupQueue(List<IInitializable> initializables)
+        private void SetupQueue(Queue<IInitializable> initializables)
         {
-            _steps = new Queue<IInitializable>();
-
-            foreach (var initializable in initializables) _steps.Enqueue(initializable);
+            _steps = initializables;
         }
 
         private void StartQueue()

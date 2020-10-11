@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using ZenVortex.DI;
 
 namespace ZenVortex
@@ -7,7 +6,7 @@ namespace ZenVortex
     {
         [Dependency] private readonly UiServiceController _uiServiceController;
         
-        protected override void Configure()
+        protected override void InstallDependencies()
         {
             DependencyRegistry.Register<GameEventManager>();
             
@@ -20,7 +19,5 @@ namespace ZenVortex
             DependencyRegistry.Register<AudioServiceController>();
             DependencyRegistry.Register<UiServiceController>();
         }
-
-        protected override List<IInitializable> GetSteps(object[] args) => new List<IInitializable>();
     }
 }

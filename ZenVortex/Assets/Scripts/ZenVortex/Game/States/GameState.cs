@@ -5,7 +5,7 @@ namespace ZenVortex
 {
     internal sealed class GameState : BaseGameState
     {
-        protected override void Configure()
+        protected override void InstallDependencies()
         {
             DependencyRegistry.Register<LevelDataManager>();
             DependencyRegistry.Register<DeterministicRandomProvider>();
@@ -18,14 +18,14 @@ namespace ZenVortex
             DependencyRegistry.Register<MovementController>();
         }
 
-        protected override List<IInitializable> GetSteps(object[] args)
+        protected override Queue<IInitializable> GetSteps()
         {
-            return new List<IInitializable>
-            {
-                new LevelStartEventCommand(),
-                new WaitForGameLoopEnd(),
-                new LevelEndEventCommand()
-            };
+            var queue = new Queue<IInitializable>();
+            queue.Enqueue(new LevelStartEventCommand());
+            queue.Enqueue(new WaitForGameLoopEnd());
+            queue.Enqueue(new LevelEndEventCommand());
+
+            return queue;
         }
     }
 }

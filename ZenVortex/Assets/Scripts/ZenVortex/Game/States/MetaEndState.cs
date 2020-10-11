@@ -5,17 +5,17 @@ namespace ZenVortex
 {
     internal sealed class MetaEndState : BaseGameState
     {
-        protected override void Configure()
+        protected override void InstallDependencies()
         {
             DependencyRegistry.Register<ShareServiceController>();
         }
         
-        protected override List<IInitializable> GetSteps(object[] args)
+        protected override Queue<IInitializable> GetSteps()
         {
-            return new List<IInitializable>
-            {
-                new WaitForMetaEndComplete()
-            };
+            var queue = new Queue<IInitializable>();
+            queue.Enqueue(new WaitForMetaEndComplete());
+
+            return queue;
         }
     }
 }

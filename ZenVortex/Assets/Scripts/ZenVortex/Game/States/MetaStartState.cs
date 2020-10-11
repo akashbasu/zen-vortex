@@ -4,16 +4,12 @@ namespace ZenVortex
 {
     internal sealed class MetaStartState : BaseGameState
     {
-        protected override void Configure() { }
-        
-        protected override List<IInitializable> GetSteps(object[] args)
+        protected override Queue<IInitializable> GetSteps()
         {
-            var states = new List<IInitializable>
-            {
-                new WaitForMetaStartComplete()
-            };
+            var queue = new Queue<IInitializable>();
+            queue.Enqueue(new WaitForMetaStartComplete());
 
-            return states;
+            return queue;
         }
     }
 }
