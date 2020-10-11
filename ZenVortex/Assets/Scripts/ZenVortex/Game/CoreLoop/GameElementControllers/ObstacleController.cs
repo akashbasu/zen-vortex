@@ -8,7 +8,7 @@ namespace ZenVortex
 {
     internal class ObstacleController : ICacheEntry
     {
-        [Dependency] private readonly PlayerDataManager _playerDataManager;
+        [Dependency] private readonly IPlayerDataManager _playerDataManager;
         [Dependency] private readonly DeterministicRandomProvider _deterministicRandomProvider;
         
         private readonly List<MeshRenderer> _renderers;

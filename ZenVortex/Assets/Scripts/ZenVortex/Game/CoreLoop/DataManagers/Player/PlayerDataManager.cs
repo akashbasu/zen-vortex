@@ -4,7 +4,13 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class PlayerDataManager : IPostConstructable
+    internal interface IPlayerDataManager : IPostConstructable
+    {
+        int LastRunScore { get; }
+        int LifeCount { get; }
+    }
+    
+    internal class PlayerDataManager : IPlayerDataManager
     {
         [Dependency] private readonly IGameEventManager _gameEventManager;
         [Dependency] private readonly IUiDataProvider _uiDataProvider;
