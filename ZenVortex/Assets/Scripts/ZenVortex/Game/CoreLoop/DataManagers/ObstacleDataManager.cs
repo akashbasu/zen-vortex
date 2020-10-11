@@ -4,12 +4,13 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class ObstacleManager : IInitializable
+    internal class ObstacleDataManager : BaseDataManager<ObstacleData>
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         [Dependency] private readonly DeterministicRandomProvider _deterministicRandomProvider;
-        [Dependency] private readonly ObstacleDataProvider _obstacleDataProvider;
-        [Dependency] private readonly LevelDataProvider _levelDataProvider;
+        [Dependency] private readonly LevelDataManager _levelDataManager;
+
+        protected override string DataPath => GameConstants.DataPaths.Resources.Obstacles;
         
         private int _groupCount = -1;
         private int _obstacleId = -1;
@@ -18,8 +19,10 @@ namespace ZenVortex
 
         private ShuffleBag _shuffleBag;
 
-        public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
+        public override void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
+            base.Initialize(null, args);
+            
             _gameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
             _gameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
 
@@ -38,19 +41,19 @@ namespace ZenVortex
                 _groupCount--;
             }
 
-            return _obstacleDataProvider.ObstacleData[_obstacleId];
+            return _data[_obstacleId];
         }
 
         public Color GetCurrentGroupColor => GameConstants.Animation.Obstacle.DefaultColors[_groupColorIndex];
 
         private void OnLevelStart(object[] obj)
         {
-            _groupRange = _levelDataProvider.LevelData.Grouping;
+            _groupRange = _levelDataManager.CurrentLevelData.Grouping;
             _groupCount = -1;
             _obstacleId = -1;
             _groupColorIndex = -1;
 
-            _shuffleBag = new ShuffleBag(_obstacleDataProvider.ObstacleData.Count);
+            _shuffleBag = new ShuffleBag(_data.Length);
         }
         
         private void OnLevelStop(object[] obj)

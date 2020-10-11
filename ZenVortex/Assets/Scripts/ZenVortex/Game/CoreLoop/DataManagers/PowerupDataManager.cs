@@ -4,16 +4,19 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class PowerupManager : IInitializable
+    internal class PowerupDataManager : BaseDataManager<PowerupData>
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
-        [Dependency] private readonly PowerupDataProvider _powerupDataProvider;
+        
+        protected override string DataPath => GameConstants.DataPaths.Resources.Powerups;
         
         private ShuffleBag _shuffleBag;
         private int _powerupId = -1;
-        
-        public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
+
+        public override void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
+            base.Initialize(null, args);
+            
             _gameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
             _gameEventManager.Subscribe(GameEvents.Gameplay.Pickup, OnPowerupCollected);
             _gameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
@@ -38,7 +41,7 @@ namespace ZenVortex
                     new EventCommand(GameEvents.Gameplay.OverrideTimeScale, powerup.Data, GameConstants.Powerup.PowerupDuration).Execute();
                     break;
                 default:
-                    Debug.LogError($"[{nameof(PowerupManager)}] {nameof(OnPowerupCollected)} Invalid Powerup type.");
+                    Debug.LogError($"[{nameof(PowerupDataManager)}] {nameof(OnPowerupCollected)} Invalid Powerup type.");
                     break;
             }
         }
@@ -46,12 +49,12 @@ namespace ZenVortex
         public PowerupData GetNextPowerupData()
         {
             _powerupId = _shuffleBag.Next();
-            return _powerupDataProvider.PowerupData[_powerupId];
+            return _data[_powerupId];
         }
         
         private void OnLevelStart(object[] obj)
         {
-            _shuffleBag = new ShuffleBag(_powerupDataProvider.PowerupData.Count);
+            _shuffleBag = new ShuffleBag(_data.Length);
         }
         
         private void OnLevelStop(object[] obj)
