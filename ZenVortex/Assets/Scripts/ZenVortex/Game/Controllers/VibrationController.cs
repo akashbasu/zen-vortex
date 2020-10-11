@@ -1,32 +1,31 @@
 using System;
 using UnityEngine;
+using ZenVortex.DI;
 
 namespace ZenVortex
 {
     internal class VibrationController : IInitializable
     {
+        [Dependency] private readonly GameEventManager _gameEventManager;
+        
 #if UNITY_ANDROID && !UNITY_EDITOR
         public static AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         public static AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
         public static AndroidJavaObject vibrator = currentActivity.Call<AndroidJavaObject>("getSystemService", "vibrator");
-#else
-        public static AndroidJavaClass unityPlayer;
-        public static AndroidJavaObject currentActivity;
-        public static AndroidJavaObject vibrator;
 #endif
         
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
-            GameEventManager.Subscribe(GameEvents.Gameplay.ScoreUpdated, PlayLowPriorityVibration<int>);
-            GameEventManager.Subscribe(GameEvents.Gameplay.HighScore, PlayHighPriorityVibration);
+            _gameEventManager.Subscribe(GameEvents.Gameplay.ScoreUpdated, PlayLowPriorityVibration<int>);
+            _gameEventManager.Subscribe(GameEvents.Gameplay.HighScore, PlayHighPriorityVibration);
             
             onComplete?.Invoke(this);
         }
 
         ~VibrationController()
         {
-            GameEventManager.Unsubscribe(GameEvents.Gameplay.ScoreUpdated, PlayLowPriorityVibration<int>);
-            GameEventManager.Unsubscribe(GameEvents.Gameplay.HighScore, PlayHighPriorityVibration);
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.ScoreUpdated, PlayLowPriorityVibration<int>);
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.HighScore, PlayHighPriorityVibration);
         }
 
         private void PlayLowPriorityVibration<T>(object[] obj)

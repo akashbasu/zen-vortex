@@ -1,14 +1,17 @@
 using System;
 using UnityEngine;
+using ZenVortex.DI;
 
 namespace ZenVortex
 {
     internal class TimeController : IInitializable
     {
+        [Dependency] private readonly GameEventManager _gameEventManager;
+        
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
-            GameEventManager.Subscribe(GameEvents.Gameplay.OverrideTimeScale, OnTimeScaleOverride);
-            GameEventManager.Subscribe(GameEvents.Gameplay.End, ResetTimeScaleOverride);
+            _gameEventManager.Subscribe(GameEvents.Gameplay.OverrideTimeScale, OnTimeScaleOverride);
+            _gameEventManager.Subscribe(GameEvents.Gameplay.End, ResetTimeScaleOverride);
             
             onComplete?.Invoke(this);
         }
@@ -16,8 +19,9 @@ namespace ZenVortex
         ~TimeController()
         {
             Time.timeScale = 1;
-            GameEventManager.Unsubscribe(GameEvents.Gameplay.OverrideTimeScale, OnTimeScaleOverride);
-            GameEventManager.Unsubscribe(GameEvents.Gameplay.End, ResetTimeScaleOverride);
+            
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.OverrideTimeScale, OnTimeScaleOverride);
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.End, ResetTimeScaleOverride);
         }
 
         private void OnTimeScaleOverride(object[] args)

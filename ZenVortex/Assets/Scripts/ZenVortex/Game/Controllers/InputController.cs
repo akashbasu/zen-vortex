@@ -1,19 +1,22 @@
 using System;
 using System.Collections.Generic;
+using ZenVortex.DI;
 
 namespace ZenVortex
 {
     internal class InputController : IInitializable
     {
-        private static UnityInput _input;
+        [Dependency] private readonly GameEventManager _gameEventManager;
         
-        private static readonly List<string> GameStates = new List<string>()
+        private UnityInput _input;
+        
+        private readonly List<string> _gameStates = new List<string>
         {
             nameof(GameState)
         };
 
-        public static GameInputAdapter GameInput { get; private set; }
-        public static UiInputAdapter UiInput { get; private set; }
+        public GameInputAdapter GameInput { get; private set; }
+        private UiInputAdapter UiInput { get; set; }
 
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
@@ -25,16 +28,16 @@ namespace ZenVortex
             UiInput.SetEnabled(false);
             GameInput.SetEnabled(false);
 
-            GameEventManager.Subscribe(GameEvents.GameStateEvents.Start, OnGameStateStart);
-            GameEventManager.Subscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);
+            _gameEventManager.Subscribe(GameEvents.GameStateEvents.Start, OnGameStateStart);
+            _gameEventManager.Subscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);
 
             onComplete?.Invoke(this);
         }
 
         ~InputController()
         {
-            GameEventManager.Unsubscribe(GameEvents.GameStateEvents.Start, OnGameStateStart);
-            GameEventManager.Unsubscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);
+            _gameEventManager.Unsubscribe(GameEvents.GameStateEvents.Start, OnGameStateStart);
+            _gameEventManager.Unsubscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);
         }
 
         private void OnGameStateStart(object[] obj)
@@ -43,7 +46,7 @@ namespace ZenVortex
             
             var currentState = (string) obj[0];
 
-            var isGameState = GameStates.Contains(currentState);
+            var isGameState = _gameStates.Contains(currentState);
             GameInput.SetEnabled(isGameState);
             UiInput.SetEnabled(!isGameState);
         }

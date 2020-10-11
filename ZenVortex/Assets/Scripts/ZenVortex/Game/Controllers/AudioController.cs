@@ -1,28 +1,32 @@
 using System;
 using UnityEngine;
+using ZenVortex.DI;
 
 namespace ZenVortex
 {
     internal class AudioController : IInitializable
     {
+        [Dependency] private readonly GameEventManager _gameEventManager;
+        [Dependency] private readonly AudioDataProvider _audioDataProvider;
+        
         private Vector3 _audioOrigin;
         
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
             _audioOrigin = Camera.main.transform.position;
             
-            GameEventManager.Subscribe(GameEvents.Gameplay.ScoreUpdated, PlayLowPriorityAudio<int>);
-            GameEventManager.Subscribe(GameEvents.Gameplay.HighScore, PlayHighPriorityAudio);
-            // GameEventManager.Subscribe(GameEvents.Gameplay.Pickup, PlayMediumPriorityAudio);
+            _gameEventManager.Subscribe(GameEvents.Gameplay.ScoreUpdated, PlayLowPriorityAudio<int>);
+            _gameEventManager.Subscribe(GameEvents.Gameplay.HighScore, PlayHighPriorityAudio);
+            // _gameEventManager.Subscribe(GameEvents.Gameplay.Pickup, PlayMediumPriorityAudio);
             
             onComplete?.Invoke(this);
         }
 
         ~AudioController()
         {
-            GameEventManager.Unsubscribe(GameEvents.Gameplay.ScoreUpdated, PlayLowPriorityAudio<int>);
-            GameEventManager.Unsubscribe(GameEvents.Gameplay.HighScore, PlayHighPriorityAudio);
-            // GameEventManager.Unsubscribe(GameEvents.Gameplay.Pickup, PlayMediumPriorityAudio);
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.ScoreUpdated, PlayLowPriorityAudio<int>);
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.HighScore, PlayHighPriorityAudio);
+            // _gameEventManager.Unsubscribe(GameEvents.Gameplay.Pickup, PlayMediumPriorityAudio);
         }
 
         private void PlayLowPriorityAudio<T>(object[] obj)
@@ -60,9 +64,9 @@ namespace ZenVortex
 
         private void PlayAudio(Priority priority)
         {
-            if (AudioDataProvider.AudioClips.ContainsKey(priority))
+            if (_audioDataProvider.AudioClips.ContainsKey(priority))
             {
-                AudioSource.PlayClipAtPoint(AudioDataProvider.AudioClips[priority], _audioOrigin);    
+                AudioSource.PlayClipAtPoint(_audioDataProvider.AudioClips[priority], _audioOrigin);    
             }
             else
             {

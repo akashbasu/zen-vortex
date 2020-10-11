@@ -2,11 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using ZenVortex.DI;
 
 namespace ZenVortex
 {
     internal class UiController : IInitializable
     {
+        [Dependency] private readonly GameEventManager _gameEventManager;
+        [Dependency] private readonly SceneReferenceProvider _sceneReferenceProvider;
+        
         private GameObject _root;
 
         private Dictionary<string, List<GameObject>> _gameStateToUiMap;
@@ -15,8 +19,8 @@ namespace ZenVortex
         {
             if (GetReferences())
             {
-                GameEventManager.Subscribe(GameEvents.GameStateEvents.Start, OnGameStateStart);
-                GameEventManager.Subscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);
+                _gameEventManager.Subscribe(GameEvents.GameStateEvents.Start, OnGameStateStart);
+                _gameEventManager.Subscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);
                 onComplete?.Invoke(this);
                 return;
             }
@@ -26,13 +30,13 @@ namespace ZenVortex
 
         ~UiController()
         {
-            GameEventManager.Unsubscribe(GameEvents.GameStateEvents.Start, OnGameStateStart);
-            GameEventManager.Unsubscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);
+            _gameEventManager.Unsubscribe(GameEvents.GameStateEvents.Start, OnGameStateStart);
+            _gameEventManager.Unsubscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);
         }
 
         private bool GetReferences()
         {
-            if (!SceneReferenceProvider.TryGetEntry(Tags.UiRoot, out var uiRoot)) return false;
+            if (!_sceneReferenceProvider.TryGetEntry(Tags.UiRoot, out var uiRoot)) return false;
 
             _root = uiRoot;
             _gameStateToUiMap = new Dictionary<string, List<GameObject>>(_root.transform.childCount);
