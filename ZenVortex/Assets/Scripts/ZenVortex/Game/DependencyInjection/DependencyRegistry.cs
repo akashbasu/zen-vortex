@@ -13,7 +13,7 @@ namespace ZenVortex.DI
             AddToRegistry<TInterface, TImplementation>();
         }
         
-        public static void Register<TImplementation>() where TImplementation : class
+        public static void RegisterConcreteType<TImplementation>() where TImplementation : class
         {
             AddToRegistry<TImplementation>();
         }
@@ -22,22 +22,26 @@ namespace ZenVortex.DI
         {
             if(Registry.TryGetValue(typeof(TInterface), out var existingEntry) && existingEntry.instance != null) return;
             
-            Registry[typeof(TInterface)] = new DependencyData(typeof(TImplementation));
-
-            Injector.ResolveDependencies<TInterface>();
+            var newDependency = new DependencyData(typeof(TImplementation));
             
-            if (Registry[typeof(TInterface)].instance is IPostConstructable postConstructable) postConstructable.PostConstruct();
+            Registry[typeof(TInterface)] = newDependency;
+
+            Injector.ResolveDependencies(newDependency);
+            
+            if (newDependency.instance is IPostConstructable postConstructable) postConstructable.PostConstruct();
         }
         
         private static void AddToRegistry<TImplementation>() where TImplementation : class
         {
             if(Registry.TryGetValue(typeof(TImplementation), out var existingEntry) && existingEntry.instance != null) return;
             
-            Registry[typeof(TImplementation)] = new DependencyData(typeof(TImplementation));
+            var newDependency = new DependencyData(typeof(TImplementation));
 
-            Injector.ResolveDependencies<TImplementation>();
+            Registry[typeof(TImplementation)] = newDependency;
+
+            Injector.ResolveDependencies(newDependency);
             
-            if (Registry[typeof(TImplementation)].instance is IPostConstructable postConstructable) postConstructable.PostConstruct();
+            if (newDependency.instance is IPostConstructable postConstructable) postConstructable.PostConstruct();
         }
     }
 

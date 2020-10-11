@@ -9,7 +9,7 @@ namespace ZenVortex
         
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
-            Injector.Inject(this);
+            Injector.ResolveDependencies(this);
 
             ((ICommand) this).Execute();
             onComplete?.Invoke(this);

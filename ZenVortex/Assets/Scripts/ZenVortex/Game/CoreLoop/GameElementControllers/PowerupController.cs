@@ -19,7 +19,7 @@ namespace ZenVortex
 
         public PowerupController(Transform transform)
         {
-            Injector.Inject(this);
+            Injector.ResolveDependencies(this);
             
             Transform = transform;
             _go = transform.gameObject;

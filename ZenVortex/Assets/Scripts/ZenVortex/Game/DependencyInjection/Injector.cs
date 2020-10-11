@@ -5,7 +5,7 @@ namespace ZenVortex.DI
 {
     internal static class Injector
     {
-        public static void Inject(object instance)
+        public static void ResolveDependencies(object instance)
         {
             var dependencies = DependencyAttribute.GetUnresolvedDependencies(instance.GetType(), instance);
             
@@ -16,20 +16,32 @@ namespace ZenVortex.DI
             }
         }
 
-        public static void ResolveDependencies<TDependency>()
+        public static void ResolveDependencies(DependencyData dependencyData)
         {
-            var dependencyInstance = DependencyRegistry.Registry[typeof(TDependency)].instance; 
-            Inject(dependencyInstance);
-            ResolveExistingDependencies<TDependency>(dependencyInstance);
+            ResolveInstanceDependencies(dependencyData);
+            ResolveExistingDependencies(dependencyData.instance);
         }
 
-        private static void ResolveExistingDependencies<TDependency>(object value)
+        private static void ResolveInstanceDependencies(DependencyData dependencyData)
+        {
+            var instance = dependencyData.instance;
+            var dependencies = dependencyData.dependencies;
+
+            for (int i = dependencies.Count - 1; i >= 0; i--)
+            {
+                var dependency = dependencies[i];
+                if (DependencyRegistry.Registry.ContainsKey(dependency.FieldType)) dependencyData.ResolveDependency(dependency, DependencyRegistry.Registry[dependency.FieldType].instance);
+                else Debug.LogError($"Failed to resolve dependency of type {dependency.FieldType} for {instance.GetType()}");
+            }
+        }
+        
+        private static void ResolveExistingDependencies(object instance)
         {
             var unresolvedTypes = DependencyRegistry.Registry.Values.Where(x => x.dependencies.Count > 0);
             foreach (var unresolvedType in unresolvedTypes)
             {
-                var resolvables = unresolvedType.dependencies.FindAll(x => x.FieldType == typeof(TDependency));
-                foreach (var resolvable in resolvables) unresolvedType.ResolveDependency(resolvable, value);
+                var resolvables = unresolvedType.dependencies.FindAll(x => x.FieldType == instance.GetType());
+                foreach (var resolvable in resolvables) unresolvedType.ResolveDependency(resolvable, instance);
             }
         }
     }

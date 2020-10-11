@@ -11,7 +11,7 @@ namespace ZenVortex
 
         internal EventCommand(string eventName, params object[] args)
         {
-            Injector.Inject(this);
+            Injector.ResolveDependencies(this);
             
             _event = eventName;
             _args = args;

@@ -17,7 +17,7 @@ namespace ZenVortex
 
         internal TubeMovement(GameObject tube)
         {
-            Injector.Inject(this);
+            Injector.ResolveDependencies(this);
             
             var material = tube.GetComponent<Renderer>().material;
 

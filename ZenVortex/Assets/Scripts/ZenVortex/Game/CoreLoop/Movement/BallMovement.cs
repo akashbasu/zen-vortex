@@ -33,7 +33,7 @@ namespace ZenVortex
         
         internal BallMovement(GameObject ball)
         {
-            Injector.Inject(this);
+            Injector.ResolveDependencies(this);
             
             _ball = ball;
             _originalScale = _ball.transform.localScale;

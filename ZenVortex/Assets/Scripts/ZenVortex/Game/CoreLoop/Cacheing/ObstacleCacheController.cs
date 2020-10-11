@@ -11,7 +11,7 @@ namespace ZenVortex
         public ObstacleCacheController(Transform cache, Vector3 reCacheMarker) : base(cache, reCacheMarker,
             typeof(ObstacleController))
         {
-            Injector.Inject(this);
+            Injector.ResolveDependencies(this);
         }
         
         protected override object[] GetSpawnData() => new object[] {_obstacleDataManager.GetNextObstacleData(), _levelDataManager.CurrentLevelData};

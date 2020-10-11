@@ -8,16 +8,16 @@ namespace ZenVortex
         
         protected override void InstallDependencies()
         {
-            DependencyRegistry.Register<GameEventManager>();
+            DependencyRegistry.RegisterConcreteType<GameEventManager>();
             
-            DependencyRegistry.Register<SceneReferenceProvider>();
-            DependencyRegistry.Register<UiDataProvider>();
+            DependencyRegistry.RegisterConcreteType<SceneReferenceProvider>();
+            DependencyRegistry.RegisterConcreteType<UiDataProvider>();
             
-            DependencyRegistry.Register<TimeServiceController>();
-            DependencyRegistry.Register<InputServiceController>();
-            DependencyRegistry.Register<VibrationServiceController>();
-            DependencyRegistry.Register<AudioServiceController>();
-            DependencyRegistry.Register<UiServiceController>();
+            DependencyRegistry.RegisterConcreteType<TimeServiceController>();
+            DependencyRegistry.RegisterConcreteType<InputServiceController>();
+            DependencyRegistry.RegisterConcreteType<VibrationServiceController>();
+            DependencyRegistry.RegisterConcreteType<AudioServiceController>();
+            DependencyRegistry.RegisterConcreteType<UiServiceController>();
         }
     }
 }

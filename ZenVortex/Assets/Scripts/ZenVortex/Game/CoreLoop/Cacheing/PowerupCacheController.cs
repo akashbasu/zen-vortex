@@ -12,7 +12,7 @@ namespace ZenVortex
         internal PowerupCacheController(Transform cache, Vector3 reCacheMarker) : base(cache, reCacheMarker,
             typeof(PowerupController))
         {
-            Injector.Inject(this);
+            Injector.ResolveDependencies(this);
         }
 
         public override void SpawnNext(float timeToTween)

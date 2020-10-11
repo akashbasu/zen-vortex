@@ -20,7 +20,7 @@ namespace ZenVortex
 
         private void Start()
         {
-            Injector.Inject(this);
+            Injector.ResolveDependencies(this);
         }
 
         private void OnEnable()

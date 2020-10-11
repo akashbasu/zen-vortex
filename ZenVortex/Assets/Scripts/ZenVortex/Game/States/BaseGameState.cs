@@ -17,7 +17,7 @@ namespace ZenVortex
 
         public virtual void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
-            Injector.Inject(this);
+            Injector.ResolveDependencies(this);
             
             _callback = onComplete;
 

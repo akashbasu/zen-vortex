@@ -12,7 +12,7 @@ namespace ZenVortex
 
         internal ShuffleBag(int size)
         {
-            Injector.Inject(this);
+            Injector.ResolveDependencies(this);
             
             _size = size;
             FillBag();

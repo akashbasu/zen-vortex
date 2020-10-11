@@ -18,7 +18,7 @@ namespace ZenVortex
         
         private void Awake()
         {
-            Injector.Inject(this);
+            Injector.ResolveDependencies(this);
             
             _label = GetComponent<TextMeshProUGUI>();
         }
