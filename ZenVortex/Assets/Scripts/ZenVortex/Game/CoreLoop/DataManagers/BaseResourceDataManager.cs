@@ -5,7 +5,7 @@ using Object = UnityEngine.Object;
 
 namespace ZenVortex
 {
-    internal abstract class BaseDataManager<TData> : IInitializable where TData : Object
+    internal abstract class BaseResourceDataManager<TData> : IInitializable where TData : Object
     {
         protected TData[] _data;
         protected abstract string DataPath { get; }

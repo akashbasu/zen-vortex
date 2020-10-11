@@ -4,7 +4,7 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class ObstacleDataManager : BaseDataManager<ObstacleData>
+    internal class ObstacleDataManager : BaseResourceDataManager<ObstacleData>
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         [Dependency] private readonly DeterministicRandomProvider _deterministicRandomProvider;

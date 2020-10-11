@@ -4,7 +4,7 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class PowerupDataManager : BaseDataManager<PowerupData>
+    internal class PowerupDataManager : BaseResourceDataManager<PowerupData>
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         
