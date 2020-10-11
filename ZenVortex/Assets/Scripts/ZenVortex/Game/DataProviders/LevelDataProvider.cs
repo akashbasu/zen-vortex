@@ -7,21 +7,19 @@ namespace ZenVortex
 {
     internal class LevelDataProvider : IInitializable
     {
-        private static List<LevelData> _levelData;
-        private static int _currentLevel = -1;
+        private readonly List<LevelData> _levelData = new List<LevelData>();
+        private int _currentLevel = -1;
 
-        internal static LevelData LevelData => _levelData[_currentLevel];
+        internal LevelData LevelData => _levelData[_currentLevel];
 
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
-            _levelData = new List<LevelData>();
             if (TryLoadLevelData()) onComplete?.Invoke(this);
         }
 
         private bool TryLoadLevelData()
         {
-            if (LoadDataFromDisk() &&
-                LoadDataForLevel(_currentLevel)) return true;
+            if (LoadDataFromDisk() && LoadDataForLevel(_currentLevel)) return true;
 
             _levelData.Add(ScriptableObject.CreateInstance<LevelData>());
             return true;
@@ -33,7 +31,7 @@ namespace ZenVortex
             return _levelData.Count > 0;
         }
 
-        private static bool LoadDataForLevel(int level)
+        private bool LoadDataForLevel(int level)
         {
             _currentLevel = Mathf.Clamp(level, 0, _levelData.Count - 1);
             return true;

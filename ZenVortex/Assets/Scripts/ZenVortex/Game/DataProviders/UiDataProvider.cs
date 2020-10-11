@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace ZenVortex
@@ -33,17 +32,11 @@ namespace ZenVortex
         }
     }
     
-    internal class UiDataProvider : IInitializable
+    internal class UiDataProvider
     {
-        private static Dictionary<string, UiDataEntry<string>> _directory;
+        private readonly Dictionary<string, UiDataEntry<string>> _directory = new Dictionary<string, UiDataEntry<string>>();
         
-        public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
-        {
-            _directory = new Dictionary<string, UiDataEntry<string>>();
-            onComplete?.Invoke(this);
-        }
-
-        public static void UpdateData(string key, object data)
+        public void UpdateData(string key, object data)
         {
             if (_directory.ContainsKey(key))
             {
@@ -55,7 +48,7 @@ namespace ZenVortex
             }
         }
 
-        public static void RegisterLabel(string key, IBindable<string> textBinder)
+        public void RegisterLabel(string key, IBindable<string> textBinder)
         {
             if (_directory.ContainsKey(key))
             {
@@ -69,7 +62,7 @@ namespace ZenVortex
             _directory[key].AddBoundObject(textBinder);
         }
         
-        public static void UnRegisterLabel(string key, IBindable<string> textBinder)
+        public void UnRegisterLabel(string key, IBindable<string> textBinder)
         {
             if(!_directory.ContainsKey(key)) return;
             

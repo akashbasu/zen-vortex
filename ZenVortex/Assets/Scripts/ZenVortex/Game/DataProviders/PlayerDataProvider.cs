@@ -1,35 +1,39 @@
 using System;
 using UnityEngine;
+using ZenVortex.DI;
 
 namespace ZenVortex
 {
     internal class PlayerDataProvider : IInitializable
     {
-        private int _highestScore;
-        private static int _lastRunScore;
-        private static int _livesEarnedInRun;
+        [Dependency] private readonly GameEventManager _gameEventManager;
+        [Dependency] private readonly UiDataProvider _uiDataProvider;
 
-        public static int LastRunScore => _lastRunScore;
-        public static int LifeCount => _livesEarnedInRun;
+        private int _highestScore;
+        private int _lastRunScore;
+        private int _livesEarnedInRun;
+
+        public int LastRunScore => _lastRunScore;
+        public int LifeCount => _livesEarnedInRun;
         
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
             LoadPlayerData();
             
-            GameEventManager.Subscribe(GameEvents.Gameplay.ScoreUpdated, OnScoreUpdated);
-            GameEventManager.Subscribe(GameEvents.Gameplay.EarnedLife, OnLifeEarned);
-            GameEventManager.Subscribe(GameEvents.Gameplay.ConsumeLife, OnLifeLost);
-            GameEventManager.Subscribe(GameEvents.Gameplay.End, UpdateLastRunScore);
+            _gameEventManager.Subscribe(GameEvents.Gameplay.ScoreUpdated, OnScoreUpdated);
+            _gameEventManager.Subscribe(GameEvents.Gameplay.EarnedLife, OnLifeEarned);
+            _gameEventManager.Subscribe(GameEvents.Gameplay.ConsumeLife, OnLifeLost);
+            _gameEventManager.Subscribe(GameEvents.Gameplay.End, UpdateLastRunScore);
             
             onComplete?.Invoke(this);
         }
         
         ~PlayerDataProvider()
         {
-            GameEventManager.Unsubscribe(GameEvents.Gameplay.End, UpdateLastRunScore);
-            GameEventManager.Unsubscribe(GameEvents.Gameplay.EarnedLife, OnLifeEarned);
-            GameEventManager.Unsubscribe(GameEvents.Gameplay.ConsumeLife, OnLifeLost);
-            GameEventManager.Unsubscribe(GameEvents.Gameplay.ScoreUpdated, OnScoreUpdated);
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.End, UpdateLastRunScore);
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.EarnedLife, OnLifeEarned);
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.ConsumeLife, OnLifeLost);
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.ScoreUpdated, OnScoreUpdated);
         }
         
         private void OnScoreUpdated(object[] obj)
@@ -46,7 +50,7 @@ namespace ZenVortex
             _livesEarnedInRun--;
             if (_livesEarnedInRun < 0)
             {
-                new Command(GameEvents.Gameplay.End).Execute();
+                new EventCommand(GameEvents.Gameplay.End).Execute();
             }
         }
 
@@ -71,16 +75,16 @@ namespace ZenVortex
 
         private void UpdateUiData()
         {
-            UiDataProvider.UpdateData(UiDataKeys.Player.LastScore, _lastRunScore);
-            UiDataProvider.UpdateData(UiDataKeys.Player.HighScore, _highestScore);
-            UiDataProvider.UpdateData(UiDataKeys.Player.Lives, _livesEarnedInRun);
+            _uiDataProvider.UpdateData(UiDataKeys.Player.LastScore, _lastRunScore);
+            _uiDataProvider.UpdateData(UiDataKeys.Player.HighScore, _highestScore);
+            _uiDataProvider.UpdateData(UiDataKeys.Player.Lives, _livesEarnedInRun);
         }
 
         private void StorePlayerData()
         {
             if (_highestScore != PlayerPrefs.GetInt(GameConstants.PlayerData.LastScore, 0))
             {
-                new Command(GameEvents.Gameplay.HighScore);
+                new EventCommand(GameEvents.Gameplay.HighScore);
             }
             
             PlayerPrefs.SetInt(GameConstants.PlayerData.LastScore, _lastRunScore);

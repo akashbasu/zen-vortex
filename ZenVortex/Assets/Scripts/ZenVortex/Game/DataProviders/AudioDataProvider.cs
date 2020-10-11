@@ -7,8 +7,8 @@ namespace ZenVortex
 {
     internal class AudioDataProvider : IInitializable
     {
-        private static Dictionary<Priority, AudioClip> _audioClips;
-        public static Dictionary<Priority, AudioClip> AudioClips => _audioClips;
+        private Dictionary<Priority, AudioClip> _audioClips;
+        public Dictionary<Priority, AudioClip> AudioClips => _audioClips;
         
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {

@@ -22,44 +22,34 @@ namespace ZenVortex
 
     internal class SceneReferenceProvider : MonoBehaviour, IInitializable
     {
-        private static Dictionary<string, GameObject> _directory;
+        private readonly Dictionary<string, GameObject> _directory = new Dictionary<string, GameObject>();
         
         [SerializeField] private List<DirectoryEntry> _cachedEntries = new List<DirectoryEntry>();
 
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
-            LazyInit();
-
             LoadCachedDirectory();
             FindDirectoryObjects();
 
             onComplete?.Invoke(this);
         }
 
-        public static bool TryGetEntry(string tag, out GameObject go)
+        public bool TryGetEntry(string tag, out GameObject go)
         {
             go = null;
             
-            LazyInit();
             if (_directory.ContainsKey(tag)) go = _directory[tag];
 
             if (go == null)
             {
                 Debug.LogWarning(
                     $"[{nameof(SceneReferenceProvider)}] is searching for go with tag {tag}. This is slow and expensive!");
-                SafeGetGoWithTag(tag, out go);
+                MonoBehaviourUtils.SafeGetGoWithTag(tag, out go);
             }
 
             return go != null;
         }
-
-        private static void LazyInit()
-        {
-            if(_directory != null) return;
-            
-            _directory = new Dictionary<string, GameObject>();
-        }
-
+        
         private void LoadCachedDirectory()
         {
             foreach (var cachedEntry in _cachedEntries) _directory[cachedEntry.Tag] = cachedEntry.Reference;
@@ -68,24 +58,8 @@ namespace ZenVortex
         private void FindDirectoryObjects()
         {
             foreach (var entry in _directory.Where(entry => entry.Value == null))
-                if (SafeGetGoWithTag(entry.Key, out var go))
+                if (MonoBehaviourUtils.SafeGetGoWithTag(entry.Key, out var go))
                     _directory[entry.Key] = go;
-        }
-
-        private static bool SafeGetGoWithTag(string tag, out GameObject go)
-        {
-            try
-            {
-                go = GameObject.FindWithTag(tag);
-                if (go != null) return true;
-                throw new UnassignedReferenceException();
-            }
-            catch
-            {
-                Debug.LogError($"[{nameof(SceneReferenceProvider)}] Failed to find Game object with tag {tag}");
-                go = null;
-                return false;
-            }
         }
 
 #if UNITY_EDITOR
@@ -95,7 +69,7 @@ namespace ZenVortex
             {
                 var entry = _cachedEntries[i];
 
-                if (SafeGetGoWithTag(entry.Tag, out var foundObjectWithTag)) entry.Reference = foundObjectWithTag;
+                if (MonoBehaviourUtils.SafeGetGoWithTag(entry.Tag, out var foundObjectWithTag)) entry.Reference = foundObjectWithTag;
             }
         }
 #endif

@@ -7,11 +7,12 @@ namespace ZenVortex
 {
     internal class ObstacleDataProvider : IInitializable
     {
-        public static List<ObstacleData> ObstacleData { get; private set; }
+        public List<ObstacleData> ObstacleData => _obstacleData;
+        
+        private readonly List<ObstacleData> _obstacleData = new List<ObstacleData>();
 
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
-            ObstacleData = new List<ObstacleData>();
             if (TryLoadObstacleData()) onComplete?.Invoke(this);
         }
 
@@ -26,8 +27,8 @@ namespace ZenVortex
 
         private bool LoadDataFromDisk()
         {
-            ObstacleData.AddRange(Resources.LoadAll<ObstacleData>(GameConstants.DataPaths.Resources.Obstacles));
-            return ObstacleData.Count > 0;
+            _obstacleData.AddRange(Resources.LoadAll<ObstacleData>(GameConstants.DataPaths.Resources.Obstacles));
+            return _obstacleData.Count > 0;
         }
     }
 

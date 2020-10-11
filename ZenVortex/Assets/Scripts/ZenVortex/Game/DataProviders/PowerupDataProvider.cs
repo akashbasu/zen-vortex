@@ -7,11 +7,12 @@ namespace ZenVortex
 {
     internal class PowerupDataProvider : IInitializable
     {
-        public static List<PowerupData> PowerupData { get; private set; }
+        public List<PowerupData> PowerupData => _powerupData;
+        
+        private readonly List<PowerupData> _powerupData = new List<PowerupData>();
 
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
-            PowerupData = new List<PowerupData>();
             if (TryLoadPowerupData()) onComplete?.Invoke(this);
         }
 
@@ -26,8 +27,8 @@ namespace ZenVortex
 
         private bool LoadDataFromDisk()
         {
-            PowerupData.AddRange(Resources.LoadAll<PowerupData>(GameConstants.DataPaths.Resources.Powerups));
-            return PowerupData.Count > 0;
+            _powerupData.AddRange(Resources.LoadAll<PowerupData>(GameConstants.DataPaths.Resources.Powerups));
+            return _powerupData.Count > 0;
         }
     }
 
@@ -35,7 +36,7 @@ namespace ZenVortex
     {
         public static partial class DataPaths
         {
-            public partial class Resources
+            public static partial class Resources
             {
                 public static readonly string Powerups = Path.Combine("Data", "Powerups");
             }
