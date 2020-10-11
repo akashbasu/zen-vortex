@@ -39,7 +39,7 @@ namespace ZenVortex.DI
         {
             if (_implementationType.IsSubclassOf(typeof(MonoBehaviour)))
             {
-                return MonoBehaviourUtils.CreateMonoBehaviorSingleton(_implementationType);
+                return DependencyInjectionUtils.CreateMonoBehaviorSingleton(_implementationType);
             }
                 
             return Activator.CreateInstance(_implementationType);

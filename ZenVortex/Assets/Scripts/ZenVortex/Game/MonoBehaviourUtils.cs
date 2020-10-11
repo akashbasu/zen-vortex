@@ -1,34 +1,23 @@
-using System;
 using UnityEngine;
 
 namespace ZenVortex
 {
     internal class MonoBehaviourUtils
     {
-        public static T CreateMonoBehaviorSingleton<T>() where T : Component
+        public static bool SafeGetGoWithTag(string tag, out GameObject go)
         {
-            if (SceneReferenceProvider.TryGetEntry(Tags.System, out var systemObject))
+            try
             {
-                var component = systemObject.GetComponent<T>();
-                component = component == null ? systemObject.AddComponent<T>() : component;
-                return component;
+                go = GameObject.FindWithTag(tag);
+                if (go != null) return true;
+                throw new UnassignedReferenceException();
             }
-
-            Debug.LogWarning("Failed to find system object!");
-            return null;
-        }
-
-        public static object CreateMonoBehaviorSingleton(Type implementationType)
-        {
-            if (SceneReferenceProvider.TryGetEntry(Tags.System, out var systemObject))
+            catch
             {
-                var component = systemObject.GetComponent(implementationType);
-                component = component == null ? systemObject.AddComponent(implementationType) : component;
-                return component;
+                Debug.LogError($"[{nameof(SceneReferenceProvider)}] Failed to find Game object with tag {tag}");
+                go = null;
+                return false;
             }
-            
-            Debug.LogWarning("Failed to find system object!");
-            return null;
         }
     }
 }
