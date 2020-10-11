@@ -22,7 +22,7 @@ namespace ZenVortex
         public IntRangedValue SpawnRotation => _spawnRotation;
         public IntRangedValue TargetRotation => _targetRotation;
         public float AnimationInTimeNormalization => GameConstants.Animation.Obstacle.TravelTimeToAnimationRatio;
-        public float RotationTimeNormalization => 1f / LevelDataProvider.LevelData.Visibility - AnimationInTimeNormalization;
+        public float RotationTimeNormalization(float visibility) => 1f / visibility - AnimationInTimeNormalization;
         
         public bool IsEnabled(int childIndex)
         {

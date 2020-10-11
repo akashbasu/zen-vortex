@@ -2,11 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using ZenVortex.DI;
 
 namespace ZenVortex
 {
     internal class ObstacleController : ICacheEntry
     {
+        [Dependency] private readonly PlayerDataProvider _playerDataProvider;
+        [Dependency] private readonly DeterministicRandomProvider _deterministicRandomProvider;
+        
         private readonly List<MeshRenderer> _renderers;
         private readonly List<Collider> _colliders;
         private readonly HashSet<int> _fatalCollisions;
@@ -22,11 +26,13 @@ namespace ZenVortex
         private bool _didConsumeLife;
 
         public Transform Transform { get; }
-        public bool HasActionableCollision => _currentCollisions.Any(x => _fatalCollisions.Contains(x)) && PlayerDataProvider.LifeCount <= 0;
+        public bool HasActionableCollision => _currentCollisions.Any(x => _fatalCollisions.Contains(x)) && _playerDataProvider.LifeCount <= 0;
 
         //Runtime injection
         public ObstacleController(Transform transform)
         {
+            Injector.Inject(this);
+            
             Transform = transform;
             _go = transform.gameObject;
             _managedCount = transform.childCount;
@@ -81,7 +87,7 @@ namespace ZenVortex
             var animationParams = new ObstacleAnimator.AnimateInParams(distanceToTravel, time,
                 time * _obstacleData.AnimationInTimeNormalization,
                 GameConstants.Animation.Obstacle.TargetScaleValue, GetNextTargetRotation(),
-                time * _obstacleData.RotationTimeNormalization, groupColor);
+                time * _obstacleData.RotationTimeNormalization(_levelData.Visibility), groupColor);
                 
             _animator.AnimateIn(animationParams, onComplete);
         }
@@ -111,10 +117,10 @@ namespace ZenVortex
 
             if (_didConsumeLife)
             {
-                new Command(GameEvents.Gameplay.ConsumeLife).Execute();
+                new EventCommand(GameEvents.Gameplay.ConsumeLife).Execute();
             }
             
-            new Command(GameEvents.Gameplay.CrossedObstacle).Execute();
+            new EventCommand(GameEvents.Gameplay.CrossedObstacle).Execute();
             _animator.AnimateOut(new ObstacleAnimator.AnimateOutParams(GameConstants.Animation.Obstacle.ResetScaleValue, GameConstants.Animation.Obstacle.AnimateOutTime));
         }
         
@@ -131,17 +137,17 @@ namespace ZenVortex
                 if (_renderers[i].enabled) _fatalCollisions.Add(i);
             }
 
-            _canSpin = DeterministicRandomProvider.NextBool(_levelData.RotationProbability);
+            _canSpin = _deterministicRandomProvider.NextBool(_levelData.RotationProbability);
             
             MovementUtils.SetRotation(Transform, GetNextSpawnRotation());
         }
         
         private float GetNextSpawnRotation() => _canSpin 
-            ? DeterministicRandomProvider.Next(_obstacleData.SpawnRotation) 
-            : DeterministicRandomProvider.Next(_obstacleData.TargetRotation);
+            ? _deterministicRandomProvider.Next(_obstacleData.SpawnRotation) 
+            : _deterministicRandomProvider.Next(_obstacleData.TargetRotation);
 
         private float GetNextTargetRotation() => _canSpin
-            ? DeterministicRandomProvider.Next(_obstacleData.TargetRotation)
+            ? _deterministicRandomProvider.Next(_obstacleData.TargetRotation)
             : MovementUtils.GetCurrentRotation(Transform);
 
         private void Enable(bool isEnabled)

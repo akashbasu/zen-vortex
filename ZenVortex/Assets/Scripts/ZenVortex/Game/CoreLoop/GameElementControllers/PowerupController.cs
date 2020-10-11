@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using ZenVortex.DI;
 
 namespace ZenVortex
 {
     internal class PowerupController : ICacheEntry
     {
+        [Dependency] private readonly DeterministicRandomProvider _deterministicRandomProvider;
+        
         private readonly List<MeshRenderer> _renderers;
         private readonly List<Collider> _colliders;
         
@@ -16,6 +19,8 @@ namespace ZenVortex
 
         public PowerupController(Transform transform)
         {
+            Injector.Inject(this);
+            
             Transform = transform;
             _go = transform.gameObject;
             _managedCount = transform.childCount;
@@ -92,7 +97,7 @@ namespace ZenVortex
         {
             for (var i = 0; i < _managedCount; i++) _renderers[i].material.mainTexture = _powerupData.Image;
             
-            var spawnRotation = DeterministicRandomProvider.Next(_powerupData.SpawnRotation);
+            var spawnRotation = _deterministicRandomProvider.Next(_powerupData.SpawnRotation);
             MovementUtils.SetRotation(Transform, spawnRotation);
         }
 
@@ -108,7 +113,7 @@ namespace ZenVortex
 
         private void Pickup()
         {
-            new Command(GameEvents.Gameplay.Pickup, new object[]{_powerupData}).Execute();
+            new EventCommand(GameEvents.Gameplay.Pickup, _powerupData).Execute();
         }
     }
 }
