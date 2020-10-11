@@ -13,19 +13,19 @@ namespace ZenVortex.DI
             AddToRegistry<TInterface, TImplementation>();
         }
         
-        public static void Register<TImplementation>() where TImplementation : class, new()
+        public static void Register<TImplementation>() where TImplementation : class
         {
             AddToRegistry<TImplementation>();
         }
 
-        private static void AddToRegistry<TInterface, TImplementation>() where TImplementation : class, new()
+        private static void AddToRegistry<TInterface, TImplementation>() where TImplementation : class
         {
             Registry[typeof(TInterface)] = new DependencyData(typeof(TImplementation));
 
             Injector.ResolveDependencies<TInterface>();
         }
         
-        private static void AddToRegistry<TImplementation>() where TImplementation : class, new()
+        private static void AddToRegistry<TImplementation>() where TImplementation : class
         {
             Registry[typeof(TImplementation)] = new DependencyData(typeof(TImplementation));
 

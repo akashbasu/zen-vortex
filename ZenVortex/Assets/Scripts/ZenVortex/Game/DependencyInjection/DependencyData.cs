@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
@@ -36,7 +37,7 @@ namespace ZenVortex.DI
 
         private object CreateInstance()
         {
-            if (_implementationType == typeof(MonoBehaviour))
+            if (_implementationType.IsSubclassOf(typeof(MonoBehaviour)))
             {
                 return MonoBehaviourUtils.CreateMonoBehaviorSingleton(_implementationType);
             }
