@@ -1,28 +1,33 @@
 using System;
 using UnityEngine;
+using ZenVortex.DI;
 
 namespace ZenVortex
 {
     internal abstract class WaitForEventState : IInitializable
     {
+        [Dependency] protected readonly GameEventManager _gameEventManager;
+        
         private Action<IInitializable> _onComplete;
 
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
+            Injector.Inject(this);
+            
             StartWait(onComplete);
         }
         
         protected void StartWait(Action<IInitializable> onComplete)
         {
             _onComplete = onComplete;
-            GameEventManager.Subscribe(EndEvent, OnWaitComplete);
+            _gameEventManager.Subscribe(EndEvent, OnWaitComplete);
         }
         
         protected abstract string EndEvent { get; }
 
         private void OnWaitComplete(object[] obj)
         {
-            GameEventManager.Unsubscribe(EndEvent, OnWaitComplete);
+            _gameEventManager.Unsubscribe(EndEvent, OnWaitComplete);
             
             Debug.Log($"[{GetType().Name}] {nameof(OnWaitComplete)}");
             

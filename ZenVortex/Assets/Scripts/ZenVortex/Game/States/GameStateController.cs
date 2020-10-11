@@ -41,7 +41,7 @@ namespace ZenVortex
         private void ProcessState(IInitializable step)
         {
             Debug.Log($"[{nameof(GameStateController)}] {nameof(ProcessState)} {step.GetType().Name}");
-            new Command(GameEvents.GameStateEvents.Start, step.GetType().Name).Execute();
+            new EventCommand(GameEvents.GameStateEvents.Start, step.GetType().Name).Execute();
             step.Initialize(OnStepComplete);
         }
 
@@ -51,7 +51,7 @@ namespace ZenVortex
             
             _steps.Dequeue();
             Debug.Log($"[{nameof(GameStateController)}] {nameof(OnStepComplete)} Completed {initializable.GetType().Name}");
-            new Command(GameEvents.GameStateEvents.End, initializable.GetType().Name).Execute();
+            new EventCommand(GameEvents.GameStateEvents.End, initializable.GetType().Name).Execute();
             NextState();
         }
     }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using ZenVortex.DI;
 
 namespace ZenVortex
 {
@@ -9,10 +10,15 @@ namespace ZenVortex
         private Action<IInitializable> _callback;
         private Queue<IInitializable> _steps;
 
-        private static GameObject _systemObject;
+        protected BaseGameState()
+        {
+            Configure();
+        }
 
         public virtual void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
+            Injector.Inject(this);
+            
             _callback = onComplete;
 
             SetupQueue(GetSteps(args));
@@ -22,23 +28,9 @@ namespace ZenVortex
             StartQueue();
         }
 
-        protected abstract List<IInitializable> GetSteps(object[] args);
-        
-        protected static T CreateMonoBehavior<T>() where T : Component
-        {
-            if (_systemObject == null)
-            {
-                if (!SceneReferenceProvider.TryGetEntry(Tags.System, out _systemObject))
-                {
-                    Debug.LogWarning("Failed to find system object!");
-                    return null;
-                }
-            }
+        protected abstract void Configure();
 
-            var component = _systemObject.GetComponent<T>();
-            component = component == null ? _systemObject.AddComponent<T>() : component;
-            return component;
-        }
+        protected abstract List<IInitializable> GetSteps(object[] args);
 
         private void SetupQueue(List<IInitializable> initializables)
         {
