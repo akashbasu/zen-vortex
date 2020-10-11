@@ -1,16 +1,20 @@
 using System;
+using ZenVortex.DI;
 
 namespace ZenVortex
 {
     internal class ScoreManager : IInitializable
     {
+        [Dependency] private readonly GameEventManager _gameEventManager;
+        [Dependency] private readonly UiDataProvider _uiDataProvider;
+        
         private int _scoreForRun;
         
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
-            GameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
-            GameEventManager.Subscribe(GameEvents.Gameplay.CrossedObstacle, OnScoredPoint);
-            GameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelEnd);
+            _gameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
+            _gameEventManager.Subscribe(GameEvents.Gameplay.CrossedObstacle, OnScoredPoint);
+            _gameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelEnd);
             
             onComplete?.Invoke(this);
         }
@@ -22,9 +26,9 @@ namespace ZenVortex
 
         private void OnLevelEnd(object[] obj)
         {
-            GameEventManager.Unsubscribe(GameEvents.Gameplay.CrossedObstacle, OnScoredPoint);
-            GameEventManager.Unsubscribe(GameEvents.LevelEvents.Stop, OnLevelEnd);
-            GameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.CrossedObstacle, OnScoredPoint);
+            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Stop, OnLevelEnd);
+            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
         }
         
         private void OnScoredPoint(object[] obj)
@@ -38,9 +42,9 @@ namespace ZenVortex
         private void UpdateScore(int newScore)
         {
             _scoreForRun = newScore;
-            UiDataProvider.UpdateData(UiDataKeys.Player.Score, _scoreForRun);
+            _uiDataProvider.UpdateData(UiDataKeys.Player.Score, _scoreForRun);
             
-            new Command(GameEvents.Gameplay.ScoreUpdated, new object[]{_scoreForRun}).Execute();
+            new EventCommand(GameEvents.Gameplay.ScoreUpdated, _scoreForRun).Execute();
         }
     }
     

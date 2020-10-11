@@ -1,18 +1,22 @@
 using System;
 using UnityEngine;
+using ZenVortex.DI;
 
 namespace ZenVortex
 {
     internal class PowerupManager : IInitializable
     {
-        private static ShuffleBag _shuffleBag;
-        private static int _powerupId = -1;
+        [Dependency] private readonly GameEventManager _gameEventManager;
+        [Dependency] private readonly PowerupDataProvider _powerupDataProvider;
+        
+        private ShuffleBag _shuffleBag;
+        private int _powerupId = -1;
         
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
-            GameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
-            GameEventManager.Subscribe(GameEvents.Gameplay.Pickup, OnPowerupCollected);
-            GameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
+            _gameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
+            _gameEventManager.Subscribe(GameEvents.Gameplay.Pickup, OnPowerupCollected);
+            _gameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
 
             onComplete?.Invoke(this);
         }
@@ -25,37 +29,36 @@ namespace ZenVortex
             switch (powerup.Type)
             {
                 case PowerupType.Lives:
-                    new Command(GameEvents.Gameplay.EarnedLife).Execute();
+                    new EventCommand(GameEvents.Gameplay.EarnedLife).Execute();
                     break;
                 case PowerupType.Shrink:
-                    new Command(GameEvents.Gameplay.OverrideSize, powerup.Data, GameConstants.Powerup.PowerupDuration).Execute();
+                    new EventCommand(GameEvents.Gameplay.OverrideSize, powerup.Data, GameConstants.Powerup.PowerupDuration).Execute();
                     break;
                 case PowerupType.Time:
-                    new Command(GameEvents.Gameplay.OverrideTimeScale, powerup.Data, GameConstants.Powerup.PowerupDuration).Execute();
+                    new EventCommand(GameEvents.Gameplay.OverrideTimeScale, powerup.Data, GameConstants.Powerup.PowerupDuration).Execute();
                     break;
-                case PowerupType.None:
                 default:
                     Debug.LogError($"[{nameof(PowerupManager)}] {nameof(OnPowerupCollected)} Invalid Powerup type.");
                     break;
             }
         }
 
-        public static PowerupData GetNextPowerupData()
+        public PowerupData GetNextPowerupData()
         {
             _powerupId = _shuffleBag.Next();
-            return PowerupDataProvider.PowerupData[_powerupId];
+            return _powerupDataProvider.PowerupData[_powerupId];
         }
         
         private void OnLevelStart(object[] obj)
         {
-            _shuffleBag = new ShuffleBag(PowerupDataProvider.PowerupData.Count);
+            _shuffleBag = new ShuffleBag(_powerupDataProvider.PowerupData.Count);
         }
         
         private void OnLevelStop(object[] obj)
         {
-            GameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
-            GameEventManager.Unsubscribe(GameEvents.Gameplay.Pickup, OnPowerupCollected);
-            GameEventManager.Unsubscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
+            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.Pickup, OnPowerupCollected);
+            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
         }
     }
     
