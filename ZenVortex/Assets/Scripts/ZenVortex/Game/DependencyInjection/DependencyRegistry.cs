@@ -20,6 +20,8 @@ namespace ZenVortex.DI
 
         private static void AddToRegistry<TInterface, TImplementation>() where TImplementation : class
         {
+            if(Registry.TryGetValue(typeof(TInterface), out var existingEntry) && existingEntry.instance != null) return;
+            
             Registry[typeof(TInterface)] = new DependencyData(typeof(TImplementation));
 
             Injector.ResolveDependencies<TInterface>();
@@ -29,6 +31,8 @@ namespace ZenVortex.DI
         
         private static void AddToRegistry<TImplementation>() where TImplementation : class
         {
+            if(Registry.TryGetValue(typeof(TImplementation), out var existingEntry) && existingEntry.instance != null) return;
+            
             Registry[typeof(TImplementation)] = new DependencyData(typeof(TImplementation));
 
             Injector.ResolveDependencies<TImplementation>();

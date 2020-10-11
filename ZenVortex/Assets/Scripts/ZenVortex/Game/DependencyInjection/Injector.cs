@@ -12,7 +12,7 @@ namespace ZenVortex.DI
             foreach (var dependency in dependencies)
             {
                 if (DependencyRegistry.Registry.ContainsKey(dependency.FieldType)) dependency.SetValue(instance, DependencyRegistry.Registry[dependency.FieldType].instance);
-                else Debug.LogError($"Failed to resolve dependency of type {dependency.FieldType}");
+                else Debug.LogError($"Failed to resolve dependency of type {dependency.FieldType} for {instance.GetType()}");
             }
         }
 

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using ZenVortex.DI;
 
@@ -13,15 +12,20 @@ namespace ZenVortex
         private ShuffleBag _shuffleBag;
         private int _powerupId = -1;
 
-        public override void Initialize(Action<IInitializable> onComplete = null, params object[] args)
+        public override void PostConstruct(params object[] args)
         {
-            base.Initialize(null, args);
+            base.PostConstruct(args);
             
             _gameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
             _gameEventManager.Subscribe(GameEvents.Gameplay.Pickup, OnPowerupCollected);
-            _gameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
+        }
 
-            onComplete?.Invoke(this);
+        public override void Dispose()
+        {
+            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.Pickup, OnPowerupCollected);
+            
+            base.Dispose();
         }
 
         private void OnPowerupCollected(object[] obj)
@@ -55,13 +59,6 @@ namespace ZenVortex
         private void OnLevelStart(object[] obj)
         {
             _shuffleBag = new ShuffleBag(_data.Length);
-        }
-        
-        private void OnLevelStop(object[] obj)
-        {
-            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
-            _gameEventManager.Unsubscribe(GameEvents.Gameplay.Pickup, OnPowerupCollected);
-            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
         }
     }
     

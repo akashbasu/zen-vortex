@@ -3,19 +3,21 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class DeterministicRandomProvider : IInitializable
+    internal class DeterministicRandomProvider : IPostConstructable
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         [Dependency] private readonly LevelDataManager _levelDataManager;
         
         private Random _random;
         
-        public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
+        public void PostConstruct(params object[] args)
         {
             _gameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
-            _gameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
-            
-            onComplete?.Invoke(this);
+        }
+        
+        public void Dispose()
+        {
+            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
         }
         
         public int Next() => _random.Next();
@@ -23,12 +25,6 @@ namespace ZenVortex
         public double NextNormalized() => _random.NextDouble();
         public int Next(IntRangedValue val) => _random.Next(val.Min, val.Max);
         public bool NextBool(float normalizedProbability) => NextNormalized() <= normalizedProbability;
-
-        private void OnLevelStop(object[] obj)
-        {
-            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
-            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
-        }
 
         private void OnLevelStart(object[] obj)
         {

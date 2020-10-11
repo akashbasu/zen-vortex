@@ -150,7 +150,6 @@ namespace ZenVortex
         {
             internal static partial class Obstacle
             {
-                public const float TravelTimeToRotationRatio = 0.10f;
                 public const float TravelTimeToAnimationRatio = 0.15f;
                 public const int MinGapSize = 5;
                 public const int Resolution = 24;

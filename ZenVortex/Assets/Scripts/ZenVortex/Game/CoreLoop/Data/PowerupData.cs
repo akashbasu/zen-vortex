@@ -40,7 +40,7 @@ namespace ZenVortex
         {
             internal static partial class Powerup
             {
-                private static readonly float SafeRotation = 90 - (Obstacle.MinGapSize / 2f) * (360f / Obstacle.Resolution);
+                private const float SafeRotation = 90 - (Obstacle.MinGapSize / 2f) * (360f / Obstacle.Resolution);
                 public static readonly IntRangedValue SafeRotationRange = new IntRangedValue((int)-SafeRotation, (int)SafeRotation);
             }
         }

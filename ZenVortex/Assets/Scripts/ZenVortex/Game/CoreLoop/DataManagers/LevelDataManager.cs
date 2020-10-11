@@ -6,6 +6,6 @@ namespace ZenVortex
         
         protected override string DataPath => GameConstants.DataPaths.Resources.Levels;
         
-        private int _currentLevel;
+        private int _currentLevel = 0;
     }
 }

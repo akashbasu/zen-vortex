@@ -1,34 +1,29 @@
-using System;
 using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class ScoreDataManager : IInitializable
+    internal class ScoreDataManager : IPostConstructable
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         [Dependency] private readonly UiDataProvider _uiDataProvider;
         
         private int _scoreForRun;
         
-        public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
+        public void PostConstruct(params object[] args)
         {
             _gameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
             _gameEventManager.Subscribe(GameEvents.Gameplay.CrossedObstacle, OnScoredPoint);
-            _gameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelEnd);
-            
-            onComplete?.Invoke(this);
+        }
+        
+        public void Dispose()
+        {
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.CrossedObstacle, OnScoredPoint);
+            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
         }
 
         private void OnLevelStart(object[] obj)
         {
             UpdateScore(0);
-        }
-
-        private void OnLevelEnd(object[] obj)
-        {
-            _gameEventManager.Unsubscribe(GameEvents.Gameplay.CrossedObstacle, OnScoredPoint);
-            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Stop, OnLevelEnd);
-            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
         }
         
         private void OnScoredPoint(object[] obj)

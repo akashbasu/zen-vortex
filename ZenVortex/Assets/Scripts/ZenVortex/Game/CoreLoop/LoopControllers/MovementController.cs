@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,7 +5,7 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class MovementController : MonoBehaviour, IInitializable
+    internal class MovementController : MonoBehaviour, IPostConstructable
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         [Dependency] private readonly SceneReferenceProvider _sceneReferenceProvider;
@@ -15,7 +14,7 @@ namespace ZenVortex
         private bool _canMove;
         private readonly Dictionary<string, ILevelMovementObserver> _objectMovementMap = new Dictionary<string, ILevelMovementObserver>();
 
-        public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
+        public void PostConstruct(params object[] args)
         {
             if (GetReferences())
             {
@@ -24,15 +23,14 @@ namespace ZenVortex
                 _gameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
                 _gameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
                 _gameEventManager.Subscribe(GameEvents.Gameplay.Reset, OnReset);
-
-                onComplete?.Invoke(this);
+                
                 return;
             }
 
             Debug.LogError($"[{nameof(MovementController)}] Cannot find references");
         }
         
-        private void OnDestroy()
+        public void Dispose()
         {
             _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
             _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Stop, OnLevelStop);

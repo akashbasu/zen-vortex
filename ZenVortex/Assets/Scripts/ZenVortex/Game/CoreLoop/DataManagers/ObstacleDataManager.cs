@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using ZenVortex.DI;
 
@@ -19,14 +18,18 @@ namespace ZenVortex
 
         private ShuffleBag _shuffleBag;
 
-        public override void Initialize(Action<IInitializable> onComplete = null, params object[] args)
+        public override void PostConstruct(params object[] args)
         {
-            base.Initialize(null, args);
+            base.PostConstruct(args);
             
             _gameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
-            _gameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
+        }
 
-            onComplete?.Invoke(this);
+        public override void Dispose()
+        {
+            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
+            
+            base.Dispose();
         }
 
         public ObstacleData GetNextObstacleData()
@@ -54,12 +57,6 @@ namespace ZenVortex
             _groupColorIndex = -1;
 
             _shuffleBag = new ShuffleBag(_data.Length);
-        }
-        
-        private void OnLevelStop(object[] obj)
-        {
-            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
-            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
         }
     }
 }

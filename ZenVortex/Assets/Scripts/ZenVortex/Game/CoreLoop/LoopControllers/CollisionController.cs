@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,29 +5,27 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class CollisionController : IInitializable
+    internal class CollisionController : IPostConstructable
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         [Dependency] private readonly SceneReferenceProvider _sceneReferenceProvider;
         
         private bool _canPropagateCollisions;
         private readonly Dictionary<string, ICollisionEventObserver> _objectCollisionMap = new Dictionary<string, ICollisionEventObserver>();
-        
-        public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
+
+        public void PostConstruct(params object[] args)
         {
             if (GetReferences())
             {
                 _gameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
                 _gameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
-
-                onComplete?.Invoke(this);
                 return;
             }
 
             Debug.LogError($"[{nameof(MovementController)}] Cannot find references");
         }
 
-        ~CollisionController()
+        public void Dispose()
         {
             _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
             _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
