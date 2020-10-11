@@ -4,20 +4,20 @@ namespace ZenVortex
 {
     internal sealed class BootState : BaseGameState
     {
-        [Dependency] private readonly UiServiceController _uiServiceController;
+        [Dependency] private readonly IUiServiceController _uiServiceController;
         
         protected override void InstallDependencies()
         {
-            DependencyRegistry.RegisterConcreteType<GameEventManager>();
+            DependencyRegistry.RegisterInterface<IGameEventManager, GameEventManager>();
             
-            DependencyRegistry.RegisterConcreteType<SceneReferenceProvider>();
-            DependencyRegistry.RegisterConcreteType<UiDataProvider>();
+            DependencyRegistry.RegisterInterface<ISceneReferenceProvider, SceneReferenceProvider>();
+            DependencyRegistry.RegisterInterface<IUiDataProvider, UiDataProvider>();
             
-            DependencyRegistry.RegisterConcreteType<TimeServiceController>();
-            DependencyRegistry.RegisterConcreteType<InputServiceController>();
-            DependencyRegistry.RegisterConcreteType<VibrationServiceController>();
-            DependencyRegistry.RegisterConcreteType<AudioServiceController>();
-            DependencyRegistry.RegisterConcreteType<UiServiceController>();
+            DependencyRegistry.RegisterInterface<ITimeServiceController, TimeServiceController>();
+            DependencyRegistry.RegisterInterface<IInputServiceController, InputServiceController>();
+            DependencyRegistry.RegisterInterface<IVibrationServiceController, VibrationServiceController>();
+            DependencyRegistry.RegisterInterface<IAudioServiceController, AudioServiceController>();
+            DependencyRegistry.RegisterInterface<IUiServiceController, UiServiceController>();
         }
     }
 }

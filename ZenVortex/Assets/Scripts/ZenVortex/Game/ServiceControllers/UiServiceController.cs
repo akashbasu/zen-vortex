@@ -5,10 +5,12 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class UiServiceController : IPostConstructable
+    internal interface IUiServiceController : IPostConstructable {}
+    
+    internal class UiServiceController : IUiServiceController
     {
-        [Dependency] private readonly GameEventManager _gameEventManager;
-        [Dependency] private readonly SceneReferenceProvider _sceneReferenceProvider;
+        [Dependency] private readonly IGameEventManager _gameEventManager;
+        [Dependency] private readonly ISceneReferenceProvider _sceneReferenceProvider;
         
         private GameObject _root;
 

@@ -4,8 +4,8 @@ namespace ZenVortex
 {
     internal class ScoreDataManager : IPostConstructable
     {
-        [Dependency] private readonly GameEventManager _gameEventManager;
-        [Dependency] private readonly UiDataProvider _uiDataProvider;
+        [Dependency] private readonly IGameEventManager _gameEventManager;
+        [Dependency] private readonly IUiDataProvider _uiDataProvider;
         
         private int _scoreForRun;
         

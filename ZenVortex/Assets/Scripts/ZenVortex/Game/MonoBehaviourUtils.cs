@@ -14,7 +14,7 @@ namespace ZenVortex
             }
             catch
             {
-                Debug.LogError($"[{nameof(SceneReferenceProvider)}] Failed to find Game object with tag {tag}");
+                Debug.LogError($"[{nameof(MonoBehaviourUtils)}] Failed to find Game object with tag {tag}");
                 go = null;
                 return false;
             }

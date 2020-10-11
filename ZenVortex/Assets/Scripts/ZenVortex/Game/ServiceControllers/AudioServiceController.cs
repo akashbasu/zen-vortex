@@ -6,9 +6,11 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class AudioServiceController : IPostConstructable
+    internal interface IAudioServiceController : IPostConstructable {}
+    
+    internal class AudioServiceController : IAudioServiceController
     {
-        [Dependency] private readonly GameEventManager _gameEventManager;
+        [Dependency] private readonly IGameEventManager _gameEventManager;
         
         private Vector3 _audioOrigin;
         private readonly Dictionary<Priority, AudioClip> _audioClips = new Dictionary<Priority, AudioClip>();

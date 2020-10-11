@@ -6,8 +6,8 @@ namespace ZenVortex
 {
     internal sealed class BallMovement : ILevelMovementObserver
     {
-        [Dependency] private readonly InputServiceController _inputServiceController;
-        [Dependency] private readonly GameEventManager _gameEventManager;
+        [Dependency] private readonly IInputServiceController _inputServiceController;
+        [Dependency] private readonly IGameEventManager _gameEventManager;
         [Dependency] private readonly LevelDataManager _levelDataManager;
         
         private readonly GameObject _ball;

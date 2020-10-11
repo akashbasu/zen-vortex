@@ -3,9 +3,11 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class TimeServiceController : IPostConstructable
+    internal interface ITimeServiceController : IPostConstructable {}
+    
+    internal class TimeServiceController : ITimeServiceController
     {
-        [Dependency] private readonly GameEventManager _gameEventManager;
+        [Dependency] private readonly IGameEventManager _gameEventManager;
         
         public void PostConstruct(params object[] args)
         {

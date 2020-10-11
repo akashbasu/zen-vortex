@@ -3,9 +3,11 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class VibrationServiceController : IPostConstructable
+    internal interface IVibrationServiceController : IPostConstructable {}
+    
+    internal class VibrationServiceController : IVibrationServiceController
     {
-        [Dependency] private readonly GameEventManager _gameEventManager;
+        [Dependency] private readonly IGameEventManager _gameEventManager;
         
 #if UNITY_ANDROID && !UNITY_EDITOR
         public static AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");

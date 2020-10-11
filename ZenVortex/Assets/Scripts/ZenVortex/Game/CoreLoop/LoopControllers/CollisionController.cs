@@ -7,8 +7,8 @@ namespace ZenVortex
 {
     internal class CollisionController : IPostConstructable
     {
-        [Dependency] private readonly GameEventManager _gameEventManager;
-        [Dependency] private readonly SceneReferenceProvider _sceneReferenceProvider;
+        [Dependency] private readonly IGameEventManager _gameEventManager;
+        [Dependency] private readonly ISceneReferenceProvider _sceneReferenceProvider;
         
         private bool _canPropagateCollisions;
         private readonly Dictionary<string, ICollisionEventObserver> _objectCollisionMap = new Dictionary<string, ICollisionEventObserver>();

@@ -31,8 +31,15 @@ namespace ZenVortex
             foreach (var bindable in _boundObjects) bindable.UpdateData(_data);
         }
     }
+
+    internal interface IUiDataProvider
+    {
+        void UpdateData(string key, object data);
+        void RegisterLabel(string key, IBindable<string> textBinder);
+        void UnRegisterLabel(string key, IBindable<string> textBinder);
+    }
     
-    internal class UiDataProvider
+    internal class UiDataProvider : IUiDataProvider
     {
         private readonly Dictionary<string, UiDataEntry<string>> _directory = new Dictionary<string, UiDataEntry<string>>();
         

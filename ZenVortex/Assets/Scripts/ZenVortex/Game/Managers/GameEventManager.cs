@@ -3,7 +3,14 @@ using System.Collections.Generic;
 
 namespace ZenVortex
 {
-    internal class GameEventManager
+    internal interface IGameEventManager
+    {
+        void Subscribe(string gameEvent, Action<object[]> callback);
+        void Unsubscribe(string gameEvent, Action<object[]> callback);
+        void Broadcast(string gameEvent, params object[] args);
+    }
+    
+    internal class GameEventManager : IGameEventManager
     {
         private readonly Dictionary<string, List<Action<object[]>>> _eventDirectory = new Dictionary<string, List<Action<object[]>>>();
 

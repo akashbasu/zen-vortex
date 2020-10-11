@@ -5,7 +5,7 @@ namespace ZenVortex
 {
     internal class ObstacleDataManager : BaseResourceDataManager<ObstacleData>
     {
-        [Dependency] private readonly GameEventManager _gameEventManager;
+        [Dependency] private readonly IGameEventManager _gameEventManager;
         [Dependency] private readonly DeterministicRandomProvider _deterministicRandomProvider;
         [Dependency] private readonly LevelDataManager _levelDataManager;
 

@@ -7,8 +7,8 @@ namespace ZenVortex
 {
     internal class MovementController : MonoBehaviour, IPostConstructable
     {
-        [Dependency] private readonly GameEventManager _gameEventManager;
-        [Dependency] private readonly SceneReferenceProvider _sceneReferenceProvider;
+        [Dependency] private readonly IGameEventManager _gameEventManager;
+        [Dependency] private readonly ISceneReferenceProvider _sceneReferenceProvider;
         [Dependency] private readonly LevelDataManager _levelDataManager;
         
         private bool _canMove;

@@ -4,7 +4,7 @@ namespace ZenVortex
 {
     internal class EventCommand : ICommand
     {
-        [Dependency] private readonly GameEventManager _gameEventManager;
+        [Dependency] private readonly IGameEventManager _gameEventManager;
         
         private readonly object[] _args;
         private readonly string _event;

@@ -8,7 +8,7 @@ namespace ZenVortex.DI
         private static Dictionary<Type, DependencyData> _registry;
         public static Dictionary<Type, DependencyData> Registry => _registry ?? (_registry = new Dictionary<Type, DependencyData>());
 
-        public static void Register<TInterface, TImplementation>() where TImplementation : class, new()
+        public static void RegisterInterface<TInterface, TImplementation>() where TImplementation : class, TInterface
         {
             AddToRegistry<TInterface, TImplementation>();
         }

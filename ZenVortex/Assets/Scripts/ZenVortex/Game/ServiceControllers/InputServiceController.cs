@@ -3,9 +3,15 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class InputServiceController : IPostConstructable
+    internal interface IInputServiceController : IPostConstructable
     {
-        [Dependency] private readonly GameEventManager _gameEventManager;
+        GameInputAdapter GameInput { get;}
+        UiInputAdapter UiInput { get;}
+    }
+    
+    internal class InputServiceController : IInputServiceController
+    {
+        [Dependency] private readonly IGameEventManager _gameEventManager;
         
         private UnityInput _input;
         
@@ -15,7 +21,7 @@ namespace ZenVortex
         };
 
         public GameInputAdapter GameInput { get; private set; }
-        private UiInputAdapter UiInput { get; set; }
+        public UiInputAdapter UiInput { get; private set; }
 
         public void PostConstruct(params object[] args)
         {

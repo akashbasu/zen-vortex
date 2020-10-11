@@ -9,7 +9,7 @@ namespace ZenVortex
     {
         [SerializeField] private string _onClickEvent;
 
-        [Dependency] private readonly GameEventManager _gameEventManager;
+        [Dependency] private readonly IGameEventManager _gameEventManager;
         
         private Button _button;
 

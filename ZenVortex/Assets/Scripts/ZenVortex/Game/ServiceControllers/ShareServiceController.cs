@@ -6,7 +6,7 @@ namespace ZenVortex
 {
     internal class ShareServiceController : MonoBehaviour, IPostConstructable
     {
-        [Dependency] private readonly GameEventManager _gameEventManager;
+        [Dependency] private readonly IGameEventManager _gameEventManager;
         [Dependency] private readonly PlayerDataManager _playerDataManager;
         
         public void PostConstruct(params object[] args)

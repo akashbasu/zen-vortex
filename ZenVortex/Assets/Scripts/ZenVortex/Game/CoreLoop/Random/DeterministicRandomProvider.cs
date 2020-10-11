@@ -5,7 +5,7 @@ namespace ZenVortex
 {
     internal class DeterministicRandomProvider : IPostConstructable
     {
-        [Dependency] private readonly GameEventManager _gameEventManager;
+        [Dependency] private readonly IGameEventManager _gameEventManager;
         [Dependency] private readonly LevelDataManager _levelDataManager;
         
         private Random _random;

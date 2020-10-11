@@ -6,7 +6,7 @@ namespace ZenVortex
 {
     internal abstract class WaitForEventState : IInitializable
     {
-        [Dependency] protected readonly GameEventManager _gameEventManager;
+        [Dependency] protected readonly IGameEventManager _gameEventManager;
         
         private Action<IInitializable> _onComplete;
 

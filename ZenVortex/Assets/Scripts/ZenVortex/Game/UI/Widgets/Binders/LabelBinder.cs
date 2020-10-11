@@ -12,7 +12,7 @@ namespace ZenVortex
         [SerializeField] private string _format;
         [SerializeField] private bool _animateOnChange = true;
 
-        [Dependency] private readonly UiDataProvider _uiDataProvider;
+        [Dependency] private readonly IUiDataProvider _uiDataProvider;
         
         private TextMeshProUGUI _label;
         

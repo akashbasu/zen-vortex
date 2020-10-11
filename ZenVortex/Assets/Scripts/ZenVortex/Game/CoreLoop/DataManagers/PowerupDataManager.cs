@@ -5,7 +5,7 @@ namespace ZenVortex
 {
     internal class PowerupDataManager : BaseResourceDataManager<PowerupData>
     {
-        [Dependency] private readonly GameEventManager _gameEventManager;
+        [Dependency] private readonly IGameEventManager _gameEventManager;
         
         protected override string DataPath => GameConstants.DataPaths.Resources.Powerups;
         

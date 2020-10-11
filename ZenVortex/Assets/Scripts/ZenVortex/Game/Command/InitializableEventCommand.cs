@@ -5,7 +5,7 @@ namespace ZenVortex
 {
     internal abstract class InitializableEventCommand : IInitializable, ICommand
     {
-        [Dependency] protected readonly GameEventManager _gameEventManager;
+        [Dependency] protected readonly IGameEventManager _gameEventManager;
         
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {

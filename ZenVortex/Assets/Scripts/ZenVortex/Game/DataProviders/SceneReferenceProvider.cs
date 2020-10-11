@@ -20,7 +20,12 @@ namespace ZenVortex
         }
     }
 
-    internal class SceneReferenceProvider : MonoBehaviour, IPostConstructable
+    internal interface ISceneReferenceProvider : IPostConstructable
+    {
+        bool TryGetEntry(string tag, out GameObject go);
+    }
+
+    internal class SceneReferenceProvider : MonoBehaviour, ISceneReferenceProvider
     {
         private readonly Dictionary<string, GameObject> _directory = new Dictionary<string, GameObject>();
         
