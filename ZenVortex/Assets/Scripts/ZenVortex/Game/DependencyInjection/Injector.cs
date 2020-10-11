@@ -5,9 +5,9 @@ namespace ZenVortex.DI
 {
     internal static class Injector
     {
-        public static void Inject<TType>(object instance)
+        public static void Inject(object instance)
         {
-            var dependencies = DependencyAttribute.GetUnresolvedDependencies<TType>(instance);
+            var dependencies = DependencyAttribute.GetUnresolvedDependencies(instance.GetType(), instance);
             
             foreach (var dependency in dependencies)
             {
@@ -19,7 +19,7 @@ namespace ZenVortex.DI
         public static void ResolveDependencies<TDependency>()
         {
             var dependencyInstance = DependencyRegistry.Registry[typeof(TDependency)].instance; 
-            Inject<TDependency>(dependencyInstance);
+            Inject(dependencyInstance);
             ResolveExistingDependencies<TDependency>(dependencyInstance);
         }
 
