@@ -2,14 +2,14 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class Command
+    internal class EventCommand : ICommand
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         
         private readonly object[] _args;
         private readonly string _event;
 
-        internal Command(string eventName, params object[] args)
+        internal EventCommand(string eventName, params object[] args)
         {
             Injector.Inject(this);
             

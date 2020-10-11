@@ -3,34 +3,34 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal abstract class InitializableCommand : IInitializable
+    internal abstract class InitializableEventCommand : IInitializable, ICommand
     {
         [Dependency] protected readonly GameEventManager _gameEventManager;
         
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
             Injector.Inject(this);
-            
-            Execute(args);
+
+            ((ICommand) this).Execute();
             onComplete?.Invoke(this);
         }
 
         protected abstract string GameEvent { get; }
         
-        private void Execute(object[] args)
+        void ICommand.Execute()
         {
             if (string.IsNullOrEmpty(GameEvent)) return;
 
-            _gameEventManager.Broadcast(GameEvent, args);
+            _gameEventManager.Broadcast(GameEvent);
         }
     }
     
-    internal sealed class LevelEndCommand : InitializableCommand
+    internal sealed class LevelEndEventCommand : InitializableEventCommand
     {
         protected override string GameEvent => GameEvents.LevelEvents.Stop;
     }
     
-    internal sealed class LevelStartCommand : InitializableCommand
+    internal sealed class LevelStartEventCommand : InitializableEventCommand
     {
         protected override string GameEvent => GameEvents.LevelEvents.Start;
     }
