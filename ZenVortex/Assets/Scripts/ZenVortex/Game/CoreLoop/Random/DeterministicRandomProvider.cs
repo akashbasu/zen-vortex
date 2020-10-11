@@ -1,34 +1,38 @@
 using System;
+using ZenVortex.DI;
 
 namespace ZenVortex
 {
     internal class DeterministicRandomProvider : IInitializable
     {
-        private static Random _random;
+        [Dependency] private readonly GameEventManager _gameEventManager;
+        [Dependency] private readonly LevelDataProvider _levelDataProvider;
+        
+        private Random _random;
         
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
-            GameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
-            GameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
+            _gameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
+            _gameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
             
             onComplete?.Invoke(this);
         }
+        
+        public int Next() => _random.Next();
+        public int Next(int min, int max) => _random.Next(min, max);
+        public double NextNormalized() => _random.NextDouble();
+        public int Next(IntRangedValue val) => _random.Next(val.Min, val.Max);
+        public bool NextBool(float normalizedProbability) => NextNormalized() <= normalizedProbability;
 
-        private static void OnLevelStop(object[] obj)
+        private void OnLevelStop(object[] obj)
         {
-            GameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
-            GameEventManager.Unsubscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
+            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
+            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
         }
 
-        private static void OnLevelStart(object[] obj)
+        private void OnLevelStart(object[] obj)
         {
-            _random = new Random(LevelDataProvider.LevelData.Seed);
+            _random = new Random(_levelDataProvider.LevelData.Seed);
         }
-
-        public static int Next() => _random.Next();
-        public static int Next(int min, int max) => _random.Next(min, max);
-        public static double NextNormalized() => _random.NextDouble();
-        public static int Next(IntRangedValue val) => _random.Next(val.Min, val.Max);
-        public static bool NextBool(float normalizedProbability) => NextNormalized() <= normalizedProbability;
     }
 }
