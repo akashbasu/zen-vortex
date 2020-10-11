@@ -1,9 +1,12 @@
 using UnityEngine;
+using ZenVortex.DI;
 
 namespace ZenVortex
 {
     internal sealed class TubeMovement : ILevelMovementObserver
     {
+        [Dependency] private readonly LevelDataProvider _levelDataProvider;
+        
         private readonly Material _material;
         private readonly float _materialXOffset;
         private readonly int _textureId;
@@ -14,6 +17,8 @@ namespace ZenVortex
 
         internal TubeMovement(GameObject tube)
         {
+            Injector.Inject(this);
+            
             var material = tube.GetComponent<Renderer>().material;
 
             if (material == null)
@@ -58,7 +63,7 @@ namespace ZenVortex
         private void StartTween()
         {
             _animationTween = LeanTween.value(0f, _tiling, _loopInSeconds).setLoopClamp().setOnUpdate(tiling =>
-                MovementUtils.SetTexturePosition(_material, _textureId, _materialXOffset, -tiling)).setDelay(LevelDataProvider.LevelData.DelayBeforeStart);
+                MovementUtils.SetTexturePosition(_material, _textureId, _materialXOffset, -tiling)).setDelay(_levelDataProvider.LevelData.DelayBeforeStart);
         }
 
         private void ResetTween()

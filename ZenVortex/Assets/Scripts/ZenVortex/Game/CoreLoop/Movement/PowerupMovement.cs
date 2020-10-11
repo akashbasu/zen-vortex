@@ -64,7 +64,7 @@ namespace ZenVortex
         public void OnLevelStart()
         {
             _spawnTween = LeanTween.delayedCall(_releasePowerupInSeconds,
-                () => _cacheController.SpawnNext(_loopInSeconds)).setRepeat(-1).setDelay(_delayTime - _releasePowerupInSeconds + (_releasePowerupInSeconds * GameConstants.Animation.Powerup.SpawnTimeOffset));
+                () => _cacheController.SpawnNext(_loopInSeconds)).setRepeat(-1).setDelay(_delayTime - _releasePowerupInSeconds + _releasePowerupInSeconds * GameConstants.Animation.Powerup.SpawnTimeOffset);
         }
 
         public void OnLevelEnd()
@@ -99,7 +99,7 @@ namespace ZenVortex
         {
             internal static partial class Powerup
             {
-                public static float SpawnTimeOffset = 0.5f;
+                public const float SpawnTimeOffset = 0.5f;
             }
         }
     }

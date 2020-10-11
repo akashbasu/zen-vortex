@@ -64,12 +64,12 @@ namespace ZenVortex
         {
             if (!other.tag.Equals(Tags.Ball)) return;
 
-            _cacheController.Current.CollisionStart(new object[]{pointOfCollision});
+            _cacheController.Current.CollisionStart(pointOfCollision);
             
             switch (_cacheController.Current.HasActionableCollision)
             {
                 case true: Debug.Log($"[{nameof(ObstacleMovement)}] {nameof(OnCollisionEnter)} Point of collision {pointOfCollision} FATAL!");
-                    new Command(GameEvents.Gameplay.End).Execute();
+                    new EventCommand(GameEvents.Gameplay.End).Execute();
                     break;
                 case false:
                     break;
@@ -82,12 +82,12 @@ namespace ZenVortex
         {
             if (!other.tag.Equals(Tags.Ball)) return;
             
-            _cacheController.Current.CollisionComplete(new object[]{pointOfCollision});
+            _cacheController.Current.CollisionComplete(pointOfCollision);
             
             switch (_cacheController.Current.HasActionableCollision)
             {
                 case true: Debug.Log($"[{nameof(ObstacleMovement)}] {nameof(OnCollisionExit)} Point of collision {pointOfCollision} FATAL!");
-                    new Command(GameEvents.Gameplay.End).Execute();
+                    new EventCommand(GameEvents.Gameplay.End).Execute();
                     break;
                 case false:
                     break;
