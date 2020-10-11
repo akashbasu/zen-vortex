@@ -1,14 +1,18 @@
-using System;
+using ZenVortex.DI;
 
 namespace ZenVortex
 {
     internal class Command
     {
+        [Dependency] private readonly GameEventManager _gameEventManager;
+        
         private readonly object[] _args;
         private readonly string _event;
 
         internal Command(string eventName, params object[] args)
         {
+            Injector.Inject(this);
+            
             _event = eventName;
             _args = args;
         }
@@ -17,25 +21,7 @@ namespace ZenVortex
         {
             if (string.IsNullOrEmpty(_event)) return;
 
-            GameEventManager.Broadcast(_event, _args);
-        }
-
-        protected void Execute(params object[] args)
-        {
-            if (string.IsNullOrEmpty(_event)) return;
-
-            GameEventManager.Broadcast(_event, args);
-        }
-    }
-
-    internal abstract class InitializableCommand : Command, IInitializable
-    {
-        protected InitializableCommand(string eventName, params object[] args) : base(eventName, args) { }
-
-        public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
-        {
-            Execute(args);
-            onComplete?.Invoke(this);
+            _gameEventManager.Broadcast(_event, _args);
         }
     }
 }
