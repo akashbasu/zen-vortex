@@ -5,8 +5,8 @@ namespace ZenVortex
 {
     internal sealed class ObstacleCacheController : CacheController
     {
-        [Dependency] private readonly ObstacleDataManager _obstacleDataManager;
-        [Dependency] private readonly LevelDataManager _levelDataManager;
+        [Dependency] private readonly IObstacleDataManager _obstacleDataManager;
+        [Dependency] private readonly ILevelDataManager _levelDataManager;
         
         public ObstacleCacheController(Transform cache, Vector3 reCacheMarker) : base(cache, reCacheMarker,
             typeof(ObstacleController))

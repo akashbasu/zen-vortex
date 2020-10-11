@@ -3,11 +3,17 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class ObstacleDataManager : BaseResourceDataManager<ObstacleData>
+    internal interface IObstacleDataManager
+    {
+        ObstacleData GetNextObstacleData();
+        Color GetCurrentGroupColor { get; }
+    }
+    
+    internal class ObstacleDataManager : BaseResourceDataManager<ObstacleData>, IObstacleDataManager
     {
         [Dependency] private readonly IGameEventManager _gameEventManager;
-        [Dependency] private readonly DeterministicRandomProvider _deterministicRandomProvider;
-        [Dependency] private readonly LevelDataManager _levelDataManager;
+        [Dependency] private readonly IDeterministicRandomProvider _deterministicRandomProvider;
+        [Dependency] private readonly ILevelDataManager _levelDataManager;
 
         protected override string DataPath => GameConstants.DataPaths.Resources.Obstacles;
         

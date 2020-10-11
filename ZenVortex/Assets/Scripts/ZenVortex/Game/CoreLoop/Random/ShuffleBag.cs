@@ -5,7 +5,7 @@ namespace ZenVortex
 {
     internal class ShuffleBag
     {
-        [Dependency] private readonly DeterministicRandomProvider _deterministicRandomProvider;
+        [Dependency] private readonly IDeterministicRandomProvider _deterministicRandomProvider;
         
         private readonly int _size;
         private List<int> _bag;

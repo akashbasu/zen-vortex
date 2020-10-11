@@ -5,11 +5,13 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class MovementController : MonoBehaviour, IPostConstructable
+    internal interface IMovementController : IPostConstructable {}
+    
+    internal class MovementController : MonoBehaviour, IMovementController
     {
         [Dependency] private readonly IGameEventManager _gameEventManager;
         [Dependency] private readonly ISceneReferenceProvider _sceneReferenceProvider;
-        [Dependency] private readonly LevelDataManager _levelDataManager;
+        [Dependency] private readonly ILevelDataManager _levelDataManager;
         
         private bool _canMove;
         private readonly Dictionary<string, ILevelMovementObserver> _objectMovementMap = new Dictionary<string, ILevelMovementObserver>();

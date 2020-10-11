@@ -5,9 +5,9 @@ namespace ZenVortex
 {
     internal sealed class PowerupCacheController : CacheController
     {
-        [Dependency] private readonly DeterministicRandomProvider _deterministicRandomProvider;
-        [Dependency] private readonly PowerupDataManager _powerupDataManager;
-        [Dependency] private readonly LevelDataManager _levelDataManager;
+        [Dependency] private readonly IDeterministicRandomProvider _deterministicRandomProvider;
+        [Dependency] private readonly IPowerupDataManager _powerupDataManager;
+        [Dependency] private readonly ILevelDataManager _levelDataManager;
 
         internal PowerupCacheController(Transform cache, Vector3 reCacheMarker) : base(cache, reCacheMarker,
             typeof(PowerupController))

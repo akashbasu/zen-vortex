@@ -8,7 +8,7 @@ namespace ZenVortex
     {
         [Dependency] private readonly IInputServiceController _inputServiceController;
         [Dependency] private readonly IGameEventManager _gameEventManager;
-        [Dependency] private readonly LevelDataManager _levelDataManager;
+        [Dependency] private readonly ILevelDataManager _levelDataManager;
         
         private readonly GameObject _ball;
         private readonly Transform _anchor;

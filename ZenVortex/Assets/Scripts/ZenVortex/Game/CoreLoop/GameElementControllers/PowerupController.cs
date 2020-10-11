@@ -7,7 +7,7 @@ namespace ZenVortex
 {
     internal class PowerupController : ICacheEntry
     {
-        [Dependency] private readonly DeterministicRandomProvider _deterministicRandomProvider;
+        [Dependency] private readonly IDeterministicRandomProvider _deterministicRandomProvider;
         
         private readonly List<MeshRenderer> _renderers;
         private readonly List<Collider> _colliders;

@@ -2,7 +2,9 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class ScoreDataManager : IPostConstructable
+    internal interface IScoreDataManager : IPostConstructable {}
+    
+    internal class ScoreDataManager : IScoreDataManager
     {
         [Dependency] private readonly IGameEventManager _gameEventManager;
         [Dependency] private readonly IUiDataProvider _uiDataProvider;

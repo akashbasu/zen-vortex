@@ -3,7 +3,12 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class PowerupDataManager : BaseResourceDataManager<PowerupData>
+    internal interface IPowerupDataManager
+    {
+        PowerupData GetNextPowerupData();
+    }
+    
+    internal class PowerupDataManager : BaseResourceDataManager<PowerupData>, IPowerupDataManager
     {
         [Dependency] private readonly IGameEventManager _gameEventManager;
         
@@ -27,6 +32,12 @@ namespace ZenVortex
             
             base.Dispose();
         }
+        
+        public PowerupData GetNextPowerupData()
+        {
+            _powerupId = _shuffleBag.Next();
+            return _data[_powerupId];
+        }
 
         private void OnPowerupCollected(object[] obj)
         {
@@ -48,12 +59,6 @@ namespace ZenVortex
                     Debug.LogError($"[{nameof(PowerupDataManager)}] {nameof(OnPowerupCollected)} Invalid Powerup type.");
                     break;
             }
-        }
-
-        public PowerupData GetNextPowerupData()
-        {
-            _powerupId = _shuffleBag.Next();
-            return _data[_powerupId];
         }
         
         private void OnLevelStart(object[] obj)

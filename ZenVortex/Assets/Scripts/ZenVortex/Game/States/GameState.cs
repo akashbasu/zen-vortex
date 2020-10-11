@@ -7,15 +7,15 @@ namespace ZenVortex
     {
         protected override void InstallDependencies()
         {
-            DependencyRegistry.RegisterConcreteType<LevelDataManager>();
-            DependencyRegistry.RegisterConcreteType<DeterministicRandomProvider>();
+            DependencyRegistry.RegisterInterface<ILevelDataManager, LevelDataManager>();
+            DependencyRegistry.RegisterInterface<IDeterministicRandomProvider, DeterministicRandomProvider>();
             
-            DependencyRegistry.RegisterConcreteType<ObstacleDataManager>();
-            DependencyRegistry.RegisterConcreteType<PowerupDataManager>();
-            DependencyRegistry.RegisterConcreteType<ScoreDataManager>();
+            DependencyRegistry.RegisterInterface<IObstacleDataManager, ObstacleDataManager>();
+            DependencyRegistry.RegisterInterface<IPowerupDataManager, PowerupDataManager>();
+            DependencyRegistry.RegisterInterface<IScoreDataManager, ScoreDataManager>();
             
-            DependencyRegistry.RegisterConcreteType<CollisionController>();
-            DependencyRegistry.RegisterConcreteType<MovementController>();
+            DependencyRegistry.RegisterInterface<ICollisionController, CollisionController>();
+            DependencyRegistry.RegisterInterface<IMovementController, MovementController>();
         }
 
         protected override Queue<IInitializable> GetSteps()

@@ -3,10 +3,19 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class DeterministicRandomProvider : IPostConstructable
+    internal interface IDeterministicRandomProvider : IPostConstructable
+    {
+        int Next();
+        int Next(int min, int max);
+        double NextNormalized();
+        int Next(IntRangedValue val);
+        bool NextBool(float normalizedProbability);
+    }
+    
+    internal class DeterministicRandomProvider : IDeterministicRandomProvider
     {
         [Dependency] private readonly IGameEventManager _gameEventManager;
-        [Dependency] private readonly LevelDataManager _levelDataManager;
+        [Dependency] private readonly ILevelDataManager _levelDataManager;
         
         private Random _random;
         

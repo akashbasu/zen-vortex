@@ -5,7 +5,9 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class CollisionController : IPostConstructable
+    internal interface ICollisionController : IPostConstructable {}
+    
+    internal class CollisionController : ICollisionController
     {
         [Dependency] private readonly IGameEventManager _gameEventManager;
         [Dependency] private readonly ISceneReferenceProvider _sceneReferenceProvider;

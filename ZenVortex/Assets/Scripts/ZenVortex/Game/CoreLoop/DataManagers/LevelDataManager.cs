@@ -1,6 +1,11 @@
 namespace ZenVortex
 {
-    internal class LevelDataManager : BaseResourceDataManager<LevelData>
+    internal interface ILevelDataManager
+    {
+        LevelData CurrentLevelData { get; }
+    }
+    
+    internal class LevelDataManager : BaseResourceDataManager<LevelData>, ILevelDataManager
     {
         public LevelData CurrentLevelData => _data[_currentLevel];
         

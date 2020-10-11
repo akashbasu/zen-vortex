@@ -5,7 +5,7 @@ namespace ZenVortex
 {
     internal sealed class TubeMovement : ILevelMovementObserver
     {
-        [Dependency] private readonly LevelDataManager _levelDataManager;
+        [Dependency] private readonly ILevelDataManager _levelDataManager;
         
         private readonly Material _material;
         private readonly float _materialXOffset;
