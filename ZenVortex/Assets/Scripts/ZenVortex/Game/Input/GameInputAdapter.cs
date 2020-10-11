@@ -16,7 +16,7 @@ namespace ZenVortex
 
         private bool IsActiveAndEnabled => _gameInput.enabled && IsPointerAvailable;
 
-        private static bool IsPointerAvailable
+        private bool IsPointerAvailable
         {
             get
             {
