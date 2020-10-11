@@ -1,23 +1,27 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class SocialManager : MonoBehaviour, IInitializable
+    internal class ShareServiceController : MonoBehaviour, IInitializable
     {
+        [Dependency] private readonly GameEventManager _gameEventManager;
+        [Dependency] private readonly PlayerDataProvider _playerDataProvider;
+        
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
-            GameEventManager.Subscribe(GameEvents.Application.Share, OnShare);
-            GameEventManager.Subscribe(GameEvents.Application.Contact, OnContact);
+            _gameEventManager.Subscribe(GameEvents.Application.Share, OnShare);
+            _gameEventManager.Subscribe(GameEvents.Application.Contact, OnContact);
             
             onComplete?.Invoke(this);
         }
 
         private void OnDestroy()
         {
-            GameEventManager.Unsubscribe(GameEvents.Application.Share, OnShare);
-            GameEventManager.Unsubscribe(GameEvents.Application.Contact, OnContact);
+            _gameEventManager.Unsubscribe(GameEvents.Application.Share, OnShare);
+            _gameEventManager.Unsubscribe(GameEvents.Application.Contact, OnContact);
         }
 
         private void OnContact(object[] obj)
@@ -35,7 +39,7 @@ namespace ZenVortex
             yield return new WaitForEndOfFrame();
             
             var ns = new NativeShare().SetSubject(GameConstants.Social.Share.Subject)
-                .SetTitle(GameConstants.Social.Share.Content).SetText(string.Format(GameConstants.Social.Share.BodyFormat, PlayerDataProvider.LastRunScore))
+                .SetTitle(GameConstants.Social.Share.Content).SetText(string.Format(GameConstants.Social.Share.BodyFormat, _playerDataProvider.LastRunScore))
                 .AddFile(ScreenCapture.CaptureScreenshotAsTexture(), "HighScore.png");
             ns.Share();
         }
