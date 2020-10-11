@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using ZenVortex.DI;
 
@@ -7,13 +9,15 @@ namespace ZenVortex
     internal class AudioServiceController : IInitializable
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
-        [Dependency] private readonly AudioDataProvider _audioDataProvider;
         
         private Vector3 _audioOrigin;
+        private readonly Dictionary<Priority, AudioClip> _audioClips = new Dictionary<Priority, AudioClip>();
         
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
+            LoadAudioResources();
             _audioOrigin = Camera.main.transform.position;
+            
             
             _gameEventManager.Subscribe(GameEvents.Gameplay.ScoreUpdated, PlayLowPriorityAudio<int>);
             _gameEventManager.Subscribe(GameEvents.Gameplay.HighScore, PlayHighPriorityAudio);
@@ -27,6 +31,23 @@ namespace ZenVortex
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.ScoreUpdated, PlayLowPriorityAudio<int>);
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.HighScore, PlayHighPriorityAudio);
             // _gameEventManager.Unsubscribe(GameEvents.Gameplay.Pickup, PlayMediumPriorityAudio);
+        }
+        
+        private void LoadAudioResources()
+        {
+            var resourceLoader = new ResourcesLoader<AudioClip>(GameConstants.DataPaths.Resources.Audio);
+            if (!resourceLoader.TryLoadData(out var resources))
+            {
+                Debug.LogException(new Exception($"[{nameof(AudioServiceController)}] failed to load data."));
+            }
+            
+            foreach (var audioClip in resources)
+            {
+                if (Enum.TryParse<Priority>(audioClip.name, out var priority))
+                {
+                    _audioClips.Add(priority, audioClip);
+                }
+            }
         }
 
         private void PlayLowPriorityAudio<T>(object[] obj)
@@ -64,13 +85,24 @@ namespace ZenVortex
 
         private void PlayAudio(Priority priority)
         {
-            if (_audioDataProvider.AudioClips.ContainsKey(priority))
+            if (_audioClips.ContainsKey(priority))
             {
-                AudioSource.PlayClipAtPoint(_audioDataProvider.AudioClips[priority], _audioOrigin);    
+                AudioSource.PlayClipAtPoint(_audioClips[priority], _audioOrigin);    
             }
             else
             {
                 Debug.LogError($"[{nameof(AudioServiceController)}] {nameof(PlayAudio)} failed to find audio clip for priority");
+            }
+        }
+    }
+    
+    public static partial class GameConstants
+    {
+        public static partial class DataPaths
+        {
+            public partial class Resources
+            {
+                public static readonly string Audio = Path.Combine("Data", "Audio");
             }
         }
     }

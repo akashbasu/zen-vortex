@@ -5,30 +5,26 @@ namespace ZenVortex
 {
     internal sealed class GameState : BaseGameState
     {
+        [Dependency] private readonly LevelDataManager _levelDataManager;
+        [Dependency] private readonly DeterministicRandomProvider _deterministicRandomProvider;
+        
         [Dependency] private readonly CollisionController _collisionController;
         [Dependency] private readonly MovementController _movementController;
         
-        [Dependency] private readonly LevelDataProvider _levelDataProvider;
-        [Dependency] private readonly DeterministicRandomProvider _deterministicRandomProvider;
-        [Dependency] private readonly ObstacleDataProvider _obstacleDataProvider;
-        [Dependency] private readonly PowerupDataProvider _powerupDataProvider;
-        
-        [Dependency] private readonly ObstacleManager _obstacleManager;
-        [Dependency] private readonly PowerupManager _powerupManager;
+        [Dependency] private readonly ObstacleDataManager _obstacleDataManager;
+        [Dependency] private readonly PowerupDataManager _powerupDataManager;
         [Dependency] private readonly ScoreManager _scoreManager;
         
         protected override void Configure()
         {
-            DependencyRegistry.Register<LevelDataProvider>();
+            DependencyRegistry.Register<LevelDataManager>();
             DependencyRegistry.Register<DeterministicRandomProvider>();
-            DependencyRegistry.Register<ObstacleDataProvider>();
-            DependencyRegistry.Register<PowerupDataProvider>();
             
             DependencyRegistry.Register<CollisionController>();
             DependencyRegistry.Register<MovementController>();
             
-            DependencyRegistry.Register<ObstacleManager>();
-            DependencyRegistry.Register<PowerupManager>();
+            DependencyRegistry.Register<ObstacleDataManager>();
+            DependencyRegistry.Register<PowerupDataManager>();
             DependencyRegistry.Register<ScoreManager>();
         }
 
@@ -36,16 +32,14 @@ namespace ZenVortex
         {
             var states = new List<IInitializable>
             {
-                _levelDataProvider,
+                _levelDataManager,
                 _deterministicRandomProvider,
-                _obstacleDataProvider,
-                _powerupDataProvider,
                 
                 _collisionController,
                 _movementController,
 
-                _obstacleManager,
-                _powerupManager,
+                _obstacleDataManager,
+                _powerupDataManager,
                 _scoreManager,
 
                 new LevelStartEventCommand(),

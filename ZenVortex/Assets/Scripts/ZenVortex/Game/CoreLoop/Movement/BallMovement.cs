@@ -8,7 +8,7 @@ namespace ZenVortex
     {
         [Dependency] private readonly InputServiceController _inputServiceController;
         [Dependency] private readonly GameEventManager _gameEventManager;
-        [Dependency] private readonly LevelDataProvider _levelDataProvider;
+        [Dependency] private readonly LevelDataManager _levelDataManager;
         
         private readonly GameObject _ball;
         private readonly Transform _anchor;
@@ -133,7 +133,7 @@ namespace ZenVortex
         private void AnimateIntro()
         {
             ParticleForState(AnimationState.Moving);
-            LeanTween.value(0f, _tiling, _levelDataProvider.LevelData.DelayBeforeStart / GameConstants.Animation.Ball.LoopsBeforeStart).setLoopClamp().setOnUpdate(
+            LeanTween.value(0f, _tiling, _levelDataManager.CurrentLevelData.DelayBeforeStart / GameConstants.Animation.Ball.LoopsBeforeStart).setLoopClamp().setOnUpdate(
                 tiling =>
                     MovementUtils.SetTexturePosition(_material, _textureId, -tiling, 0)).setRepeat((int) GameConstants.Animation.Ball.LoopsBeforeStart);
         }
@@ -141,7 +141,7 @@ namespace ZenVortex
         private void StartYAnimationTween()
         {
             _animationTween = LeanTween.value(0f, _tiling, _loopInSeconds).setLoopClamp().setOnUpdate(tiling =>
-                MovementUtils.SetTexturePosition(_material, _textureId, _materialXOffset, -tiling)).setDelay(_levelDataProvider.LevelData.DelayBeforeStart);
+                MovementUtils.SetTexturePosition(_material, _textureId, _materialXOffset, -tiling)).setDelay(_levelDataManager.CurrentLevelData.DelayBeforeStart);
         }
 
         private void StartScaleTween(object[] args)

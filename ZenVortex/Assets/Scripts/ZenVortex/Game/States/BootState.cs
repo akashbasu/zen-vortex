@@ -6,8 +6,6 @@ namespace ZenVortex
     internal sealed class BootState : BaseGameState
     {
         [Dependency] private readonly SceneReferenceProvider _sceneReferenceProvider;
-        [Dependency] private readonly AudioDataProvider _audioDataProvider;
-        
         [Dependency] private readonly TimeServiceController _timeServiceController;
         [Dependency] private readonly InputServiceController _inputServiceController;
         [Dependency] private readonly VibrationServiceController _vibrationServiceController;
@@ -17,9 +15,8 @@ namespace ZenVortex
         protected override void Configure()
         {
             DependencyRegistry.Register<GameEventManager>();
-            DependencyRegistry.Register<SceneReferenceProvider>();
             
-            DependencyRegistry.Register<AudioDataProvider>();
+            DependencyRegistry.Register<SceneReferenceProvider>();
             DependencyRegistry.Register<UiDataProvider>();
             
             DependencyRegistry.Register<TimeServiceController>();
@@ -34,7 +31,6 @@ namespace ZenVortex
             var states = new List<IInitializable>
             {
                 _sceneReferenceProvider,
-                _audioDataProvider,
                 
                 _timeServiceController,
                 _inputServiceController,

@@ -6,7 +6,7 @@ namespace ZenVortex
     internal class DeterministicRandomProvider : IInitializable
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
-        [Dependency] private readonly LevelDataProvider _levelDataProvider;
+        [Dependency] private readonly LevelDataManager _levelDataManager;
         
         private Random _random;
         
@@ -32,7 +32,7 @@ namespace ZenVortex
 
         private void OnLevelStart(object[] obj)
         {
-            _random = new Random(_levelDataProvider.LevelData.Seed);
+            _random = new Random(_levelDataManager.CurrentLevelData.Seed);
         }
     }
 }

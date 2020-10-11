@@ -10,7 +10,7 @@ namespace ZenVortex
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         [Dependency] private readonly SceneReferenceProvider _sceneReferenceProvider;
-        [Dependency] private readonly LevelDataProvider _levelDataProvider;
+        [Dependency] private readonly LevelDataManager _levelDataManager;
         
         private bool _canMove;
         private readonly Dictionary<string, ILevelMovementObserver> _objectMovementMap = new Dictionary<string, ILevelMovementObserver>();
@@ -75,7 +75,7 @@ namespace ZenVortex
 
         private void OnLevelStart(object[] args)
         {
-            foreach (var goMovement in _objectMovementMap) goMovement.Value.SetLevelData(_levelDataProvider.LevelData);
+            foreach (var goMovement in _objectMovementMap) goMovement.Value.SetLevelData(_levelDataManager.CurrentLevelData);
             foreach (var goMovement in _objectMovementMap) goMovement.Value.OnLevelStart();
             
             _canMove = true;

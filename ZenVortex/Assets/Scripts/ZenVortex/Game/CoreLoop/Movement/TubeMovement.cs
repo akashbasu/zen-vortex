@@ -5,7 +5,7 @@ namespace ZenVortex
 {
     internal sealed class TubeMovement : ILevelMovementObserver
     {
-        [Dependency] private readonly LevelDataProvider _levelDataProvider;
+        [Dependency] private readonly LevelDataManager _levelDataManager;
         
         private readonly Material _material;
         private readonly float _materialXOffset;
@@ -63,7 +63,7 @@ namespace ZenVortex
         private void StartTween()
         {
             _animationTween = LeanTween.value(0f, _tiling, _loopInSeconds).setLoopClamp().setOnUpdate(tiling =>
-                MovementUtils.SetTexturePosition(_material, _textureId, _materialXOffset, -tiling)).setDelay(_levelDataProvider.LevelData.DelayBeforeStart);
+                MovementUtils.SetTexturePosition(_material, _textureId, _materialXOffset, -tiling)).setDelay(_levelDataManager.CurrentLevelData.DelayBeforeStart);
         }
 
         private void ResetTween()
