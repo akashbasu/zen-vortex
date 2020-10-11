@@ -4,7 +4,7 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class VibrationController : IInitializable
+    internal class VibrationServiceController : IInitializable
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         
@@ -22,7 +22,7 @@ namespace ZenVortex
             onComplete?.Invoke(this);
         }
 
-        ~VibrationController()
+        ~VibrationServiceController()
         {
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.ScoreUpdated, PlayLowPriorityVibration<int>);
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.HighScore, PlayHighPriorityVibration);

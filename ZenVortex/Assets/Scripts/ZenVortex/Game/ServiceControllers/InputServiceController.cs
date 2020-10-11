@@ -4,7 +4,7 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class InputController : IInitializable
+    internal class InputServiceController : IInitializable
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         
@@ -34,7 +34,7 @@ namespace ZenVortex
             onComplete?.Invoke(this);
         }
 
-        ~InputController()
+        ~InputServiceController()
         {
             _gameEventManager.Unsubscribe(GameEvents.GameStateEvents.Start, OnGameStateStart);
             _gameEventManager.Unsubscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);

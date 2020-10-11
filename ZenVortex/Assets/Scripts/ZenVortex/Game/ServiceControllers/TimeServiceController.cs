@@ -4,7 +4,7 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class TimeController : IInitializable
+    internal class TimeServiceController : IInitializable
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         
@@ -16,7 +16,7 @@ namespace ZenVortex
             onComplete?.Invoke(this);
         }
 
-        ~TimeController()
+        ~TimeServiceController()
         {
             Time.timeScale = 1;
             

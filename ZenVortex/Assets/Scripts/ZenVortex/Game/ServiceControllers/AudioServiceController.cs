@@ -4,7 +4,7 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class AudioController : IInitializable
+    internal class AudioServiceController : IInitializable
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         [Dependency] private readonly AudioDataProvider _audioDataProvider;
@@ -22,7 +22,7 @@ namespace ZenVortex
             onComplete?.Invoke(this);
         }
 
-        ~AudioController()
+        ~AudioServiceController()
         {
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.ScoreUpdated, PlayLowPriorityAudio<int>);
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.HighScore, PlayHighPriorityAudio);
@@ -70,7 +70,7 @@ namespace ZenVortex
             }
             else
             {
-                Debug.LogError($"[{nameof(AudioController)}] {nameof(PlayAudio)} failed to find audio clip for priority");
+                Debug.LogError($"[{nameof(AudioServiceController)}] {nameof(PlayAudio)} failed to find audio clip for priority");
             }
         }
     }

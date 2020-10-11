@@ -6,7 +6,7 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class UiController : IInitializable
+    internal class UiServiceController : IInitializable
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         [Dependency] private readonly SceneReferenceProvider _sceneReferenceProvider;
@@ -25,10 +25,10 @@ namespace ZenVortex
                 return;
             }
             
-            Debug.LogError($"[{nameof(UiController)}] {nameof(Initialize)} Failed to find references!");
+            Debug.LogError($"[{nameof(UiServiceController)}] {nameof(Initialize)} Failed to find references!");
         }
 
-        ~UiController()
+        ~UiServiceController()
         {
             _gameEventManager.Unsubscribe(GameEvents.GameStateEvents.Start, OnGameStateStart);
             _gameEventManager.Unsubscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);
@@ -69,7 +69,7 @@ namespace ZenVortex
             else
             {
                 DisableAllObjects();
-                Debug.LogError($"[{nameof(UiController)}] {nameof(OnGameStateStart)} No UI state found for {currentState}");
+                Debug.LogError($"[{nameof(UiServiceController)}] {nameof(OnGameStateStart)} No UI state found for {currentState}");
             }
         }
         
