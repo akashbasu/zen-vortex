@@ -6,33 +6,32 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class AudioServiceController : IInitializable
+    internal class AudioServiceController : IPostConstructable
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         
         private Vector3 _audioOrigin;
         private readonly Dictionary<Priority, AudioClip> _audioClips = new Dictionary<Priority, AudioClip>();
         
-        public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
+        public void PostConstruct(params object[] args)
         {
+            _audioClips.Clear();
             LoadAudioResources();
             _audioOrigin = Camera.main.transform.position;
             
             
             _gameEventManager.Subscribe(GameEvents.Gameplay.ScoreUpdated, PlayLowPriorityAudio<int>);
             _gameEventManager.Subscribe(GameEvents.Gameplay.HighScore, PlayHighPriorityAudio);
-            // _gameEventManager.Subscribe(GameEvents.Gameplay.Pickup, PlayMediumPriorityAudio);
-            
-            onComplete?.Invoke(this);
         }
-
-        ~AudioServiceController()
+        
+        public void Dispose()
         {
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.ScoreUpdated, PlayLowPriorityAudio<int>);
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.HighScore, PlayHighPriorityAudio);
-            // _gameEventManager.Unsubscribe(GameEvents.Gameplay.Pickup, PlayMediumPriorityAudio);
+            
+            _audioClips.Clear();
         }
-        
+
         private void LoadAudioResources()
         {
             var resourceLoader = new ResourcesLoader<AudioClip>(GameConstants.DataPaths.Resources.Audio);

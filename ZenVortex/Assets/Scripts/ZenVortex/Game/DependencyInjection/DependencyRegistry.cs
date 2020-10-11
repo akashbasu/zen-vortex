@@ -23,6 +23,8 @@ namespace ZenVortex.DI
             Registry[typeof(TInterface)] = new DependencyData(typeof(TImplementation));
 
             Injector.ResolveDependencies<TInterface>();
+            
+            if (Registry[typeof(TInterface)].instance is IPostConstructable postConstructable) postConstructable.PostConstruct();
         }
         
         private static void AddToRegistry<TImplementation>() where TImplementation : class
@@ -30,6 +32,8 @@ namespace ZenVortex.DI
             Registry[typeof(TImplementation)] = new DependencyData(typeof(TImplementation));
 
             Injector.ResolveDependencies<TImplementation>();
+            
+            if (Registry[typeof(TImplementation)].instance is IPostConstructable postConstructable) postConstructable.PostConstruct();
         }
     }
 

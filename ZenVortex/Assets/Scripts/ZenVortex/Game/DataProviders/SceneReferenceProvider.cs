@@ -20,20 +20,25 @@ namespace ZenVortex
         }
     }
 
-    internal class SceneReferenceProvider : MonoBehaviour, IInitializable
+    internal class SceneReferenceProvider : MonoBehaviour, IPostConstructable
     {
         private readonly Dictionary<string, GameObject> _directory = new Dictionary<string, GameObject>();
         
         [SerializeField] private List<DirectoryEntry> _cachedEntries = new List<DirectoryEntry>();
 
-        public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
+        public void PostConstruct(params object[] args)
         {
+            _directory.Clear();
+            
             LoadCachedDirectory();
             FindDirectoryObjects();
-
-            onComplete?.Invoke(this);
         }
 
+        public void Dispose()
+        {
+            _directory.Clear();
+        }
+        
         public bool TryGetEntry(string tag, out GameObject go)
         {
             go = null;

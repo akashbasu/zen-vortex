@@ -1,29 +1,26 @@
-using System;
 using UnityEngine;
 using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class TimeServiceController : IInitializable
+    internal class TimeServiceController : IPostConstructable
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         
-        public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
+        public void PostConstruct(params object[] args)
         {
             _gameEventManager.Subscribe(GameEvents.Gameplay.OverrideTimeScale, OnTimeScaleOverride);
             _gameEventManager.Subscribe(GameEvents.Gameplay.End, ResetTimeScaleOverride);
-            
-            onComplete?.Invoke(this);
         }
 
-        ~TimeServiceController()
+        public void Dispose()
         {
-            Time.timeScale = 1;
+            ResetTimeScaleOverride();
             
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.OverrideTimeScale, OnTimeScaleOverride);
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.End, ResetTimeScaleOverride);
         }
-
+        
         private void OnTimeScaleOverride(object[] args)
         {
             if(args?.Length < 2) return;
@@ -33,7 +30,7 @@ namespace ZenVortex
             LeanTween.delayedCall(duration, () => Time.timeScale = 1);
         }
         
-        private void ResetTimeScaleOverride(object[] obj)
+        private void ResetTimeScaleOverride(object[] obj = null)
         {
             Time.timeScale = 1;
         }

@@ -1,10 +1,9 @@
-using System;
 using System.Collections.Generic;
 using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class InputServiceController : IInitializable
+    internal class InputServiceController : IPostConstructable
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         
@@ -18,7 +17,7 @@ namespace ZenVortex
         public GameInputAdapter GameInput { get; private set; }
         private UiInputAdapter UiInput { get; set; }
 
-        public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
+        public void PostConstruct(params object[] args)
         {
             _input = new UnityInput();
 
@@ -30,11 +29,9 @@ namespace ZenVortex
 
             _gameEventManager.Subscribe(GameEvents.GameStateEvents.Start, OnGameStateStart);
             _gameEventManager.Subscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);
-
-            onComplete?.Invoke(this);
         }
-
-        ~InputServiceController()
+        
+        public void Dispose()
         {
             _gameEventManager.Unsubscribe(GameEvents.GameStateEvents.Start, OnGameStateStart);
             _gameEventManager.Unsubscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);

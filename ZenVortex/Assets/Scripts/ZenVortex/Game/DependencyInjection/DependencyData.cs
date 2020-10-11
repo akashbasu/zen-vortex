@@ -37,12 +37,11 @@ namespace ZenVortex.DI
 
         private object CreateInstance()
         {
-            if (_implementationType.IsSubclassOf(typeof(MonoBehaviour)))
-            {
-                return DependencyInjectionUtils.CreateMonoBehaviorSingleton(_implementationType);
-            }
-                
-            return Activator.CreateInstance(_implementationType);
+            var obj = _implementationType.IsSubclassOf(typeof(MonoBehaviour))
+                ? DependencyInjectionUtils.CreateMonoBehaviorSingleton(_implementationType)
+                : Activator.CreateInstance(_implementationType);
+            
+            return obj;
         }
 
         private List<FieldInfo> GetDependencies()

@@ -5,11 +5,6 @@ namespace ZenVortex
 {
     internal sealed class BootState : BaseGameState
     {
-        [Dependency] private readonly SceneReferenceProvider _sceneReferenceProvider;
-        [Dependency] private readonly TimeServiceController _timeServiceController;
-        [Dependency] private readonly InputServiceController _inputServiceController;
-        [Dependency] private readonly VibrationServiceController _vibrationServiceController;
-        [Dependency] private readonly AudioServiceController _audioServiceController;
         [Dependency] private readonly UiServiceController _uiServiceController;
         
         protected override void Configure()
@@ -26,20 +21,6 @@ namespace ZenVortex
             DependencyRegistry.Register<UiServiceController>();
         }
 
-        protected override List<IInitializable> GetSteps(object[] args)
-        {
-            var states = new List<IInitializable>
-            {
-                _sceneReferenceProvider,
-                
-                _timeServiceController,
-                _inputServiceController,
-                _vibrationServiceController,
-                _audioServiceController,
-                _uiServiceController
-            };
-
-            return states;
-        }
+        protected override List<IInitializable> GetSteps(object[] args) => new List<IInitializable>();
     }
 }

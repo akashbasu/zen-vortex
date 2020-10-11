@@ -1,10 +1,9 @@
-using System;
 using UnityEngine;
 using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class VibrationServiceController : IInitializable
+    internal class VibrationServiceController : IPostConstructable
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         
@@ -13,16 +12,14 @@ namespace ZenVortex
         public static AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
         public static AndroidJavaObject vibrator = currentActivity.Call<AndroidJavaObject>("getSystemService", "vibrator");
 #endif
-        
-        public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
+
+        public void PostConstruct(params object[] args)
         {
             _gameEventManager.Subscribe(GameEvents.Gameplay.ScoreUpdated, PlayLowPriorityVibration<int>);
             _gameEventManager.Subscribe(GameEvents.Gameplay.HighScore, PlayHighPriorityVibration);
-            
-            onComplete?.Invoke(this);
         }
 
-        ~VibrationServiceController()
+        public void Dispose()
         {
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.ScoreUpdated, PlayLowPriorityVibration<int>);
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.HighScore, PlayHighPriorityVibration);

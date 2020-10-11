@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,7 +5,7 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class UiServiceController : IInitializable
+    internal class UiServiceController : IPostConstructable
     {
         [Dependency] private readonly GameEventManager _gameEventManager;
         [Dependency] private readonly SceneReferenceProvider _sceneReferenceProvider;
@@ -15,20 +14,19 @@ namespace ZenVortex
 
         private Dictionary<string, List<GameObject>> _gameStateToUiMap;
         
-        public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
+        public void PostConstruct(params object[] args)
         {
             if (GetReferences())
             {
                 _gameEventManager.Subscribe(GameEvents.GameStateEvents.Start, OnGameStateStart);
                 _gameEventManager.Subscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);
-                onComplete?.Invoke(this);
                 return;
             }
             
-            Debug.LogError($"[{nameof(UiServiceController)}] {nameof(Initialize)} Failed to find references!");
+            Debug.LogError($"[{nameof(UiServiceController)}] {nameof(PostConstruct)} Failed to find references!");
         }
 
-        ~UiServiceController()
+        public void Dispose()
         {
             _gameEventManager.Unsubscribe(GameEvents.GameStateEvents.Start, OnGameStateStart);
             _gameEventManager.Unsubscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);
