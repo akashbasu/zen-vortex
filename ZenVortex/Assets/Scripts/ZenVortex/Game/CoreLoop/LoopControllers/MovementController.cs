@@ -13,7 +13,7 @@ namespace ZenVortex
         [Dependency] private readonly LevelDataProvider _levelDataProvider;
         
         private bool _canMove;
-        private Dictionary<string, ILevelMovementObserver> _objectMovementMap = new Dictionary<string, ILevelMovementObserver>();
+        private readonly Dictionary<string, ILevelMovementObserver> _objectMovementMap = new Dictionary<string, ILevelMovementObserver>();
 
         public void Initialize(Action<IInitializable> onComplete = null, params object[] args)
         {
