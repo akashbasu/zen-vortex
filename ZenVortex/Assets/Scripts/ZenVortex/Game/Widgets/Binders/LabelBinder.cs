@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using ZenVortex.DI;
 
 namespace ZenVortex
 {
@@ -10,11 +11,15 @@ namespace ZenVortex
         [SerializeField] private string _uiKey;
         [SerializeField] private string _format;
         [SerializeField] private bool _animateOnChange = true;
+
+        [Dependency] private readonly UiDataProvider _uiDataProvider;
         
         private TextMeshProUGUI _label;
         
         private void Awake()
         {
+            Injector.Inject(this);
+            
             _label = GetComponent<TextMeshProUGUI>();
         }
 
@@ -24,12 +29,12 @@ namespace ZenVortex
             
             if(string.IsNullOrEmpty(_uiKey)) return;
 
-            UiDataProvider.RegisterLabel(_uiKey, this);
+            _uiDataProvider.RegisterLabel(_uiKey, this);
         }
 
         private void OnDisable()
         {
-            UiDataProvider.UnRegisterLabel(_uiKey, this);
+            _uiDataProvider.UnRegisterLabel(_uiKey, this);
         }
 
         public void UpdateData(string data)

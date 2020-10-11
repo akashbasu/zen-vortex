@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using ZenVortex.DI;
 
 namespace ZenVortex
 {
@@ -7,12 +8,19 @@ namespace ZenVortex
     internal class ButtonWidget : MonoBehaviour
     {
         [SerializeField] private string _onClickEvent;
+
+        [Dependency] private readonly GameEventManager _gameEventManager;
         
         private Button _button;
-        
+
         private void Awake()
         {
             _button = GetComponent<Button>();
+        }
+
+        private void Start()
+        {
+            Injector.Inject(this);
         }
 
         private void OnEnable()
@@ -29,7 +37,7 @@ namespace ZenVortex
         {
             if(string.IsNullOrEmpty(_onClickEvent)) return;
             
-            GameEventManager.Broadcast(_onClickEvent);
+            _gameEventManager.Broadcast(_onClickEvent);
         }
     }
 }

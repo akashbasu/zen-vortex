@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace ZenVortex
@@ -16,7 +17,7 @@ namespace ZenVortex
             FireCommand(GameEvents.Collisions.End, gameObject, other.gameObject);
         }
 
-        private static void FireCommand(string eventName, GameObject go, GameObject other)
+        private void FireCommand(string eventName, GameObject go, GameObject other)
         {
             if (string.IsNullOrEmpty(eventName)) return;
 
@@ -26,7 +27,7 @@ namespace ZenVortex
 
             if (string.Equals(go.tag, other.tag)) return;
 
-            var c = new Command(eventName, go, other, siblingIndex);
+            var c = new EventCommand(eventName, go, other, siblingIndex);
             c.Execute();
         }
     }
