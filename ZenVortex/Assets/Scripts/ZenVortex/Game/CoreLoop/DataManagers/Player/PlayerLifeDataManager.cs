@@ -5,6 +5,7 @@ namespace ZenVortex
     internal interface IPlayerLifeDataManager : IPostConstructable
     {
         int LifeCount { get; }
+        bool HasExtraLives { get; }
     }
     
     internal class PlayerLifeDataManager : IPlayerLifeDataManager
@@ -22,7 +23,9 @@ namespace ZenVortex
                 new LivesUpdatedCommand().Execute();
             }
         }
-        
+
+        public bool HasExtraLives => LifeCount > 1;
+
         private int _livesEarnedInRun;
         
         public void PostConstruct(params object[] args)

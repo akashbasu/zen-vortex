@@ -9,6 +9,7 @@ namespace ZenVortex
     internal class ObstacleController : ICacheEntry
     {
         [Dependency] private readonly IDeterministicRandomProvider _deterministicRandomProvider;
+        [Dependency] private readonly IPlayerLifeDataManager _playerLifeDataManager;
         
         private readonly List<MeshRenderer> _renderers;
         private readonly List<Collider> _colliders;
@@ -20,11 +21,12 @@ namespace ZenVortex
         private readonly int _managedCount;
         
         private bool _canSpin;
+        private bool _hasFatalCollision;
         private ObstacleData _obstacleData;
         private LevelData _levelData;
 
         public Transform Transform { get; }
-        public bool HasActionableCollision => _currentCollisions.Any(x => _fatalCollisions.Contains(x));
+        public bool HasActionableCollision => _hasFatalCollision && (!_playerLifeDataManager.HasExtraLives ||_currentCollisions.Count == 0);
 
         //Runtime injection
         public ObstacleController(Transform transform)
@@ -53,6 +55,7 @@ namespace ZenVortex
             _animator.Reset();
 
             _canSpin = true;
+            _hasFatalCollision = false;
             Transform.localScale = GameConstants.Animation.Obstacle.ResetScaleValue;
             foreach (var renderer in _renderers) renderer.enabled = true;
             _fatalCollisions.Clear();
@@ -98,7 +101,9 @@ namespace ZenVortex
         {
             if (args?.Length > 0)
             {
-                _currentCollisions.Add((int)args[0]);
+                var collisionId = (int) args[0];
+                _currentCollisions.Add(collisionId);
+                _hasFatalCollision |= _fatalCollisions.Contains(collisionId);
             }
         }
         
@@ -110,6 +115,8 @@ namespace ZenVortex
             }
 
             if (_currentCollisions.Count != 0) return;
+            
+            if (_hasFatalCollision) return;
             
             new EventCommand(GameEvents.Obstacle.Crossed, _obstacleData).Execute();
             _animator.AnimateOut(new ObstacleAnimator.AnimateOutParams(GameConstants.Animation.Obstacle.ResetScaleValue, GameConstants.Animation.Obstacle.AnimateOutTime));
