@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 namespace ZenVortex
 {
+    [Serializable]
     public enum PowerupType
     {
         None = 0,
@@ -9,11 +11,23 @@ namespace ZenVortex
         Shrink = 2,
         Time = 3
     }
+
+    [Serializable]
+    public enum PowerupEffect
+    {
+        None = 0,
+        Counted = 1,
+        Timed = 2
+    }
     
     public class PowerupData : ScriptableObject
     {
         [SerializeField] private PowerupType _type;
+        [SerializeField] private PowerupEffect _effect;
         [SerializeField] private float _data;
+        
+        [Header("Gameplay")]
+        [SerializeField] private int _points = 1;
         
         [Header("Visuals")]
         [SerializeField] private Texture _image;
@@ -21,10 +35,12 @@ namespace ZenVortex
         [Header("Animation Constants")]
         [SerializeField] private IntRangedValue _spawnRotation = GameConstants.Animation.Powerup.SafeRotationRange;
         [SerializeField] private float _rotationTimeNormalization = 0.2f;
-
+        
         //Type
         public PowerupType Type => _type;
+        public PowerupEffect Effect => _effect;
         public float Data => _data;
+        public int Points => _points;
         
         //Visuals
         public Texture Image => _image;

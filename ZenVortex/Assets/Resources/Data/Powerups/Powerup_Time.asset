@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Powerup_Time
   m_EditorClassIdentifier: 
   _type: 3
+  _effect: 2
   _data: 0.75
+  _points: 3
   _image: {fileID: 2800000, guid: bd73d7ff0901d354d86d4afa0ec709e9, type: 3}
   _spawnRotation:
     _min: -90

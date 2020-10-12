@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Powerup_Gems
   m_EditorClassIdentifier: 
   _type: 1
+  _effect: 1
   _data: 1
+  _points: 3
   _image: {fileID: 2800000, guid: c6ba4a1700de0644eb021e44072816f8, type: 3}
   _spawnRotation:
     _min: -90

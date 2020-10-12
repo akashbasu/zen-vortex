@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Powerup_Shrink
   m_EditorClassIdentifier: 
   _type: 2
+  _effect: 2
   _data: 0.5
+  _points: 3
   _image: {fileID: 2800000, guid: 3eaecdba9f5cfd44c8a2f55f8ed8c1ff, type: 3}
   _spawnRotation:
     _min: -90
