@@ -2,32 +2,31 @@ namespace ZenVortex
 {
     internal static class GameEvents
     {
-        internal static class GameStateEvents
+        internal static class StateMachineEvents
         {
-            public static readonly string Start = $"{nameof(GameStateEvents)}.{nameof(Start)}";
-            public static readonly string End = $"{nameof(GameStateEvents)}.{nameof(End)}";
-        }
-
-        internal static class LevelEvents
-        {
-            public static readonly string Start = $"{nameof(LevelEvents)}.{nameof(Start)}";
-            public static readonly string Stop = $"{nameof(LevelEvents)}.{nameof(Stop)}";
+            public static readonly string Start = $"{nameof(StateMachineEvents)}.{nameof(Start)}";
+            public static readonly string End = $"{nameof(StateMachineEvents)}.{nameof(End)}";
         }
 
         internal static class Gameplay
         {
             public static readonly string Start = $"{nameof(Gameplay)}.{nameof(Start)}";
             public static readonly string Stop = $"{nameof(Gameplay)}.{nameof(Stop)}";
-            public static readonly string End = $"{nameof(Gameplay)}.{nameof(End)}";
-            public static readonly string CrossedObstacle = $"{nameof(Gameplay)}.{nameof(CrossedObstacle)}";
             public static readonly string Reset = $"{nameof(Gameplay)}.{nameof(Reset)}";
-            public static readonly string ScoreUpdated = $"{nameof(Gameplay)}.{nameof(ScoreUpdated)}";
-            public static readonly string HighScore = $"{nameof(Gameplay)}.{nameof(HighScore)}";
-            public static readonly string Pickup = $"{nameof(Gameplay)}.{nameof(Pickup)}";
-            public static readonly string EarnedLife = $"{nameof(Gameplay)}.{nameof(EarnedLife)}";
-            public static readonly string OverrideSize = $"{nameof(Gameplay)}.{nameof(OverrideSize)}";
-            public static readonly string OverrideTimeScale = $"{nameof(Gameplay)}.{nameof(OverrideTimeScale)}";
-            public static readonly string ConsumeLife = $"{nameof(Gameplay)}.{nameof(ConsumeLife)}";
+        }
+
+        internal static class Obstacle
+        {
+            public static readonly string Crossed = $"{nameof(Obstacle)}.{nameof(Crossed)}";
+            public static readonly string Collision = $"{nameof(Obstacle)}.{nameof(Collision)}";
+        }
+        
+        internal static class Powerup
+        {
+            public static readonly string Collect = $"{nameof(Powerup)}.{nameof(Collect)}";
+            public static readonly string EarnedLife = $"{nameof(Powerup)}.{nameof(EarnedLife)}";
+            public static readonly string OverrideSize = $"{nameof(Powerup)}.{nameof(OverrideSize)}";
+            public static readonly string OverrideTimeScale = $"{nameof(Powerup)}.{nameof(OverrideTimeScale)}";
         }
 
         internal static class Collisions

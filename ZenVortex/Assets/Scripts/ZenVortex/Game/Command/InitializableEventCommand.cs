@@ -24,14 +24,4 @@ namespace ZenVortex
             _gameEventManager.Broadcast(GameEvent);
         }
     }
-    
-    internal sealed class LevelEndEventCommand : InitializableEventCommand
-    {
-        protected override string GameEvent => GameEvents.LevelEvents.Stop;
-    }
-    
-    internal sealed class LevelStartEventCommand : InitializableEventCommand
-    {
-        protected override string GameEvent => GameEvents.LevelEvents.Start;
-    }
 }

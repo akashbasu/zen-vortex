@@ -32,14 +32,14 @@ namespace ZenVortex
             UiInput.SetEnabled(false);
             GameInput.SetEnabled(false);
 
-            _gameEventManager.Subscribe(GameEvents.GameStateEvents.Start, OnGameStateStart);
-            _gameEventManager.Subscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);
+            _gameEventManager.Subscribe(GameEvents.StateMachineEvents.Start, OnGameStateStart);
+            _gameEventManager.Subscribe(GameEvents.StateMachineEvents.End, OnGameStateEnd);
         }
         
         public void Dispose()
         {
-            _gameEventManager.Unsubscribe(GameEvents.GameStateEvents.Start, OnGameStateStart);
-            _gameEventManager.Unsubscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);
+            _gameEventManager.Unsubscribe(GameEvents.StateMachineEvents.Start, OnGameStateStart);
+            _gameEventManager.Unsubscribe(GameEvents.StateMachineEvents.End, OnGameStateEnd);
         }
 
         private void OnGameStateStart(object[] obj)

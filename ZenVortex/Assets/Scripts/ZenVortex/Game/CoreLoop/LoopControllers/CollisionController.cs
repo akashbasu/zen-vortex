@@ -10,48 +10,42 @@ namespace ZenVortex
     internal class CollisionController : ICollisionController
     {
         [Dependency] private readonly IGameEventManager _gameEventManager;
-        [Dependency] private readonly ISceneReferenceProvider _sceneReferenceProvider;
+        
+        [Dependency] private readonly ObstacleMovement _obstacleMovement;
+        [Dependency] private readonly PowerupMovement _powerupMovement;
         
         private bool _canPropagateCollisions;
         private readonly Dictionary<string, ICollisionEventObserver> _objectCollisionMap = new Dictionary<string, ICollisionEventObserver>();
 
         public void PostConstruct(params object[] args)
         {
-            if (GetReferences())
+            if (GetManagedObjects())
             {
-                _gameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
-                _gameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
+                _gameEventManager.Subscribe(GameEvents.Gameplay.Start, OnGameStart);
+                _gameEventManager.Subscribe(GameEvents.Gameplay.Stop, OnGameStop);
                 return;
             }
 
-            Debug.LogError($"[{nameof(MovementController)}] Cannot find references");
+            Debug.LogError($"[{nameof(CollisionController)}] Cannot find references");
         }
 
         public void Dispose()
         {
-            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
-            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.Start, OnGameStart);
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.Stop, OnGameStop);
         }
         
-        private bool GetReferences()
+        private bool GetManagedObjects()
         {
             _objectCollisionMap.Clear();
             
-            if (!_sceneReferenceProvider.TryGetEntry(Tags.ObstacleCache, out var obstacleCache)) return false;
-
-            var obstacleMovement = new ObstacleMovement(obstacleCache);
-            
-            if (!_sceneReferenceProvider.TryGetEntry(Tags.PowerupCache, out var powerupCache)) return false;
-            
-            var powerupMovement = new PowerupMovement(powerupCache);
-            
-            _objectCollisionMap.Add(Tags.Obstacle, obstacleMovement);
-            _objectCollisionMap.Add(Tags.Powerup, powerupMovement);
+            _objectCollisionMap.Add(Tags.Obstacle, _obstacleMovement);
+            _objectCollisionMap.Add(Tags.Powerup, _powerupMovement);
 
             return !_objectCollisionMap.Any(x => x.Key == null || x.Value == null);
         }
         
-        private void OnLevelStart(object[] obj)
+        private void OnGameStart(object[] obj)
         {
             _canPropagateCollisions = true;
             
@@ -60,7 +54,7 @@ namespace ZenVortex
             _gameEventManager.Subscribe(GameEvents.Collisions.End, CollisionNotifierOnEnd);
         }
 
-        private void OnLevelStop(object[] obj)
+        private void OnGameStop(object[] obj)
         {
             _canPropagateCollisions = false;
             

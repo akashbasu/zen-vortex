@@ -6,7 +6,7 @@ namespace ZenVortex
     {
         protected override void InstallDependencies()
         {
-            DependencyRegistry.RegisterInterface<IPlayerDataManager, PlayerDataManager>();
+            DependencyRegistry.RegisterInterface<IPlayerLifeDataManager, PlayerLifeDataManager>();
         }
     }
 }

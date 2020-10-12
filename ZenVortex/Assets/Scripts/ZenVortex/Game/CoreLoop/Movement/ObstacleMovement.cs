@@ -1,20 +1,35 @@
 using UnityEngine;
+using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class ObstacleMovement : ILevelMovementObserver, ICollisionEventObserver
+    internal class ObstacleMovement : IGameLoopObserver, ICollisionEventObserver, IPostConstructable
     {
-        private static ICacheController _cacheController;
+        [Dependency] private readonly ISceneReferenceProvider _sceneReferenceProvider;
+        
+        private ICacheController _cacheController;
 
         private float _delayTime;
         private float _loopInSeconds;
         private float _releaseObstacleInSeconds;
         
         private LTDescr _spawnTween;
-
-        internal ObstacleMovement(GameObject obstacleCache)
+        
+        public void PostConstruct(params object[] args)
         {
-            if(_cacheController == null) _cacheController = new ObstacleCacheController(obstacleCache.transform, Camera.main.transform.position);
+            if (!_sceneReferenceProvider.TryGetEntry(Tags.ObstacleCache, out var obstacleCache))
+            {
+                Debug.LogError($"[{nameof(ObstacleMovement)}] Cannot find references");
+                return;
+            }
+            
+            _cacheController = new ObstacleCacheController(obstacleCache.transform, Camera.main.transform.position);
+            Reset();
+        }
+        
+        public void Dispose()
+        {
+            Reset();
         }
 
        public void Reset()
@@ -30,13 +45,13 @@ namespace ZenVortex
             _releaseObstacleInSeconds = _loopInSeconds / data.Visibility;
         }
 
-        public void OnLevelStart()
+        public void OnGameStart()
         {
             _spawnTween = LeanTween.delayedCall(_releaseObstacleInSeconds,
                     () => _cacheController.SpawnNext(_loopInSeconds)).setRepeat(-1).setDelay(_delayTime - _releaseObstacleInSeconds);
         }
         
-        public void OnLevelEnd()
+        public void OnGameEnd()
         {
             StopMovement();
         }
@@ -66,16 +81,9 @@ namespace ZenVortex
 
             _cacheController.Current.CollisionStart(pointOfCollision);
             
-            switch (_cacheController.Current.HasActionableCollision)
-            {
-                case true: Debug.Log($"[{nameof(ObstacleMovement)}] {nameof(OnCollisionEnter)} Point of collision {pointOfCollision} FATAL!");
-                    new EventCommand(GameEvents.Gameplay.End).Execute();
-                    break;
-                case false:
-                    break;
-            }
-
+            TryNotifyCollision(pointOfCollision);
         }
+        
         public void OnCollisionStay(GameObject other) { }
 
         public void OnCollisionExit(GameObject other, int pointOfCollision)
@@ -83,15 +91,16 @@ namespace ZenVortex
             if (!other.tag.Equals(Tags.Ball)) return;
             
             _cacheController.Current.CollisionComplete(pointOfCollision);
+
+            TryNotifyCollision(pointOfCollision);
+        }
+
+        private void TryNotifyCollision(int pointOfCollision)
+        {
+            if(!_cacheController.Current.HasActionableCollision) return;
             
-            switch (_cacheController.Current.HasActionableCollision)
-            {
-                case true: Debug.Log($"[{nameof(ObstacleMovement)}] {nameof(OnCollisionExit)} Point of collision {pointOfCollision} FATAL!");
-                    new EventCommand(GameEvents.Gameplay.End).Execute();
-                    break;
-                case false:
-                    break;
-            }
+            Debug.Log($"[{nameof(ObstacleMovement)}] {nameof(OnCollisionExit)} Point of collision {pointOfCollision} FATAL!");
+            new EventCommand(GameEvents.Obstacle.Collision).Execute();
         }
     }
 }

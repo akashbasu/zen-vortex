@@ -21,12 +21,12 @@ namespace ZenVortex
         
         public void PostConstruct(params object[] args)
         {
-            _gameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
+            _gameEventManager.Subscribe(GameEvents.Gameplay.Start, OnGameStart);
         }
         
         public void Dispose()
         {
-            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.Start, OnGameStart);
         }
         
         public int Next() => _random.Next();
@@ -35,7 +35,7 @@ namespace ZenVortex
         public int Next(IntRangedValue val) => _random.Next(val.Min, val.Max);
         public bool NextBool(float normalizedProbability) => NextNormalized() <= normalizedProbability;
 
-        private void OnLevelStart(object[] obj)
+        private void OnGameStart(object[] obj)
         {
             _random = new Random(_levelDataManager.CurrentLevelData.Seed);
         }

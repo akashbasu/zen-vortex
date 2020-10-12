@@ -46,9 +46,9 @@ namespace ZenVortex
         protected override string EndEvent => GameEvents.Gameplay.Reset;
     }
     
-    internal class WaitForGameLoopEnd : WaitForEventState
+    internal class WaitForGameEnd : WaitForEventState
     {
-        protected override string EndEvent => GameEvents.Gameplay.End;
+        protected override string EndEvent => GameEvents.Gameplay.Stop;
     }
     
     

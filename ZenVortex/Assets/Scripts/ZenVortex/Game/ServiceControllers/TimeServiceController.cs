@@ -11,18 +11,23 @@ namespace ZenVortex
         
         public void PostConstruct(params object[] args)
         {
-            _gameEventManager.Subscribe(GameEvents.Gameplay.OverrideTimeScale, OnTimeScaleOverride);
-            _gameEventManager.Subscribe(GameEvents.Gameplay.End, ResetTimeScaleOverride);
+            _gameEventManager.Subscribe(GameEvents.Powerup.OverrideTimeScale, OnTimeScaleOverride);
+            _gameEventManager.Subscribe(GameEvents.Gameplay.Reset, OnReset);
         }
 
         public void Dispose()
         {
             ResetTimeScaleOverride();
             
-            _gameEventManager.Unsubscribe(GameEvents.Gameplay.OverrideTimeScale, OnTimeScaleOverride);
-            _gameEventManager.Unsubscribe(GameEvents.Gameplay.End, ResetTimeScaleOverride);
+            _gameEventManager.Unsubscribe(GameEvents.Powerup.OverrideTimeScale, OnTimeScaleOverride);
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.Reset, OnReset);
         }
-        
+
+        private void OnReset(object[] obj)
+        {
+            ResetTimeScaleOverride();
+        }
+
         private void OnTimeScaleOverride(object[] args)
         {
             if(args?.Length < 2) return;
@@ -32,7 +37,7 @@ namespace ZenVortex
             LeanTween.delayedCall(duration, () => Time.timeScale = 1);
         }
         
-        private void ResetTimeScaleOverride(object[] obj = null)
+        private void ResetTimeScaleOverride()
         {
             Time.timeScale = 1;
         }

@@ -1,20 +1,35 @@
 using UnityEngine;
+using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal class PowerupMovement : ILevelMovementObserver, ICollisionEventObserver
+    internal class PowerupMovement : IGameLoopObserver, ICollisionEventObserver, IPostConstructable
     {
-        private static ICacheController _cacheController;
+        [Dependency] private readonly ISceneReferenceProvider _sceneReferenceProvider;
+        
+        private ICacheController _cacheController;
         
         private float _delayTime;
         private float _loopInSeconds;
         private float _releasePowerupInSeconds;
         
         private LTDescr _spawnTween;
-        
-        internal PowerupMovement(GameObject powerupCache)
+
+        public void PostConstruct(params object[] args)
         {
-            if(_cacheController == null) _cacheController = new PowerupCacheController(powerupCache.transform, Camera.main.transform.position);
+            if (!_sceneReferenceProvider.TryGetEntry(Tags.PowerupCache, out var powerupCache))
+            {
+                Debug.LogError($"[{nameof(PowerupMovement)}] Cannot find references");
+                return;
+            }
+            
+            _cacheController = new PowerupCacheController(powerupCache.transform, Camera.main.transform.position);
+            Reset();
+        }
+        
+        public void Dispose()
+        {
+            Reset();
         }
         
         public void Reset()
@@ -61,13 +76,13 @@ namespace ZenVortex
             }
         }
 
-        public void OnLevelStart()
+        public void OnGameStart()
         {
             _spawnTween = LeanTween.delayedCall(_releasePowerupInSeconds,
                 () => _cacheController.SpawnNext(_loopInSeconds)).setRepeat(-1).setDelay(_delayTime - _releasePowerupInSeconds + _releasePowerupInSeconds * GameConstants.Animation.Powerup.SpawnTimeOffset);
         }
 
-        public void OnLevelEnd()
+        public void OnGameEnd()
         {
             StopMovement();
         }

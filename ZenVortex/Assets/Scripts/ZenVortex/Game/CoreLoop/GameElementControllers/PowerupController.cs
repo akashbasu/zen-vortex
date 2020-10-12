@@ -113,7 +113,7 @@ namespace ZenVortex
 
         private void Pickup()
         {
-            new EventCommand(GameEvents.Gameplay.Pickup, _powerupData).Execute();
+            new EventCommand(GameEvents.Powerup.Collect, _powerupData).Execute();
         }
     }
 }

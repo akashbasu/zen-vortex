@@ -20,8 +20,8 @@ namespace ZenVortex
         {
             if (GetReferences())
             {
-                _gameEventManager.Subscribe(GameEvents.GameStateEvents.Start, OnGameStateStart);
-                _gameEventManager.Subscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);
+                _gameEventManager.Subscribe(GameEvents.StateMachineEvents.Start, OnGameStateStart);
+                _gameEventManager.Subscribe(GameEvents.StateMachineEvents.End, OnGameStateEnd);
                 return;
             }
             
@@ -30,8 +30,8 @@ namespace ZenVortex
 
         public void Dispose()
         {
-            _gameEventManager.Unsubscribe(GameEvents.GameStateEvents.Start, OnGameStateStart);
-            _gameEventManager.Unsubscribe(GameEvents.GameStateEvents.End, OnGameStateEnd);
+            _gameEventManager.Unsubscribe(GameEvents.StateMachineEvents.Start, OnGameStateStart);
+            _gameEventManager.Unsubscribe(GameEvents.StateMachineEvents.End, OnGameStateEnd);
         }
 
         private bool GetReferences()

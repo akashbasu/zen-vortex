@@ -28,12 +28,12 @@ namespace ZenVortex
         {
             base.PostConstruct(args);
             
-            _gameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
+            _gameEventManager.Subscribe(GameEvents.Gameplay.Start, OnGameStart);
         }
 
         public override void Dispose()
         {
-            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.Start, OnGameStart);
             
             base.Dispose();
         }
@@ -55,7 +55,7 @@ namespace ZenVortex
 
         public Color GetCurrentGroupColor => GameConstants.Animation.Obstacle.DefaultColors[_groupColorIndex];
 
-        private void OnLevelStart(object[] obj)
+        private void OnGameStart(object[] obj)
         {
             _groupRange = _levelDataManager.CurrentLevelData.Grouping;
             _groupCount = -1;

@@ -21,14 +21,14 @@ namespace ZenVortex
         {
             base.PostConstruct(args);
             
-            _gameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
-            _gameEventManager.Subscribe(GameEvents.Gameplay.Pickup, OnPowerupCollected);
+            _gameEventManager.Subscribe(GameEvents.Gameplay.Start, OnGameStart);
+            _gameEventManager.Subscribe(GameEvents.Powerup.Collect, OnPowerupCollected);
         }
 
         public override void Dispose()
         {
-            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
-            _gameEventManager.Unsubscribe(GameEvents.Gameplay.Pickup, OnPowerupCollected);
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.Start, OnGameStart);
+            _gameEventManager.Unsubscribe(GameEvents.Powerup.Collect, OnPowerupCollected);
             
             base.Dispose();
         }
@@ -47,13 +47,13 @@ namespace ZenVortex
             switch (powerup.Type)
             {
                 case PowerupType.Lives:
-                    new EventCommand(GameEvents.Gameplay.EarnedLife).Execute();
+                    new EventCommand(GameEvents.Powerup.EarnedLife).Execute();
                     break;
                 case PowerupType.Shrink:
-                    new EventCommand(GameEvents.Gameplay.OverrideSize, powerup.Data, GameConstants.Powerup.PowerupDuration).Execute();
+                    new EventCommand(GameEvents.Powerup.OverrideSize, powerup.Data, GameConstants.Powerup.PowerupDuration).Execute();
                     break;
                 case PowerupType.Time:
-                    new EventCommand(GameEvents.Gameplay.OverrideTimeScale, powerup.Data, GameConstants.Powerup.PowerupDuration).Execute();
+                    new EventCommand(GameEvents.Powerup.OverrideTimeScale, powerup.Data, GameConstants.Powerup.PowerupDuration).Execute();
                     break;
                 default:
                     Debug.LogError($"[{nameof(PowerupDataManager)}] {nameof(OnPowerupCollected)} Invalid Powerup type.");
@@ -61,7 +61,7 @@ namespace ZenVortex
             }
         }
         
-        private void OnLevelStart(object[] obj)
+        private void OnGameStart(object[] obj)
         {
             _shuffleBag = new ShuffleBag(_data.Length);
         }

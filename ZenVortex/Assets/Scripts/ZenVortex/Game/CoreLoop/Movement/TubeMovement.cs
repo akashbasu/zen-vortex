@@ -3,21 +3,26 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal sealed class TubeMovement : ILevelMovementObserver
+    internal sealed class TubeMovement : IGameLoopObserver, IPostConstructable
     {
-        [Dependency] private readonly ILevelDataManager _levelDataManager;
+        [Dependency] private readonly ISceneReferenceProvider _sceneReferenceProvider;
         
-        private readonly Material _material;
-        private readonly float _materialXOffset;
-        private readonly int _textureId;
-        private readonly float _tiling;
+        private Material _material;
+        private float _materialXOffset;
+        private int _textureId;
+        private float _tiling;
         private float _loopInSeconds;
+        private float _delayBeforeStart;
 
         private LTDescr _animationTween;
-
-        internal TubeMovement(GameObject tube)
+        
+        public void PostConstruct(params object[] args)
         {
-            Injector.ResolveDependencies(this);
+            if (!_sceneReferenceProvider.TryGetEntry(Tags.Board, out var tube))
+            {
+                Debug.LogError($"[{nameof(TubeMovement)}] Cannot find references");
+                return;
+            }
             
             var material = tube.GetComponent<Renderer>().material;
 
@@ -33,6 +38,11 @@ namespace ZenVortex
             _materialXOffset = material.GetTextureOffset(_textureId).x;
             _tiling = material.GetTextureScale(_textureId).y;
         }
+        
+        public void Dispose()
+        {
+            Reset();
+        }
 
         public void Reset()
         {
@@ -43,9 +53,10 @@ namespace ZenVortex
         public void SetLevelData(LevelData data)
         {
             _loopInSeconds = _tiling / data.TubeSpeed;
+            _delayBeforeStart = data.DelayBeforeStart;
         }
 
-        public void OnLevelEnd()
+        public void OnGameEnd()
         {
             StopMovement();
         }
@@ -55,7 +66,7 @@ namespace ZenVortex
             _animationTween?.pause();
         }
 
-        public void OnLevelStart()
+        public void OnGameStart()
         {
             StartTween();
         }
@@ -63,7 +74,7 @@ namespace ZenVortex
         private void StartTween()
         {
             _animationTween = LeanTween.value(0f, _tiling, _loopInSeconds).setLoopClamp().setOnUpdate(tiling =>
-                MovementUtils.SetTexturePosition(_material, _textureId, _materialXOffset, -tiling)).setDelay(_levelDataManager.CurrentLevelData.DelayBeforeStart);
+                MovementUtils.SetTexturePosition(_material, _textureId, _materialXOffset, -tiling)).setDelay(_delayBeforeStart);
         }
 
         private void ResetTween()

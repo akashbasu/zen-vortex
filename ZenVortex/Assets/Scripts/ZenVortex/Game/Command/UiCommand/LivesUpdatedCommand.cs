@@ -1,17 +1,15 @@
+using ZenVortex.DI;
+
 namespace ZenVortex
 {
     internal class LivesUpdatedCommand : BaseUiCommand
     {
+        [Dependency] private readonly IPlayerLifeDataManager _playerLifeDataManager;
+        [Dependency] private readonly IUiDataProvider _uiDataProvider;
+        
         public override void Execute()
         {
-            throw new System.NotImplementedException();
+            _uiDataProvider.UpdateData(UiDataKeys.Player.Lives, _playerLifeDataManager.LifeCount);
         }
-        
-        // private void UpdateUiData()
-        // {
-        // _uiDataProvider.UpdateData(UiDataKeys.Player.RunScore, _lastRunScore);
-        // ;
-        // _uiDataProvider.UpdateData(UiDataKeys.Player.Lives, _livesEarnedInRun);
-        // }
     }
 }

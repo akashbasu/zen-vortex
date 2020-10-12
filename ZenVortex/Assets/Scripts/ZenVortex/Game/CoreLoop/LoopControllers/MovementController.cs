@@ -10,20 +10,24 @@ namespace ZenVortex
     internal class MovementController : MonoBehaviour, IMovementController
     {
         [Dependency] private readonly IGameEventManager _gameEventManager;
-        [Dependency] private readonly ISceneReferenceProvider _sceneReferenceProvider;
         [Dependency] private readonly ILevelDataManager _levelDataManager;
         
+        [Dependency] private readonly TubeMovement _tubeMovement;
+        [Dependency] private readonly BallMovement _ballMovement;
+        [Dependency] private readonly ObstacleMovement _obstacleMovement;
+        [Dependency] private readonly PowerupMovement _powerupMovement;
+        
         private bool _canMove;
-        private readonly Dictionary<string, ILevelMovementObserver> _objectMovementMap = new Dictionary<string, ILevelMovementObserver>();
+        private readonly Dictionary<string, IGameLoopObserver> _objectMovementMap = new Dictionary<string, IGameLoopObserver>();
 
         public void PostConstruct(params object[] args)
         {
-            if (GetReferences())
+            if (GetManagedObjects())
             {
                 ResetLevelValues();
 
-                _gameEventManager.Subscribe(GameEvents.LevelEvents.Start, OnLevelStart);
-                _gameEventManager.Subscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
+                _gameEventManager.Subscribe(GameEvents.Gameplay.Start, OnGameStart);
+                _gameEventManager.Subscribe(GameEvents.Gameplay.Stop, OnGameStop);
                 _gameEventManager.Subscribe(GameEvents.Gameplay.Reset, OnReset);
                 
                 return;
@@ -34,35 +38,19 @@ namespace ZenVortex
         
         public void Dispose()
         {
-            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Start, OnLevelStart);
-            _gameEventManager.Unsubscribe(GameEvents.LevelEvents.Stop, OnLevelStop);
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.Start, OnGameStart);
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.Stop, OnGameStop);
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.Reset, OnReset);
         }
 
-        private bool GetReferences()
+        private bool GetManagedObjects()
         {
             _objectMovementMap.Clear();
-                
-            if (!_sceneReferenceProvider.TryGetEntry(Tags.Board, out var tube)) return false;
-
-            var tubeMovement = new TubeMovement(tube);
-
-            if (!_sceneReferenceProvider.TryGetEntry(Tags.Ball, out var ball)) return false;
-
-            var ballMovement = new BallMovement(ball);
-
-            if (!_sceneReferenceProvider.TryGetEntry(Tags.ObstacleCache, out var obstacleCache)) return false;
-
-            var obstacleMovement = new ObstacleMovement(obstacleCache);
             
-            if (!_sceneReferenceProvider.TryGetEntry(Tags.PowerupCache, out var powerupCache)) return false;
-            
-            var powerupMovement = new PowerupMovement(powerupCache);
-            
-            _objectMovementMap.Add(Tags.Board, tubeMovement);
-            _objectMovementMap.Add(Tags.Ball, ballMovement);
-            _objectMovementMap.Add(Tags.Obstacle, obstacleMovement);
-            _objectMovementMap.Add(Tags.Powerup, powerupMovement);
+            _objectMovementMap.Add(Tags.Board, _tubeMovement);
+            _objectMovementMap.Add(Tags.Ball, _ballMovement);
+            _objectMovementMap.Add(Tags.Obstacle, _obstacleMovement);
+            _objectMovementMap.Add(Tags.Powerup, _powerupMovement);
 
             return !_objectMovementMap.Any(x => x.Key == null || x.Value == null);
         }
@@ -73,18 +61,18 @@ namespace ZenVortex
             foreach (var goMovement in _objectMovementMap) goMovement.Value.Reset();
         }
 
-        private void OnLevelStart(object[] args)
+        private void OnGameStart(object[] args)
         {
             foreach (var goMovement in _objectMovementMap) goMovement.Value.SetLevelData(_levelDataManager.CurrentLevelData);
-            foreach (var goMovement in _objectMovementMap) goMovement.Value.OnLevelStart();
+            foreach (var goMovement in _objectMovementMap) goMovement.Value.OnGameStart();
             
             _canMove = true;
         }
 
-        private void OnLevelStop(object[] args)
+        private void OnGameStop(object[] args)
         {
             _canMove = false;
-            foreach (var goMovement in _objectMovementMap) goMovement.Value.OnLevelEnd();
+            foreach (var goMovement in _objectMovementMap) goMovement.Value.OnGameEnd();
         }
         
         private void FixedUpdate()

@@ -14,6 +14,11 @@ namespace ZenVortex
             DependencyRegistry.RegisterInterface<IPowerupDataManager, PowerupDataManager>();
             DependencyRegistry.RegisterInterface<IScoreDataManager, ScoreDataManager>();
             
+            DependencyRegistry.RegisterConcreteType<BallMovement>();
+            DependencyRegistry.RegisterConcreteType<ObstacleMovement>();
+            DependencyRegistry.RegisterConcreteType<PowerupMovement>();
+            DependencyRegistry.RegisterConcreteType<TubeMovement>();
+            
             DependencyRegistry.RegisterInterface<ICollisionController, CollisionController>();
             DependencyRegistry.RegisterInterface<IMovementController, MovementController>();
         }
@@ -21,9 +26,8 @@ namespace ZenVortex
         protected override Queue<IInitializable> GetSteps()
         {
             var queue = new Queue<IInitializable>();
-            queue.Enqueue(new LevelStartEventCommand());
-            queue.Enqueue(new WaitForGameLoopEnd());
-            queue.Enqueue(new LevelEndEventCommand());
+            
+            queue.Enqueue(new WaitForGameEnd());
 
             return queue;
         }
