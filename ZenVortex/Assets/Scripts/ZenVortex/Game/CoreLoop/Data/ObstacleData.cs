@@ -5,6 +5,9 @@ namespace ZenVortex
 {
     public class ObstacleData : ScriptableObject
     {
+        [Header("Gameplay")]
+        [SerializeField] private int _points = 1;
+        
         [Header("Spawn Data")] 
         [SerializeField] private IntRangedValue _spawnRotation;
         [SerializeField] private IntRangedValue _targetRotation;
@@ -22,6 +25,10 @@ namespace ZenVortex
         public IntRangedValue SpawnRotation => _spawnRotation;
         public IntRangedValue TargetRotation => _targetRotation;
         public float AnimationInTimeNormalization => GameConstants.Animation.Obstacle.TravelTimeToAnimationRatio;
+        
+        //Points
+        public int Points => _points; 
+        
         public float RotationTimeNormalization(float visibility) => 1f / visibility - AnimationInTimeNormalization;
         
         public bool IsEnabled(int childIndex)
