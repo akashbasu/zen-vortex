@@ -47,9 +47,7 @@ namespace ZenVortex
         
         private void OnLevelStop(object[] obj)
         {
-            var previousMax = new RunScore();
-            previousMax.LoadHighScoreFromDisk(GameConstants.PlayerData.HighScore);
-            if (previousMax.TotalScore <= _highestRunScore.TotalScore)
+            if (_highestRunScore.TotalScore <= _currentRunScore.TotalScore)
             {
                 new HighScoreCommand().Execute();
             }
