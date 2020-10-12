@@ -1,52 +1,22 @@
 using UnityEngine;
-using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal interface IVibrationServiceController : IPostConstructable {}
+    internal interface IVibrationServiceController
+    {
+        void PlayVibrationForPriority(Priority priority);
+    }
     
     internal class VibrationServiceController : IVibrationServiceController
     {
-        [Dependency] private readonly IGameEventManager _gameEventManager;
-        
+
 #if UNITY_ANDROID && !UNITY_EDITOR
         public static AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         public static AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
         public static AndroidJavaObject vibrator = currentActivity.Call<AndroidJavaObject>("getSystemService", "vibrator");
 #endif
 
-        public void PostConstruct(params object[] args)
-        {
-            _gameEventManager.Subscribe(GameEvents.Gameplay.ScoreUpdated, PlayLowPriorityVibration<int>);
-            _gameEventManager.Subscribe(GameEvents.Gameplay.HighScore, PlayHighPriorityVibration);
-        }
-
-        public void Dispose()
-        {
-            _gameEventManager.Unsubscribe(GameEvents.Gameplay.ScoreUpdated, PlayLowPriorityVibration<int>);
-            _gameEventManager.Unsubscribe(GameEvents.Gameplay.HighScore, PlayHighPriorityVibration);
-        }
-
-        private void PlayLowPriorityVibration<T>(object[] obj)
-        {
-            if(obj?.Length < 1) return;
-            var data = (T) obj[0];
-            if(data.Equals(default(T))) return;
-            
-            PlayVibrationForPriority(Priority.Low);
-        }
-        
-        private void PlayMediumPriorityVibration(object[] obj)
-        {
-            PlayVibrationForPriority(Priority.Medium);
-        }
-        
-        private void PlayHighPriorityVibration(object[] obj)
-        {
-            PlayVibrationForPriority(Priority.High);
-        }
-
-        private void PlayVibrationForPriority(Priority priority)
+        public void PlayVibrationForPriority(Priority priority)
         {
             switch (priority)
             {
