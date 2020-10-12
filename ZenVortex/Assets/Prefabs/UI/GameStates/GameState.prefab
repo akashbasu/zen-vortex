@@ -771,7 +771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 337fc0b0c18e414abfc7df743ba68051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _uiKey: Player.Score
+  _uiKey: Player.RunScore
   _format: 
   _animateOnChange: 1
 --- !u!1001 &775875525860241183

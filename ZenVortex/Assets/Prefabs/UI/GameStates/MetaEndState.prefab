@@ -226,8 +226,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 337fc0b0c18e414abfc7df743ba68051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _uiKey: Player.Gems
+  _uiKey: Player.Lives
   _format: 
+  _animateOnChange: 1
 --- !u!1 &1279678959544879972
 GameObject:
   m_ObjectHideFlags: 0
@@ -549,6 +550,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _uiKey: Player.HighScore
   _format: High Score {0}
+  _animateOnChange: 1
 --- !u!1 &7418881295940752049
 GameObject:
   m_ObjectHideFlags: 0
@@ -813,8 +815,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 337fc0b0c18e414abfc7df743ba68051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _uiKey: Player.LastScore
+  _uiKey: Player.RunScore
   _format: 'Score : {0}'
+  _animateOnChange: 1
 --- !u!1001 &3868472434860150082
 PrefabInstance:
   m_ObjectHideFlags: 0
