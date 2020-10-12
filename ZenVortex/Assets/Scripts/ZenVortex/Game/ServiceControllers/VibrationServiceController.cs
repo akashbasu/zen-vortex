@@ -32,11 +32,11 @@ namespace ZenVortex
 
         private void PlayVibration(float time)
         {
-#if UNITY_ANDROID && !UNITY_EDITOR
-            vibrator.Call("vibrate", time);
-#else
+// #if UNITY_ANDROID && !UNITY_EDITOR
+//             vibrator.Call("vibrate", time);
+// #else
             Handheld.Vibrate();
-#endif
+// #endif
         }
     }
     
