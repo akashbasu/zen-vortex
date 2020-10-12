@@ -6,7 +6,6 @@ namespace ZenVortex
     internal interface IInputServiceController : IPostConstructable
     {
         GameInputAdapter GameInput { get;}
-        UiInputAdapter UiInput { get;}
     }
     
     internal class InputServiceController : IInputServiceController
@@ -21,7 +20,7 @@ namespace ZenVortex
         };
 
         public GameInputAdapter GameInput { get; private set; }
-        public UiInputAdapter UiInput { get; private set; }
+        private UiInputAdapter UiInput { get; set; }
 
         public void PostConstruct(params object[] args)
         {
