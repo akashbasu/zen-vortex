@@ -19,7 +19,6 @@ namespace ZenVortex
             if(currentScore.TotalScore <= 0) return;
             
             _audioServiceController.PlayAudioForPriority(Priority.Low);
-            _vibrationServiceController.PlayVibrationForPriority(Priority.Low);
         }
     }
 }
