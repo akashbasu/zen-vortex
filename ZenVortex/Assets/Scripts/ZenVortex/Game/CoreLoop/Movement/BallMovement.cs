@@ -120,7 +120,7 @@ namespace ZenVortex
 
         public void OnGameEnd()
         {
-            _gameEventManager.Unsubscribe(GameEvents.Powerup.OverrideSize, StartScaleTween);
+            // _gameEventManager.Unsubscribe(GameEvents.Powerup.OverrideSize, StartScaleTween);
             
             StopMovement();
             ParticleForState(AnimationState.Complete);
@@ -128,7 +128,7 @@ namespace ZenVortex
 
         public void OnGameStart()
         {
-            _gameEventManager.Subscribe(GameEvents.Powerup.OverrideSize, StartScaleTween);
+            // _gameEventManager.Subscribe(GameEvents.Powerup.OverrideSize, StartScaleTween);
             
             AnimateIntro();
             StartYAnimationTween();
