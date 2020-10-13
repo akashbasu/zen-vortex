@@ -26,7 +26,7 @@ namespace ZenVortex
             
             _gameEventManager.Subscribe(GameEvents.Gameplay.Start, OnGameStart);
             _gameEventManager.Subscribe(GameEvents.Obstacle.Crossed, OnCrossedObstacle);
-            _gameEventManager.Subscribe(GameEvents.Powerup.Collect, OnPowerupPickup);
+            _gameEventManager.Subscribe(GameEvents.Powerup.Pickup, OnPowerupPickup);
             _gameEventManager.Subscribe(GameEvents.Gameplay.Stop, OnLevelStop);
         }
 
@@ -34,7 +34,7 @@ namespace ZenVortex
         {
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.Start, OnGameStart);
             _gameEventManager.Unsubscribe(GameEvents.Obstacle.Crossed, OnCrossedObstacle);
-            _gameEventManager.Unsubscribe(GameEvents.Powerup.Collect, OnPowerupPickup);
+            _gameEventManager.Unsubscribe(GameEvents.Powerup.Pickup, OnPowerupPickup);
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.Stop, OnLevelStop);
         }
 
@@ -74,7 +74,7 @@ namespace ZenVortex
         private void OnPowerupPickup(object[] obj)
         {
             var pointsForPowerup = 1;
-            if (obj?.Length >= 1 && obj[0] is PowerupData powerupData)
+            if (obj?.Length >= 1 && obj[0] is IBasePowerupData powerupData)
             {
                 pointsForPowerup = Math.Max(powerupData.Points, pointsForPowerup);
             }

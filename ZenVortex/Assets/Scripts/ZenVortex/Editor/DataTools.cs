@@ -26,8 +26,8 @@ namespace ZenVortex.Editor
             SerializeObstacleData(selectedObject);
         }
         
-        [MenuItem("ZenVortex/DataTools/Powerup Data")]
-        public static void CreatePowerupData()
+        [MenuItem("ZenVortex/DataTools/Powerups/Base Powerup Data")]
+        public static void CreatBasePowerupData()
         {
             var outputPath = Path.Combine(GameConstants.DataPaths.ResourcesBase, GameConstants.DataPaths.Resources.Powerups,
                 $"{Tags.Powerup}_X.asset").Replace('\\', '/');
@@ -35,7 +35,21 @@ namespace ZenVortex.Editor
             var doesAssetExist = AssetDatabase.GetAllAssetPaths().Any(x => string.Equals(outputPath, x));
             if(doesAssetExist) return;
             
-            AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<PowerupData>(), outputPath);
+            AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<BasePowerup>(), outputPath);
+            AssetDatabase.SaveAssets();
+        }
+        
+        
+        [MenuItem("ZenVortex/DataTools/Powerups/Timed Powerup Data")]
+        public static void CreateTimedPowerupData()
+        {
+            var outputPath = Path.Combine(GameConstants.DataPaths.ResourcesBase, GameConstants.DataPaths.Resources.Powerups,
+                $"{Tags.Powerup}_X.asset").Replace('\\', '/');
+
+            var doesAssetExist = AssetDatabase.GetAllAssetPaths().Any(x => string.Equals(outputPath, x));
+            if(doesAssetExist) return;
+            
+            AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<TimedPowerup>(), outputPath);
             AssetDatabase.SaveAssets();
         }
 

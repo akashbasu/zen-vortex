@@ -9,6 +9,8 @@ namespace ZenVortex
         [Dependency] private readonly IPowerupDataManager _powerupDataManager;
         [Dependency] private readonly ILevelDataManager _levelDataManager;
 
+        private IBasePowerupData _spawnData;
+
         internal PowerupCacheController(Transform cache, Vector3 reCacheMarker) : base(cache, reCacheMarker,
             typeof(PowerupController))
         {
@@ -21,8 +23,15 @@ namespace ZenVortex
             
             base.SpawnNext(timeToTween);
         }
+        
+        public override object[] GetActionableData() => new object[] {_spawnData};
 
-        protected override object[] GetSpawnData() => new object[] {_powerupDataManager.GetNextPowerupData()};
+        protected override object[] GetSpawnData()
+        {
+            _spawnData = _powerupDataManager.GetNextPowerupData();
+            return new object[] {_spawnData};
+        }
+        
         protected override object[] GetFireData() => null;
     }
 }

@@ -11,6 +11,7 @@ namespace ZenVortex
         
         void Reset();
         void SpawnNext(float timeForTravel);
+        object[] GetActionableData();
         void Pause();
         
         ICacheEntry Current { get; }
@@ -62,6 +63,8 @@ namespace ZenVortex
             HandleUnderflow();
             Fire(SpawnNextFromCache(), timeToTween);
         }
+        
+        public abstract object[] GetActionableData();
         
         private void CacheAll()
         {

@@ -9,12 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f15dfdc31de429ca97fbb14138f423d, type: 3}
+  m_Script: {fileID: 11500000, guid: 4294e84136c5400bb34706ce7d19506a, type: 3}
   m_Name: Powerup_Time
   m_EditorClassIdentifier: 
   _type: 3
-  _effect: 2
-  _data: 0.75
   _points: 3
   _image: {fileID: 2800000, guid: bd73d7ff0901d354d86d4afa0ec709e9, type: 3}
   _spawnRotation:
@@ -22,3 +20,6 @@ MonoBehaviour:
     _max: 90
     _isZeroBased: 0
   _rotationTimeNormalization: 0.2
+  _duration: 5
+  _effectData: 0.15
+  _resetData: 0.15

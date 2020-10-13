@@ -60,7 +60,7 @@ namespace ZenVortex
 
     public partial class GameConstants
     {
-        internal static class Environment
+        internal static partial class Environment
         {
             public const float MasterToTubeSpeedRatio = 1f;
             public const float MasterToObstacleSpeedRatio = 2f;

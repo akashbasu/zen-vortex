@@ -20,6 +20,8 @@ namespace ZenVortex
 
         public int Next()
         {
+            if (_size <= 0) return 0;
+            
             if (_bag.Count == 0) FillBag();
 
             var index = _deterministicRandomProvider.Next(0, _bag.Count);

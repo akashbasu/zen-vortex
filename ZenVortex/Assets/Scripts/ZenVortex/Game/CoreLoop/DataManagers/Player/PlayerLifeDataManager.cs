@@ -1,3 +1,4 @@
+using UnityEngine;
 using ZenVortex.DI;
 
 namespace ZenVortex
@@ -31,30 +32,57 @@ namespace ZenVortex
         public void PostConstruct(params object[] args)
         {
             _gameEventManager.Subscribe(GameEvents.Gameplay.Start, OnGameStart);
-            _gameEventManager.Subscribe(GameEvents.Obstacle.Collision, OnLifeLost);
-            _gameEventManager.Subscribe(GameEvents.Powerup.EarnedLife, OnLifeEarned);
+            _gameEventManager.Subscribe(GameEvents.Powerup.Pickup, OnPowerupCollected);
+            _gameEventManager.Subscribe(GameEvents.Obstacle.Collision, OnCollision);
         }
         
         public void Dispose()
         {
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.Start, OnGameStart);
-            _gameEventManager.Unsubscribe(GameEvents.Obstacle.Collision, OnLifeLost);
-            _gameEventManager.Unsubscribe(GameEvents.Powerup.EarnedLife, OnLifeEarned);
+            _gameEventManager.Unsubscribe(GameEvents.Powerup.Pickup, OnPowerupCollected);
+            _gameEventManager.Unsubscribe(GameEvents.Obstacle.Collision, OnCollision);
+        }
+        
+        private void OnPowerupCollected(object[] obj)
+        {
+            if(obj?.Length < 1 || !(obj[0] is IBasePowerupData powerupData)) return;
+            
+            if(powerupData.Type != PowerupType.Lives) return;
+            
+            OnLifeEarned();
+        }
+        
+        private void OnCollision(object[] obj)
+        {
+            if(obj?.Length < 1 || !(obj[0] is ObstacleData obstacleData)) return;
+            
+            OnLifeLost();
         }
 
         private void OnGameStart(object[] obj)
         {
-            LifeCount = 1;
+            Reset();
+            OnLifeEarned();
         }
 
-        private void OnLifeEarned(object[] obj)
+        private void Reset()
+        {
+            LifeCount = default;
+        }
+
+        private void OnLifeEarned()
         {
             LifeCount++;
+            
+            Debug.Log($"[{nameof(PlayerLifeDataManager)}] {nameof(OnLifeEarned)} Life count {LifeCount}");
+
         }
         
-        private void OnLifeLost(object[] obj)
+        private void OnLifeLost()
         {
             LifeCount--;
+            
+            Debug.Log($"[{nameof(PlayerLifeDataManager)}] {nameof(OnLifeLost)} Life count {LifeCount}");
             if(LifeCount <= 0) new EventCommand(GameEvents.Gameplay.Stop).Execute();
         }
     }

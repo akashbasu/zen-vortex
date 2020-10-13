@@ -12,22 +12,23 @@ namespace ZenVortex
         Time = 3
     }
 
-    [Serializable]
-    public enum PowerupEffect
+    internal interface IPowerupSpawnData
     {
-        None = 0,
-        Counted = 1,
-        Timed = 2
+        Texture Image { get; }
+        IntRangedValue SpawnRotation { get; }
+        float RotationTimeNormalization { get; }
+    }
+
+    internal interface IBasePowerupData : IPowerupSpawnData
+    {
+        PowerupType Type  { get; }
+        int Points { get; }
     }
     
-    public class PowerupData : ScriptableObject
+    public class BasePowerup : ScriptableObject, IBasePowerupData
     {
         [SerializeField] private PowerupType _type;
-        [SerializeField] private PowerupEffect _effect;
-        [SerializeField] private float _data;
-        
-        [Header("Gameplay")]
-        [SerializeField] private int _points = 1;
+        [SerializeField] private int _points = 3;
         
         [Header("Visuals")]
         [SerializeField] private Texture _image;
@@ -35,19 +36,14 @@ namespace ZenVortex
         [Header("Animation Constants")]
         [SerializeField] private IntRangedValue _spawnRotation = GameConstants.Animation.Powerup.SafeRotationRange;
         [SerializeField] private float _rotationTimeNormalization = 0.2f;
+
+        PowerupType IBasePowerupData.Type => _type;
+        int IBasePowerupData.Points => _points;
         
-        //Type
-        public PowerupType Type => _type;
-        public PowerupEffect Effect => _effect;
-        public float Data => _data;
-        public int Points => _points;
+        Texture IPowerupSpawnData.Image => _image;
+        IntRangedValue IPowerupSpawnData.SpawnRotation => _spawnRotation;
+        float IPowerupSpawnData.RotationTimeNormalization => _rotationTimeNormalization;
         
-        //Visuals
-        public Texture Image => _image;
-        
-        //Animation
-        public IntRangedValue SpawnRotation => _spawnRotation;
-        public float RotationTimeNormalization => _rotationTimeNormalization;
     }
     
     public static partial class GameConstants

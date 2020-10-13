@@ -1,14 +1,14 @@
-using UnityEngine;
+using JetBrains.Annotations;
 using ZenVortex.DI;
 
 namespace ZenVortex
 {
     internal interface IPowerupDataManager
     {
-        PowerupData GetNextPowerupData();
+        [CanBeNull] IBasePowerupData GetNextPowerupData();
     }
     
-    internal class PowerupDataManager : BaseResourceDataManager<PowerupData>, IPowerupDataManager
+    internal class PowerupDataManager : BaseResourceDataManager<BasePowerup>, IPowerupDataManager
     {
         [Dependency] private readonly IGameEventManager _gameEventManager;
         
@@ -22,56 +22,29 @@ namespace ZenVortex
             base.PostConstruct(args);
             
             _gameEventManager.Subscribe(GameEvents.Gameplay.Start, OnGameStart);
-            _gameEventManager.Subscribe(GameEvents.Powerup.Collect, OnPowerupCollected);
         }
 
         public override void Dispose()
         {
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.Start, OnGameStart);
-            _gameEventManager.Unsubscribe(GameEvents.Powerup.Collect, OnPowerupCollected);
             
             base.Dispose();
         }
         
-        public PowerupData GetNextPowerupData()
+        public IBasePowerupData GetNextPowerupData()
         {
             _powerupId = _shuffleBag.Next();
-            return _data[_powerupId];
-        }
-
-        private void OnPowerupCollected(object[] obj)
-        {
-            if(obj?.Length < 1) return;
-
-            var powerup = obj[0] as PowerupData;
-            switch (powerup.Type)
-            {
-                case PowerupType.Lives:
-                    new EventCommand(GameEvents.Powerup.EarnedLife).Execute();
-                    break;
-                case PowerupType.Shrink:
-                    new EventCommand(GameEvents.Powerup.OverrideSize, powerup.Data, GameConstants.Powerup.PowerupDuration).Execute();
-                    break;
-                case PowerupType.Time:
-                    new EventCommand(GameEvents.Powerup.OverrideTimeScale, powerup.Data, GameConstants.Powerup.PowerupDuration).Execute();
-                    break;
-                default:
-                    Debug.LogError($"[{nameof(PowerupDataManager)}] {nameof(OnPowerupCollected)} Invalid Powerup type.");
-                    break;
-            }
+            return _powerupId >= _data.Length || _powerupId < 0 ? null : _data[_powerupId];
         }
         
         private void OnGameStart(object[] obj)
         {
-            _shuffleBag = new ShuffleBag(_data.Length);
+            Reset();
         }
-    }
-    
-    public static partial class GameConstants
-    {
-        internal static partial class Powerup
+
+        private void Reset()
         {
-            public const float PowerupDuration = 5f;
+            _shuffleBag = new ShuffleBag(_data.Length);
         }
     }
 }

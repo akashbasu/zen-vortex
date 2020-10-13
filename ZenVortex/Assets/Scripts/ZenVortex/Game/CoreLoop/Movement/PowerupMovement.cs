@@ -51,13 +51,7 @@ namespace ZenVortex
 
             _cacheController.Current.CollisionStart();
             
-            switch (_cacheController.Current.HasActionableCollision)
-            {
-                case true: Debug.Log($"[{nameof(PowerupMovement)}] {nameof(OnCollisionEnter)} Picked up a powerup!");
-                    break;
-                case false:
-                    break;
-            }
+            TryNotifyPickup();
         }
 
         public void OnCollisionExit(GameObject other, int pointOfCollision)
@@ -65,17 +59,8 @@ namespace ZenVortex
             if (!other.tag.Equals(Tags.Ball)) return;
             
             _cacheController.Current.CollisionComplete();
-            
-            switch (_cacheController.Current.HasActionableCollision)
-            {
-                case true: Debug.Log($"[{nameof(PowerupMovement)}] {nameof(OnCollisionExit)} Exiting PU");
-                    break;
-                case false:
-                    
-                    break;
-            }
         }
-
+        
         public void OnGameStart()
         {
             _spawnTween = LeanTween.delayedCall(_releasePowerupInSeconds,
@@ -85,6 +70,14 @@ namespace ZenVortex
         public void OnGameEnd()
         {
             StopMovement();
+        }
+
+        private void TryNotifyPickup()
+        {
+            if(!_cacheController.Current.HasActionableCollision) return;
+            
+            Debug.Log($"[{nameof(PowerupMovement)}] {nameof(TryNotifyPickup)} Picked up powerup!");
+            new EventCommand(GameEvents.Powerup.Pickup, _cacheController.GetActionableData()).Execute();
         }
 
         private void StopMovement()

@@ -26,7 +26,7 @@ namespace ZenVortex
         private LevelData _levelData;
 
         public Transform Transform { get; }
-        public bool HasActionableCollision => _hasFatalCollision && (!_playerLifeDataManager.HasExtraLives ||_currentCollisions.Count == 0);
+        public bool HasActionableCollision => _hasFatalCollision && (!_playerLifeDataManager.HasExtraLives || _currentCollisions.Count == 0);
 
         //Runtime injection
         public ObstacleController(Transform transform)

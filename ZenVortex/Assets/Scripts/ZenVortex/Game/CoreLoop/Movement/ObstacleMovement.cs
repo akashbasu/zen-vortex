@@ -100,7 +100,7 @@ namespace ZenVortex
             if(!_cacheController.Current.HasActionableCollision) return;
             
             Debug.Log($"[{nameof(ObstacleMovement)}] {nameof(OnCollisionExit)} Point of collision {pointOfCollision} FATAL!");
-            new EventCommand(GameEvents.Obstacle.Collision).Execute();
+            new EventCommand(GameEvents.Obstacle.Collision, _cacheController.GetActionableData()).Execute();
         }
     }
 }

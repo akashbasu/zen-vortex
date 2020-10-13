@@ -7,6 +7,8 @@ namespace ZenVortex
     {
         [Dependency] private readonly IObstacleDataManager _obstacleDataManager;
         [Dependency] private readonly ILevelDataManager _levelDataManager;
+
+        private ObstacleData _spawnData;
         
         public ObstacleCacheController(Transform cache, Vector3 reCacheMarker) : base(cache, reCacheMarker,
             typeof(ObstacleController))
@@ -14,7 +16,14 @@ namespace ZenVortex
             Injector.ResolveDependencies(this);
         }
         
-        protected override object[] GetSpawnData() => new object[] {_obstacleDataManager.GetNextObstacleData(), _levelDataManager.CurrentLevelData};
+        public override object[] GetActionableData() => new object[] {_spawnData};
+        
+        protected override object[] GetSpawnData()
+        {
+            _spawnData = _obstacleDataManager.GetNextObstacleData();
+            return new object[] {_spawnData, _levelDataManager.CurrentLevelData};
+        }
+        
         protected override object[] GetFireData() => new object[] {_obstacleDataManager.GetCurrentGroupColor};
     }
 }

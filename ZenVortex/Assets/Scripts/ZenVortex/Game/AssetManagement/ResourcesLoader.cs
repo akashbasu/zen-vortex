@@ -15,7 +15,7 @@ namespace ZenVortex
         {
             if (LoadDataFromDisk(out resource)) return true;
 
-            Debug.LogError($"{nameof(GetType)} {nameof(TryLoadData)} failed to load data of type <{nameof(TResource)}> from disk! Path {_resourcePath}");
+            Debug.LogError($"{GetType().Name} {nameof(TryLoadData)} failed to load data of type <{nameof(TResource)}> from disk! Path {_resourcePath}");
             return false;
         }
         

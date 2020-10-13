@@ -14,8 +14,9 @@ namespace ZenVortex
         
         private readonly GameObject _go;
         private readonly int _managedCount;
+        private bool _hasActionableCollision;
         
-        private PowerupData _powerupData;
+        private IPowerupSpawnData _powerupData;
 
         public PowerupController(Transform transform)
         {
@@ -37,19 +38,20 @@ namespace ZenVortex
         }
         
         public Transform Transform { get; }
-        public bool HasActionableCollision => true;
+        public bool HasActionableCollision => _hasActionableCollision;
         
         public void Reset()
         {
             LeanTween.cancel(_go);
-            
+
+            _hasActionableCollision = false;
             Enable(false);
             SetZ(0f);
         }
 
         public void Spawn(params object[] args)
         {
-            if (args?.Length == 0 || !(args[0] is PowerupData spawnData))
+            if (args?.Length == 0 || (args[0] == null) || !(args[0] is IPowerupSpawnData spawnData))
             {
                 Reset();
                 return;
@@ -63,6 +65,12 @@ namespace ZenVortex
 
         public void Fire(float distanceToTravel, float time, Action onComplete, params object[] args)
         {
+            if(_powerupData == null)
+            {
+                onComplete?.Invoke();
+                return;
+            }
+            
             Animate(time * _powerupData.RotationTimeNormalization);
             StartMovement(distanceToTravel, time, onComplete);
         }
@@ -74,11 +82,12 @@ namespace ZenVortex
         
         public void CollisionStart(params object[] args)
         {
-            Pickup();
+            _hasActionableCollision = true;
         }
 
         public void CollisionComplete(params object[] args)
         {
+            _hasActionableCollision = true;
             Enable(false);
         }
         
@@ -109,11 +118,6 @@ namespace ZenVortex
         private void StartMovement(float distanceToTravel, float time, Action onComplete)
         {
             Transform.LeanMoveLocalZ(-distanceToTravel, time).setOnComplete(onComplete);
-        }
-
-        private void Pickup()
-        {
-            new EventCommand(GameEvents.Powerup.Collect, _powerupData).Execute();
         }
     }
 }
