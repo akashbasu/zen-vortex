@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using ZenVortex.DI;
 
 namespace ZenVortex
 { 
@@ -16,6 +18,11 @@ namespace ZenVortex
             AddGameStates();
             
             NextState();
+        }
+
+        private void OnApplicationQuit()
+        {
+            DependencyRegistry.Reset();
         }
 
         private void AddOneTimeStates()

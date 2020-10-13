@@ -43,6 +43,11 @@ namespace ZenVortex.DI
             
             if (newDependency.instance is IPostConstructable postConstructable) postConstructable.PostConstruct();
         }
+
+        public static void Reset()
+        {
+            foreach (var registeredDependency in Registry) if (registeredDependency.Value.instance is IPostConstructable postConstructable) postConstructable.Dispose();
+        }
     }
 
     
