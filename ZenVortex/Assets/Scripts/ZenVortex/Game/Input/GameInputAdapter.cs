@@ -5,7 +5,7 @@ namespace ZenVortex
 {
     internal class GameInputAdapter : IInputAdapter<float>
     {
-        private readonly float _screenMid = Screen.width / 2f;
+        private float _screenMid => Screen.width / 2f;
 
         private UnityInput.GameActions _gameInput;
 
