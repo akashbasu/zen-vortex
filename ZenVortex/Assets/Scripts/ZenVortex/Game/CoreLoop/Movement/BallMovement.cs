@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using ZenVortex.DI;
@@ -25,13 +26,23 @@ namespace ZenVortex
         private float _xInputClock;
         private float _delayBeforeStart;
 
+        private float _scaleFactor;
         private Vector3 _originalScale;
-        private LTSeq _scaleSequence;
         private LTDescr _animationTween;
         private List<GameObject> _particleStates;
 
         private bool _isEnabled;
-        
+
+        public float CurrentScale
+        {
+            get => _scaleFactor;
+            private set
+            {
+                _scaleFactor = value;
+                new BallScaleUpdatedCommand().Execute();
+            }
+        }
+
         public void PostConstruct(params object[] args)
         {
             if (!_sceneReferenceProvider.TryGetEntry(Tags.Ball, out var ball))
@@ -42,6 +53,7 @@ namespace ZenVortex
             
             _ball = ball;
             _originalScale = _ball.transform.localScale;
+            CurrentScale = 1;
             _anchor = ball.transform.parent;
 
             var material = ball.GetComponent<Renderer>().material;
@@ -76,6 +88,7 @@ namespace ZenVortex
             ParticleForState(AnimationState.Idle);
             StopMovement();
             ResetTween();
+            ResetScale();
             
             _xInputClock = 0;
             _xGravityClock = 0f;
@@ -120,7 +133,8 @@ namespace ZenVortex
 
         public void OnGameEnd()
         {
-            // _gameEventManager.Unsubscribe(GameEvents.Powerup.OverrideSize, StartScaleTween);
+            _gameEventManager.Unsubscribe(GameEvents.BallScale.Increment, StartGrowScaleTween);
+            _gameEventManager.Unsubscribe(GameEvents.BallScale.Decrement, StartShrinkScaleTween);
             
             StopMovement();
             ParticleForState(AnimationState.Complete);
@@ -128,7 +142,8 @@ namespace ZenVortex
 
         public void OnGameStart()
         {
-            // _gameEventManager.Subscribe(GameEvents.Powerup.OverrideSize, StartScaleTween);
+            _gameEventManager.Subscribe(GameEvents.BallScale.Increment, StartGrowScaleTween);
+            _gameEventManager.Subscribe(GameEvents.BallScale.Decrement, StartShrinkScaleTween);
             
             AnimateIntro();
             StartYAnimationTween();
@@ -155,22 +170,44 @@ namespace ZenVortex
                 MovementUtils.SetTexturePosition(_material, _textureId, _materialXOffset, -tiling)).setDelay(_delayBeforeStart);
         }
 
-        private void StartScaleTween(object[] args)
+        private void ResetScale()
         {
-            if(args?.Length < 2) return;
-            float scaleFactor = (float) args[0], duration = (float) args[1];
+            CurrentScale = 1;
+            _ball.transform.localScale = _originalScale;
+        }
+        
+        private void StartGrowScaleTween(object[] args)
+        {
+            if(args?.Length < 1 || !(args[0] is float increment)) return;
+
+            CurrentScale = Math.Min(CurrentScale + increment, GameConstants.Animation.Ball.MaxScale);
+            var targetScale = _originalScale * CurrentScale;
             
-            if (_scaleSequence != null && LeanTween.isTweening(_scaleSequence.id))
+            ScaleToTarget(targetScale);
+            
+            Debug.Log($"[{nameof(BallMovement)}] {nameof(StartGrowScaleTween)} Scale factor {CurrentScale}");
+        }
+        
+        private void StartShrinkScaleTween(object[] args)
+        {
+            if(args?.Length < 1 || !(args[0] is float decrement)) return;
+
+            CurrentScale = Math.Max(CurrentScale - decrement, GameConstants.Animation.Ball.MinScale);
+            var targetScale = _originalScale * CurrentScale;
+            
+            ScaleToTarget(targetScale);
+            
+            Debug.Log($"[{nameof(BallMovement)}] {nameof(StartShrinkScaleTween)} Scale factor {CurrentScale}");
+        }
+
+        private void ScaleToTarget(Vector3 targetScale)
+        {
+            if (_ball.LeanIsTweening())
             {
-                var currentScale = _ball.transform.localScale;
-                LeanTween.cancel(_scaleSequence.id);
-                _ball.transform.localScale = currentScale;
+                LeanTween.cancel(_ball);
             }
             
-            var targetScale = _originalScale * scaleFactor;
-
-            _scaleSequence = LeanTween.sequence().append(LeanTween.scale(_ball, targetScale, duration * .1f)).append(duration)
-                .append(LeanTween.scale(_ball, _originalScale, duration * .1f));
+            _ball.LeanScale(targetScale, GameConstants.Animation.Ball.TimeToChangeScale).setEase(GameConstants.Animation.Ball.Ease);
         }
 
         private void ResetTween()
@@ -184,10 +221,9 @@ namespace ZenVortex
                 _animationTween = null;
             }
 
-            if (_scaleSequence != null)
+            if (_ball.LeanIsTweening())
             {
-                LeanTween.cancel(_scaleSequence.id);
-                _scaleSequence.reset();
+                LeanTween.cancel(_ball);
             }
         }
 
@@ -213,9 +249,22 @@ namespace ZenVortex
             internal static partial class Ball
             {
                 public const float LoopsBeforeStart = 5f;
+                public const float TimeToChangeScale = 0.5f;
+                
+                public const float MaxScale = 1f;
+                public const float MinScale = 0.35f;
+                public const LeanTweenType Ease = LeanTweenType.easeInOutSine;
             }
 
             public const string Emitter = nameof(Emitter);
+        }
+    }
+    
+    internal partial class UiDataKeys
+    {
+        internal partial class Ball
+        {
+            public static readonly string Scale = $"{nameof(Ball)}.{nameof(Scale)}";
         }
     }
 }
