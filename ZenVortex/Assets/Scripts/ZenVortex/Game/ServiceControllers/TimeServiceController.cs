@@ -4,11 +4,16 @@ using ZenVortex.DI;
 
 namespace ZenVortex
 {
-    internal interface ITimeServiceController : IPostConstructable {}
+    internal interface ITimeServiceController : IPostConstructable
+    {
+        float CurrentTimeScale { get; }
+    }
     
     internal class TimeServiceController : ITimeServiceController
     {
         [Dependency] private readonly IGameEventManager _gameEventManager;
+
+        public float CurrentTimeScale => Time.timeScale;
         
         public void PostConstruct(params object[] args)
         {
@@ -16,6 +21,7 @@ namespace ZenVortex
             _gameEventManager.Subscribe(GameEvents.Time.IncrementScale, OnIncrementScale);
             _gameEventManager.Subscribe(GameEvents.Time.DecrementScale, OnDecrementScale);
             
+            _gameEventManager.Subscribe(GameEvents.Gameplay.Start, OnReset);
             _gameEventManager.Subscribe(GameEvents.Gameplay.Reset, OnReset);
         }
 
@@ -27,6 +33,7 @@ namespace ZenVortex
             _gameEventManager.Unsubscribe(GameEvents.Time.IncrementScale, OnIncrementScale);
             _gameEventManager.Unsubscribe(GameEvents.Time.DecrementScale, OnDecrementScale);
             
+            _gameEventManager.Unsubscribe(GameEvents.Gameplay.Start, OnReset);
             _gameEventManager.Unsubscribe(GameEvents.Gameplay.Reset, OnReset);
         }
 
@@ -58,15 +65,17 @@ namespace ZenVortex
         
         private void ResetTimeScaleOverride()
         {
-            Time.timeScale = GameConstants.Environment.DefaultTimeScale;
-            Debug.Log($"[{nameof(TimeServiceController)}] {nameof(ResetTimeScaleOverride)} Time scale updated {Time.timeScale}");
+            SetScale(GameConstants.Environment.DefaultTimeScale);
+            Debug.Log($"[{nameof(TimeServiceController)}] {nameof(ResetTimeScaleOverride)}");
         }
 
         private void SetScale(float scale)
         {
             Time.timeScale = Math.Max(scale, GameConstants.Environment.MinimumTimeScale);
             Time.timeScale = Math.Min(scale, GameConstants.Environment.DefaultTimeScale);
-            
+
+
+            new TimeScaleUpdatedCommand().Execute();
             Debug.Log($"[{nameof(TimeServiceController)}] Time scale updated {Time.timeScale}");
         }
     }
@@ -77,6 +86,14 @@ namespace ZenVortex
         {
             public const float MinimumTimeScale = .35f;
             public const float DefaultTimeScale = 1f;
+        }
+    }
+    
+    internal partial class UiDataKeys
+    {
+        internal static partial class Time
+        {
+            public static readonly string Scale = $"{nameof(Time)}.{nameof(Scale)}";
         }
     }
 }
