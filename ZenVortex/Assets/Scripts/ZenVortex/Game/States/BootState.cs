@@ -15,9 +15,20 @@ namespace ZenVortex
             
             DependencyRegistry.RegisterInterface<ITimeServiceController, TimeServiceController>();
             DependencyRegistry.RegisterInterface<IInputServiceController, InputServiceController>();
-            DependencyRegistry.RegisterInterface<IVibrationServiceController, VibrationServiceController>();
-            DependencyRegistry.RegisterInterface<IAudioServiceController, AudioServiceController>();
             DependencyRegistry.RegisterInterface<IUiServiceController, UiServiceController>();
+            
+            InstallPlatformDependencies();
+            
+            DependencyRegistry.RegisterInterface<IAudioServiceController, AudioServiceController>();
+        }
+
+        private void InstallPlatformDependencies()
+        {
+#if UNITY_ANDROID || UNITY_IOS
+            DependencyRegistry.RegisterInterface<IVibrationServiceController, VibrationServiceController>();
+#else
+            DependencyRegistry.RegisterInterface<IVibrationServiceController, NullVibrationServiceController>();
+#endif
         }
     }
 }

@@ -6,16 +6,11 @@ namespace ZenVortex
     {
         void PlayVibrationForPriority(Priority priority);
     }
+
+#if UNITY_ANDROID || UNITY_IOS
     
     internal class VibrationServiceController : IVibrationServiceController
     {
-
-#if UNITY_ANDROID && !UNITY_EDITOR
-        public static AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-        public static AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-        public static AndroidJavaObject vibrator = currentActivity.Call<AndroidJavaObject>("getSystemService", "vibrator");
-#endif
-
         public void PlayVibrationForPriority(Priority priority)
         {
             switch (priority)
@@ -32,13 +27,21 @@ namespace ZenVortex
 
         private void PlayVibration(float time)
         {
-// #if UNITY_ANDROID && !UNITY_EDITOR
-//             vibrator.Call("vibrate", time);
-// #else
             Handheld.Vibrate();
-// #endif
         }
     }
+    
+#else
+
+    internal class NullVibrationServiceController : IVibrationServiceController
+    {
+        public void PlayVibrationForPriority(Priority priority) 
+        { 
+            Debug.Log($"[{nameof(NullVibrationServiceController)}] {nameof(PlayVibrationForPriority)} Vibration support does not exist for platform");
+        }
+    }
+    
+#endif
     
     public static partial class GameConstants
     {
